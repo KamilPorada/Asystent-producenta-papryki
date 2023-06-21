@@ -1,7 +1,6 @@
 import Navigation from '@components/HomePage/Navigation'
 import Footer from '@components/HomePage/Footer'
 import Provider from '@components/Provider'
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 
 import '@styles/globals.css'
 

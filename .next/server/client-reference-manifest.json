@@ -56,6 +56,46 @@
         "async": false
       }
     },
+    "(app-client)/./public/assets/img/logo.png": {
+      "*": {
+        "id": "(sc_client)/./public/assets/img/logo.png",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./components/HomePage/Footer.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/HomePage/Footer.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./components/HomePage/Navigation.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/HomePage/Navigation.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./components/Provider.jsx": {
+      "*": {
+        "id": "(sc_client)/./components/Provider.jsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/link.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/link.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
     "(app-client)/./public/assets/img/balance-big.jpg": {
       "*": {
         "id": "(sc_client)/./public/assets/img/balance-big.jpg",
@@ -144,41 +184,9 @@
         "async": false
       }
     },
-    "(app-client)/./public/assets/img/google.png": {
+    "(app-client)/./app/page.tsx": {
       "*": {
-        "id": "(sc_client)/./public/assets/img/google.png",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./public/assets/img/logo.png": {
-      "*": {
-        "id": "(sc_client)/./public/assets/img/logo.png",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./components/HomePage/Navigation.tsx": {
-      "*": {
-        "id": "(sc_client)/./components/HomePage/Navigation.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./components/Provider.jsx": {
-      "*": {
-        "id": "(sc_client)/./components/Provider.jsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/dashboard/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/dashboard/page.tsx",
+        "id": "(sc_client)/./app/page.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -347,6 +355,54 @@
       ],
       "async": false
     },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/public/assets/img/logo.png": {
+      "id": "(app-client)/./public/assets/img/logo.png",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/components/HomePage/Footer.tsx": {
+      "id": "(app-client)/./components/HomePage/Footer.tsx",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/components/HomePage/Navigation.tsx": {
+      "id": "(app-client)/./components/HomePage/Navigation.tsx",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/components/Provider.jsx": {
+      "id": "(app-client)/./components/Provider.jsx",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/node_modules/next/dist/client/link.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/node_modules/next/dist/esm/client/link.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
     "/Users/kamil/Desktop/asystent-producenta-papryki/public/assets/img/balance-big.jpg": {
       "id": "(app-client)/./public/assets/img/balance-big.jpg",
       "name": "*",
@@ -435,52 +491,16 @@
       ],
       "async": false
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/public/assets/img/google.png": {
-      "id": "(app-client)/./public/assets/img/google.png",
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/page.tsx": {
+      "id": "(app-client)/./app/page.tsx",
       "name": "*",
       "chunks": [
-        "app/layout:static/chunks/app/layout.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/public/assets/img/logo.png": {
-      "id": "(app-client)/./public/assets/img/logo.png",
-      "name": "*",
-      "chunks": [
-        "app/layout:static/chunks/app/layout.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/components/HomePage/Navigation.tsx": {
-      "id": "(app-client)/./components/HomePage/Navigation.tsx",
-      "name": "*",
-      "chunks": [
-        "app/layout:static/chunks/app/layout.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/components/Provider.jsx": {
-      "id": "(app-client)/./components/Provider.jsx",
-      "name": "*",
-      "chunks": [
-        "app/layout:static/chunks/app/layout.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/dashboard/page.tsx": {
-      "id": "(app-client)/./app/dashboard/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/dashboard/page:static/chunks/app/dashboard/page.js"
+        "app/page:static/chunks/app/page.js"
       ],
       "async": false
     }
   },
   "entryCSSFiles": {
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/page": {
-      "modules": [],
-      "files": []
-    },
     "/Users/kamil/Desktop/asystent-producenta-papryki/app/layout": {
       "modules": [
         "/Users/kamil/Desktop/asystent-producenta-papryki/styles/globals.css"
@@ -489,7 +509,7 @@
         "static/css/app/layout.css"
       ]
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/dashboard/page": {
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/page": {
       "modules": [],
       "files": []
     }
