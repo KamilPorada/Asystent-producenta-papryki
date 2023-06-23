@@ -3,7 +3,7 @@ import heroBig from "@/public/assets/img/hero-big.jpg";
 
 const Header = () => {
   return (
-    <header className="flex justify-center items-center flex-col relative w-screen h-screen p-4 -z-10">
+    <header className="flex justify-center items-center flex-col relative w-screen h-screen p-4">
       <img
         src={heroSmall.src}
         alt="Hero Image Small"
@@ -21,8 +21,8 @@ const Header = () => {
         <p className="mt-4 text-center text-md sm:text-xl text-white opacity-70">
           Oferujemy wsparcie w skutecznym zarządzaniu produkcją od posadzenia pierwszej sadzonki aż do ostatniego zbioru!
         </p>
-        <a href="#aboutus">
-          <button className="mt-8 px-6 py-1 text-sm md:text-md lg:text-lg uppercase rounded-lg ring-1 ring-white cursor-pointer transition-transform duration-300 hover:scale-105">
+        <a href="#aboutus" className="cursor-pointer">
+          <button className="mt-8 px-6 py-1 text-sm md:text-md lg:text-lg uppercase rounded-lg ring-1 ring-white cursor-pointer transition-transform duration-300 hover:scale-105 z-1000">
             poznaj nas
           </button>
         </a>

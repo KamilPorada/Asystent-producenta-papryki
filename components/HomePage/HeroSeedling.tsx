@@ -1,4 +1,3 @@
-import Brand from "@components/UI/Brand";
 import heroSeedlingSmall from "@/public/assets/img/seedling-small.jpg";
 import heroSeedlingBig from "@/public/assets/img/seedling-big.jpg";
 

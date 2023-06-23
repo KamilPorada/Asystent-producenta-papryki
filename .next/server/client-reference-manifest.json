@@ -72,9 +72,17 @@
         "async": false
       }
     },
-    "(app-client)/./components/HomePage/Navigation.tsx": {
+    "(app-client)/./components/Navigation/Navigation.tsx": {
       "*": {
-        "id": "(sc_client)/./components/HomePage/Navigation.tsx",
+        "id": "(sc_client)/./components/Navigation/Navigation.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./components/Navigation/TopBar.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/Navigation/TopBar.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -371,8 +379,16 @@
       ],
       "async": false
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/components/HomePage/Navigation.tsx": {
-      "id": "(app-client)/./components/HomePage/Navigation.tsx",
+    "/Users/kamil/Desktop/asystent-producenta-papryki/components/Navigation/Navigation.tsx": {
+      "id": "(app-client)/./components/Navigation/Navigation.tsx",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/components/Navigation/TopBar.tsx": {
+      "id": "(app-client)/./components/Navigation/TopBar.tsx",
       "name": "*",
       "chunks": [
         "app/layout:static/chunks/app/layout.js"
@@ -510,6 +526,10 @@
       ]
     },
     "/Users/kamil/Desktop/asystent-producenta-papryki/app/page": {
+      "modules": [],
+      "files": []
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/trade-pepper/page": {
       "modules": [],
       "files": []
     }

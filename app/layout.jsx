@@ -1,4 +1,4 @@
-import Navigation from '@components/HomePage/Navigation'
+import Navigation from '@components/Navigation/Navigation'
 import Footer from '@components/HomePage/Footer'
 import Provider from '@components/Provider'
 
