@@ -199,6 +199,14 @@
         "chunks": [],
         "async": false
       }
+    },
+    "(app-client)/./app/new-point-of-sale/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./app/new-point-of-sale/page.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
     }
   },
   "edgeSSRModuleMapping": {},
@@ -407,7 +415,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/layout:static/chunks/app/layout.js"
+        "app/new-point-of-sale/page:static/chunks/app/new-point-of-sale/page.js"
       ],
       "async": false
     },
@@ -415,7 +423,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/layout:static/chunks/app/layout.js"
+        "app/new-point-of-sale/page:static/chunks/app/new-point-of-sale/page.js"
       ],
       "async": false
     },
@@ -514,6 +522,14 @@
         "app/page:static/chunks/app/page.js"
       ],
       "async": false
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-point-of-sale/page.tsx": {
+      "id": "(app-client)/./app/new-point-of-sale/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/new-point-of-sale/page:static/chunks/app/new-point-of-sale/page.js"
+      ],
+      "async": false
     }
   },
   "entryCSSFiles": {
@@ -530,6 +546,10 @@
       "files": []
     },
     "/Users/kamil/Desktop/asystent-producenta-papryki/app/trade-pepper/page": {
+      "modules": [],
+      "files": []
+    },
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-point-of-sale/page": {
       "modules": [],
       "files": []
     }

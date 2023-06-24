@@ -24,6 +24,13 @@
 			"@*": ["./*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/layout.jsx"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"app/layout.jsx",
+		"app/new-point-of-sale/page.tsx"
+	],
 	"exclude": ["node_modules"]
 }

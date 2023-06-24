@@ -1,0 +1,75 @@
+'use client'
+import { useState, FormEvent } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import NewPointOfSaleForm from '@components/Forms/NewPointOfSaleForm'
+
+function Page() {
+	const [pointOfSale, setPointOfSale] = useState({
+		name: '',
+		address: '',
+		type: 'Skup',
+		latitude: '',
+		longitude: '',
+	})
+	const [submitting, setIsSubmitting] = useState(false)
+	const [error, setError] = useState('')
+	const router = useRouter()
+	const { data: session } = useSession()
+	const userId = (session?.user as { id?: string })?.id ?? ''
+
+	const addPointOfSale = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		setIsSubmitting(true)
+
+		if (
+			!pointOfSale.name ||
+			!pointOfSale.address ||
+			!pointOfSale.type ||
+			!pointOfSale.latitude ||
+			!pointOfSale.longitude
+		) {
+			setError('Wypełnij wszystkie pola formularza!')
+			setIsSubmitting(false)
+			return
+		}
+
+		try {
+			const response = await fetch('/api/point-of-sale/new', {
+				method: 'POST',
+				body: JSON.stringify({
+					userId: userId,
+					name: pointOfSale.name,
+					address: pointOfSale.address,
+					type: pointOfSale.type,
+					latitude: pointOfSale.latitude,
+					longitude: pointOfSale.longitude,
+				}),
+			})
+
+			if (response.ok) {
+				router.push('/')
+			} else {
+				throw new Error('Błąd podczas dodawania punktu sprzedaży')
+			}
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
+
+	return (
+		<div className='container py-20'>
+			<NewPointOfSaleForm
+				pointOfSale={pointOfSale}
+				setPointOfSale={setPointOfSale}
+				submitting={submitting}
+				handleSubmit={addPointOfSale}
+				error={error}
+			/>
+		</div>
+	)
+}
+
+export default Page

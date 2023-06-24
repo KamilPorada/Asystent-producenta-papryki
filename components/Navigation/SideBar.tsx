@@ -52,12 +52,12 @@ function SideBar() {
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>
 					<MenuButton
-						links={['/trade-pepper', '/', '/']}
+						links={['/trade-pepper', '/', '/new-point-of-sale', '/']}
 						title='Sprzedaż papryki'
 						icon='fa-solid fa-arrow-trend-up'
 						submenuIcon={true}
 						active={activeMenuButton === 'trade'}
-						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Punkty sprzedaży']}
+						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Nowy punkt sprzedaży', 'Punkty sprzedaży']}
 						onClick={() => handleMenuButtonClick('trade')}
 					/>
 					<MenuButton
@@ -115,7 +115,7 @@ function SideBar() {
 					/>
 					<MenuButton links={['/']} title='Wyloguj się' icon='fa-solid fa-gear' onClick={handleSignOut} />
 				</div>
-				<footer className='absolute bottom-0 w-full -mx-2 flex flex-col text-center text-white text-md font-light'>
+				<footer className='absolute bottom-0 w-full -mx-2 mb-2 flex flex-col text-center text-white text-xs sm:text-sm font-light'>
 					<p>&copy; {currentYear} Asystent Producenta Papryki</p>
 					<p>Wszelkie prawa zastrzeżone</p>
 				</footer>

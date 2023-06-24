@@ -21,19 +21,20 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
 	}
 
 	return (
-		<Link href={props.links[0]} className={`flex flex-col`}>
-			<div className={`flex flex-row justify-between items-center ${activeStyle}`} onClick={handleSubMenuToggle}>
-				<button
-					className={`flex items-center justify-start text-sm sm:text-base transition-colors duration-300 hover:text-mainColor hover:font-semibold ${padding}`}
-					onClick={props.onClick}>
-					<div className='w-6 h-6 mr-2'>
-						<i className={props.icon}></i>
-					</div>
-					{props.title}
-				</button>
-				{props.submenuIcon && <i className='fa-solid fa-sort-down mb-2 cursor-pointer'></i>}
-			</div>
-
+		<>
+			<Link href={props.links[0]} className={`flex flex-col`}>
+				<div className={`flex flex-row justify-between items-center ${activeStyle}`} onClick={handleSubMenuToggle}>
+					<button
+						className={`flex items-center justify-start text-sm sm:text-base transition-colors duration-300 hover:text-mainColor hover:font-semibold ${padding}`}
+						onClick={props.onClick}>
+						<div className='w-6 h-6 mr-2'>
+							<i className={props.icon}></i>
+						</div>
+						{props.title}
+					</button>
+					{props.submenuIcon && <i className='fa-solid fa-sort-down mb-2 cursor-pointer'></i>}
+				</div>
+			</Link>
 			<div
 				className={`flex flex-col items-end ${
 					props.active && isSubMenuOpen
@@ -42,20 +43,21 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
 				}`}>
 				{props.submenuItems &&
 					props.submenuItems.map((item: string, index: number) => (
-						<>
-							<Link
-								href={props.links[index]}
-								key={index}
-								className={`${
-									props.active && isSubMenuOpen ? 'block' : 'hidden'
-								} hover:text-mainColor transition-colors`}>
-								{item}
-							</Link>
+						<React.Fragment key={index}>
+							<div>
+								<Link
+									href={props.links[index]}
+									className={`${
+										props.active && isSubMenuOpen ? 'block' : 'hidden'
+									} hover:text-mainColor transition-colors text-sm sm:text-base`}>
+									{item}
+								</Link>
+							</div>
 							<div className='h-px w-full bg-zinc-600'></div>
-						</>
+						</React.Fragment>
 					))}
 			</div>
-		</Link>
+		</>
 	)
 }
 
