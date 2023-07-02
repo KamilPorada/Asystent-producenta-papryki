@@ -24,7 +24,7 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title='Nowy punkt sprzedaży' />
 			<p className='mt-3 lg:text-lg text-center'>Dodaj nowy punkt sprzedaży i podaj niezbędne informacje.</p>
-			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4 glassmorphism'>
+			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Nazwa</span>
 					<input
@@ -46,8 +46,12 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Typ</span>
 					<select
+						value={pointOfSale.type}
 						onChange={e => setPointOfSale({ ...pointOfSale, type: e.target.value })}
 						className='px-1 py-px ring-1 text-base ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'>
+						<option disabled value='' className='text-sm'>
+							--Wybierz typ punktu sprzedaży--
+						</option>
 						<option value='Skup' className='text-sm'>
 							Skup
 						</option>
@@ -69,7 +73,7 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 						onChange={e => setPointOfSale({ ...pointOfSale, latitude: e.target.value })}
 						type='text'
 						placeholder='Wpisz szerokość geograficzną'
-						pattern='^-?\d+(\.\d+)?$' 
+						pattern='^-?\d+(\.\d+)?$'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 					/>
 				</label>

@@ -1,4 +1,4 @@
-import NewPointOfSale from "@models/new-point-of-sale";
+import NewPointOfSale from "@models/point-of-sale";
 import { connectToDB } from "@utils/database";
 
 export const GET = async (request) => {
@@ -11,4 +11,4 @@ export const GET = async (request) => {
     } catch (error) {
         return new Response("Nie udało się wczytać wszystkich punktów sprzedaży", { status: 500 })
     }
-} 
+}

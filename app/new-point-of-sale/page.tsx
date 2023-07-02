@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent} from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewPointOfSaleForm from '@components/Forms/NewPointOfSaleForm'
@@ -8,7 +8,7 @@ function Page() {
 	const [pointOfSale, setPointOfSale] = useState({
 		name: '',
 		address: '',
-		type: 'Skup',
+		type: '',
 		latitude: '',
 		longitude: '',
 	})
@@ -46,7 +46,7 @@ function Page() {
 					longitude: pointOfSale.longitude,
 				}),
 			})
-
+			setError('')
 			if (response.ok) {
 				router.push('/')
 			} else {
@@ -60,7 +60,7 @@ function Page() {
 	}
 
 	return (
-		<div className='container py-20'>
+		<section className='container py-20'>
 			<NewPointOfSaleForm
 				pointOfSale={pointOfSale}
 				setPointOfSale={setPointOfSale}
@@ -68,7 +68,7 @@ function Page() {
 				handleSubmit={addPointOfSale}
 				error={error}
 			/>
-		</div>
+		</section>
 	)
 }
 
