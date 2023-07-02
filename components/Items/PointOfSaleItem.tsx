@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@components/UI/Button'
 
 const PointOfSaleItem: React.FC<{
@@ -7,11 +7,32 @@ const PointOfSaleItem: React.FC<{
 	type: string
 	latitude: string
 	longitude: string
+	handleDelete: () => Promise<void>
 }> = props => {
 	const latitude = Number(props.latitude)
 	const longitude = Number(props.longitude)
 	const marker = `markers=${latitude},${longitude}`
 	const iframeSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.2326203809153!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${latitude}%2C${longitude}!5e0!3m2!1sen!2sus!4v1687448119935!5m2!1sen!2sus&${marker}`
+
+	const [showConfirmation, setShowConfirmation] = useState(false)
+
+	const handleDeleteClick = async () => {
+		setShowConfirmation(true)
+	}
+
+	const handleConfirmDelete = async () => {
+		try {
+			await props.handleDelete()
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setShowConfirmation(false)
+		}
+	}
+
+	const handleCancelDelete = () => {
+		setShowConfirmation(false)
+	}
 
 	return (
 		<div className='flex flex-col p-5 mt-4 bg-white rounded-sm ring-1 ring-zinc-200 shadow-lg text-black '>
@@ -31,15 +52,22 @@ const PointOfSaleItem: React.FC<{
 						className='w-full h-full'></iframe>
 				</div>
 			</div>
-			<div className='div3 flex flex-row justify-start w-auto text-white mt-5'>
-				<Button className='mx-0'>Edytuj</Button>
-				<Button
-					onClick={() => {
-						console.log(latitude, longitude)
-					}}>
-					Usuń
-				</Button>
-			</div>
+			{showConfirmation ? (
+				<div className='div3 flex flex-col justify-start w-auto text-white mt-5'>
+					<p className='mb-1 text-red-500 font-semibold '>Potwierdź usunięcie!</p>
+					<div className='flex flex-row'>
+						<Button className='mx-0' onClick={handleCancelDelete}>
+							Anuluj
+						</Button>
+						<Button onClick={handleConfirmDelete}>Usuń</Button>
+					</div>
+				</div>
+			) : (
+				<div className='div3 flex flex-row justify-start w-auto text-white mt-5'>
+					<Button className='mx-0'>Edytuj</Button>
+					<Button onClick={handleDeleteClick}>Usuń</Button>
+				</div>
+			)}
 		</div>
 	)
 }

@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import SectionTitle from '@components/UI/SectionTitle'
@@ -26,6 +25,20 @@ function PointsOfSale() {
 	const [loading, setLoading] = useState(true)
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+
+	const handleDelete = async (point: PointOfSale) => {
+		try {
+			await fetch(`/api/point-of-sale/${point._id.toString()}`, {
+				method: 'DELETE',
+			})
+
+			const filteredPoints = allPoints.filter(item => item._id !== point._id)
+
+			setAllPoints(filteredPoints)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	const fetchPointsOfSale = async () => {
 		try {
@@ -66,6 +79,7 @@ function PointsOfSale() {
 						type={point.type}
 						latitude={point.latitude}
 						longitude={point.longitude}
+						handleDelete={() => handleDelete(point)}
 					/>
 				))
 			) : (
