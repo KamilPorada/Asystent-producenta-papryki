@@ -1,14 +1,14 @@
 'use client'
-import { useState, FormEvent} from 'react'
+import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import NewPointOfSaleForm from '@components/Forms/NewPointOfSaleForm'
+import NewPointOfSaleForm from '@components/Forms/PointOfSaleForm'
 
 function Page() {
 	const [pointOfSale, setPointOfSale] = useState({
 		name: '',
 		address: '',
-		type: '',
+		type: 0,
 		latitude: '',
 		longitude: '',
 	})
@@ -62,6 +62,7 @@ function Page() {
 	return (
 		<section className='container py-20'>
 			<NewPointOfSaleForm
+				type='ADD'
 				pointOfSale={pointOfSale}
 				setPointOfSale={setPointOfSale}
 				submitting={submitting}

@@ -7,10 +7,11 @@ interface AddPointOfSaleFormProps {
 	pointOfSale: {
 		name: string
 		address: string
-		type: string
+		type: number
 		latitude: string
 		longitude: string
 	}
+	type: string
 	setPointOfSale: (pointOfSale: any) => void
 	submitting: boolean
 	handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
@@ -18,12 +19,12 @@ interface AddPointOfSaleFormProps {
 }
 
 const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
-	const { pointOfSale, setPointOfSale, submitting, handleSubmit } = props
+	const { type, pointOfSale, setPointOfSale, submitting, handleSubmit } = props
 
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
-			<SectionTitle title='Nowy punkt sprzedaży' />
-			<p className='mt-3 lg:text-lg text-center'>Dodaj nowy punkt sprzedaży i podaj niezbędne informacje.</p>
+			<SectionTitle title={type==='ADD' ? 'Nowy punkt sprzedaży' : 'Edycja punktu sprzedaży'} />
+			<p className='mt-3 lg:text-lg text-center'>{type==='ADD' ? 'Dodaj nowy' : 'Edytuj' } punkt sprzedaży i podaj niezbędne informacje.</p>
 			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Nazwa</span>
@@ -32,6 +33,7 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 						type='text'
 						placeholder='Wpisz nazwę'
 						className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={pointOfSale?.name || ''}
 					/>
 				</label>
 				<label className='flex flex-col'>
@@ -41,27 +43,28 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 						type='text'
 						placeholder='Wpisz adres'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={pointOfSale?.address || ''}
 					/>
 				</label>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Typ</span>
 					<select
-						value={pointOfSale.type}
-						onChange={e => setPointOfSale({ ...pointOfSale, type: e.target.value })}
+						value={pointOfSale?.type || 0}
+						onChange={e => setPointOfSale({ ...pointOfSale, type: Number(e.target.value) })}
 						className='px-1 py-px ring-1 text-base ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'>
-						<option disabled value='' className='text-sm'>
+						<option disabled value={0} className='text-sm'>
 							--Wybierz typ punktu sprzedaży--
 						</option>
-						<option value='Skup' className='text-sm'>
+						<option value={1} className='text-sm'>
 							Skup
 						</option>
-						<option value='Rynek hurtowy' className='text-sm'>
+						<option value={2} className='text-sm'>
 							Rynek hurtowy
 						</option>
-						<option value='Klient prywatny' className='text-sm'>
+						<option value={3} className='text-sm'>
 							Klient prywatny
 						</option>
-						<option value='Inne' className='text-sm'>
+						<option value={4} className='text-sm'>
 							Inne
 						</option>
 					</select>
@@ -75,6 +78,7 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 						placeholder='Wpisz szerokość geograficzną'
 						pattern='^-?\d+(\.\d+)?$'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={pointOfSale?.latitude || ''}
 					/>
 				</label>
 
@@ -84,8 +88,9 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 						onChange={e => setPointOfSale({ ...pointOfSale, longitude: e.target.value })}
 						type='text'
 						placeholder='Wpisz długość geograficzną'
-						pattern='^-?\d+(\.\d+)?$' // Regex dla liczby dziesiętnej
+						pattern='^-?\d+(\.\d+)?$'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={pointOfSale?.longitude || ''}
 					/>
 				</label>
 				<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>
@@ -93,7 +98,7 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 					<Link href='/'>
 						<Button>Anuluj</Button>
 					</Link>
-					<Button disabled={submitting}>{submitting ? 'Dodawanie...' : 'Dodaj'}</Button>
+					<Button disabled={submitting}>{submitting ? (type==='ADD' ? 'Dodawanie...' : 'Edycja...') : (type==='ADD' ? 'Dodaj' : 'Edytuj')}</Button>
 				</div>
 			</form>
 		</section>

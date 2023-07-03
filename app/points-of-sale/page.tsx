@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from "next/navigation";
 import SectionTitle from '@components/UI/SectionTitle'
 
 import PointOfSaleItem from '@components/Items/PointOfSaleItem'
@@ -23,22 +24,9 @@ interface PointOfSale {
 function PointsOfSale() {
 	const [allPoints, setAllPoints] = useState<PointOfSale[]>([])
 	const [loading, setLoading] = useState(true)
+  const router = useRouter();
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
-
-	const handleDelete = async (point: PointOfSale) => {
-		try {
-			await fetch(`/api/point-of-sale/${point._id.toString()}`, {
-				method: 'DELETE',
-			})
-
-			const filteredPoints = allPoints.filter(item => item._id !== point._id)
-
-			setAllPoints(filteredPoints)
-		} catch (error) {
-			console.log(error)
-		}
-	}
 
 	const fetchPointsOfSale = async () => {
 		try {
@@ -53,6 +41,24 @@ function PointsOfSale() {
 		} finally {
 			setLoading(false)
 		}
+	}
+
+  const handleDelete = async (point: PointOfSale) => {
+		try {
+			await fetch(`/api/point-of-sale/${point._id.toString()}`, {
+				method: 'DELETE',
+			})
+
+			const filteredPoints = allPoints.filter(item => item._id !== point._id)
+
+			setAllPoints(filteredPoints)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+  const handleEdit = async (point: PointOfSale) => {
+		router.push(`/edit-point-of-sale?id=${point._id}`);
 	}
 
 	useEffect(() => {
@@ -80,6 +86,7 @@ function PointsOfSale() {
 						latitude={point.latitude}
 						longitude={point.longitude}
 						handleDelete={() => handleDelete(point)}
+            handleEdit={() =>handleEdit(point)}
 					/>
 				))
 			) : (

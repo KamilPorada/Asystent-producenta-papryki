@@ -1,9 +1,5 @@
 {
-  "/page": "app/page.js",
-  "/trade-pepper/page": "app/trade-pepper/page.js",
+  "/edit-point-of-sale/page": "app/edit-point-of-sale/page.js",
   "/points-of-sale/page": "app/points-of-sale/page.js",
-  "/new-point-of-sale/page": "app/new-point-of-sale/page.js",
-  "/api/point-of-sale/route": "app/api/point-of-sale/route.js",
-  "/api/point-of-sale/[id]/route": "app/api/point-of-sale/[id]/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }
