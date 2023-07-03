@@ -48,7 +48,7 @@ function Page() {
 			})
 			setError('')
 			if (response.ok) {
-				router.push('/')
+				router.push('/points-of-sale')
 			} else {
 				throw new Error('Błąd podczas dodawania punktu sprzedaży')
 			}

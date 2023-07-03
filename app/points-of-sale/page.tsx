@@ -1,8 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
 import SectionTitle from '@components/UI/SectionTitle'
+import SearchInput from '@components/UI/SearchInput'
 
 import PointOfSaleItem from '@components/Items/PointOfSaleItem'
 
@@ -23,8 +24,9 @@ interface PointOfSale {
 
 function PointsOfSale() {
 	const [allPoints, setAllPoints] = useState<PointOfSale[]>([])
+	const [filteredPoints, setFilteredPoints] = useState<PointOfSale[]>([])
 	const [loading, setLoading] = useState(true)
-  const router = useRouter();
+	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
 
@@ -36,6 +38,7 @@ function PointsOfSale() {
 			const filteredPoints = data.filter((point: PointOfSale) => point.creator._id.toString() === userId.toString())
 
 			setAllPoints(filteredPoints)
+			setFilteredPoints(filteredPoints)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -43,7 +46,7 @@ function PointsOfSale() {
 		}
 	}
 
-  const handleDelete = async (point: PointOfSale) => {
+	const handleDelete = async (point: PointOfSale) => {
 		try {
 			await fetch(`/api/point-of-sale/${point._id.toString()}`, {
 				method: 'DELETE',
@@ -57,8 +60,14 @@ function PointsOfSale() {
 		}
 	}
 
-  const handleEdit = async (point: PointOfSale) => {
-		router.push(`/edit-point-of-sale?id=${point._id}`);
+	const handleEdit = async (point: PointOfSale) => {
+		router.push(`/edit-point-of-sale?id=${point._id}`)
+	}
+
+	const handleSearch = (searchTerm: string) => {
+		const filteredPoints = allPoints.filter(point => point.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
+		setFilteredPoints(filteredPoints)
 	}
 
 	useEffect(() => {
@@ -76,8 +85,9 @@ function PointsOfSale() {
 	return (
 		<section className='container py-20'>
 			<SectionTitle title='Moje punkty sprzedaży' />
-			{allPoints.length > 0 ? (
-				allPoints.map(point => (
+			<SearchInput onSearch={handleSearch} />
+			{filteredPoints.length > 0 ? (
+				filteredPoints.map(point => (
 					<PointOfSaleItem
 						key={point._id}
 						name={point.name}
@@ -86,7 +96,7 @@ function PointsOfSale() {
 						latitude={point.latitude}
 						longitude={point.longitude}
 						handleDelete={() => handleDelete(point)}
-            handleEdit={() =>handleEdit(point)}
+						handleEdit={() => handleEdit(point)}
 					/>
 				))
 			) : (

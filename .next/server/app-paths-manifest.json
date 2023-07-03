@@ -1,5 +1,5 @@
 {
-  "/edit-point-of-sale/page": "app/edit-point-of-sale/page.js",
-  "/points-of-sale/page": "app/points-of-sale/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/page": "app/page.js",
+  "/new-point-of-sale/page": "app/new-point-of-sale/page.js",
+  "/points-of-sale/page": "app/points-of-sale/page.js"
 }

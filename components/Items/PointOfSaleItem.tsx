@@ -76,7 +76,7 @@ const PointOfSaleItem: React.FC<{
 						<Button className='mx-0' onClick={handleCancelDelete}>
 							Anuluj
 						</Button>
-						<Button onClick={handleConfirmDelete}>Usuń</Button>
+						<Button onClick={handleConfirmDelete}>Potwierdzam</Button>
 					</div>
 				</div>
 			) : (
