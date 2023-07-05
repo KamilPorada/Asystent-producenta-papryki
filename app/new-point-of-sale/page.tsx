@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewPointOfSaleForm from '@components/Forms/PointOfSaleForm'
 
-function Page() {
+function NewPointOfSale() {
 	const [pointOfSale, setPointOfSale] = useState({
 		name: '',
 		address: '',
@@ -73,4 +73,4 @@ function Page() {
 	)
 }
 
-export default Page
+export default NewPointOfSale

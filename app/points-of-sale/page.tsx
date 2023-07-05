@@ -55,6 +55,7 @@ function PointsOfSale() {
 			const filteredPoints = allPoints.filter(item => item._id !== point._id)
 
 			setAllPoints(filteredPoints)
+			setLoading(true)
 		} catch (error) {
 			console.log(error)
 		}
@@ -72,7 +73,7 @@ function PointsOfSale() {
 
 	useEffect(() => {
 		fetchPointsOfSale()
-	}, [])
+	}, [loading])
 
 	if (loading) {
 		return (

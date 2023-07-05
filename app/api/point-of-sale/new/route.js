@@ -14,3 +14,4 @@ export const POST = async request => {
 		return new Response('Nie udało się utworzyć nowego punktu sprzedaży', { status: 500 })
 	}
 }
+

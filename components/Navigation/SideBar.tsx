@@ -54,7 +54,7 @@ function SideBar() {
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>
 					<MenuButton
-						links={['/trade-pepper', '/', '/new-point-of-sale', '/points-of-sale']}
+						links={['/new-trade-of-pepper', '/', '/new-point-of-sale', '/points-of-sale']}
 						title='Sprzedaż papryki'
 						icon='fa-solid fa-arrow-trend-up'
 						submenuIcon={true}

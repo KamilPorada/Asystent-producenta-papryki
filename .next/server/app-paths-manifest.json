@@ -1,5 +1,7 @@
 {
-  "/page": "app/page.js",
   "/new-point-of-sale/page": "app/new-point-of-sale/page.js",
-  "/points-of-sale/page": "app/points-of-sale/page.js"
+  "/api/point-of-sale/route": "app/api/point-of-sale/route.js",
+  "/points-of-sale/page": "app/points-of-sale/page.js",
+  "/api/point-of-sale/new/route": "app/api/point-of-sale/new/route.js",
+  "/api/point-of-sale/[id]/route": "app/api/point-of-sale/[id]/route.js"
 }
