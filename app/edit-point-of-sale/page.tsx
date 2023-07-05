@@ -8,8 +8,8 @@ function EditPointOfSale() {
 		name: '',
 		address: '',
 		type: 0,
-		latitude: '',
-		longitude: '',
+		latitude: 0,
+		longitude: 0,
 	})
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')

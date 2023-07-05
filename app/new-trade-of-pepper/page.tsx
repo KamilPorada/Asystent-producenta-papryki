@@ -60,7 +60,7 @@ function NewPointOfSale() {
 				method: 'POST',
 				body: JSON.stringify({
 					userId: userId,
-					pointOfSale: tradeOfPepper.pointOfSale,
+					pointOfSaleId: tradeOfPepper.pointOfSale,
 					date: today,
 					clas: tradeOfPepper.clas,
 					color: tradeOfPepper.color,
@@ -72,7 +72,7 @@ function NewPointOfSale() {
 			})
 			setError('')
 			if (response.ok) {
-				router.push('/')
+				router.push('/trades-of-pepper')
 			} else {
 				throw new Error('Błąd podczas dodawania nowej transakcji sprzedaży')
 			}

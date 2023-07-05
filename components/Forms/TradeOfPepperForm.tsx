@@ -135,7 +135,7 @@ const AddTradeOfPepperForm: React.FC<AddTradeOfPepperFormProps> = props => {
 							--Wybierz punkt sprzedaży--
 						</option>
 						{pointOfSales.map((point, index) => (
-							<option key={index} value={point._id} className='text-sm'>
+							<option key={index} value={point.name} className='text-sm'>
 								{point.name}
 							</option>
 						))}

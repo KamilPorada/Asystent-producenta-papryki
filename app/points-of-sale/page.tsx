@@ -9,17 +9,17 @@ import PointOfSaleItem from '@components/Items/PointOfSaleItem'
 
 interface PointOfSale {
 	_id: string
-	address: string
 	creator: {
 		_id: string
 		email: string
 		username: string
 		image: string
 	}
-	latitude: string
-	longitude: string
 	name: string
-	type: string
+	address: string
+	type: number
+	latitude: number
+	longitude: number
 }
 
 function PointsOfSale() {

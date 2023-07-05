@@ -8,7 +8,7 @@ export const POST = async request => {
 		await connectToDB()
 		const newTradeOfPepper = new TradeOfPepper({
 			creator: userId,
-			pointOfSale: pointOfSaleId,
+			pointOfSaleId: pointOfSaleId,
 			date,
 			clas,
 			color,

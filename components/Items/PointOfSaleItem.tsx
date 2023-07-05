@@ -4,11 +4,11 @@ import Button from '@components/UI/Button'
 const PointOfSaleItem: React.FC<{
 	name: string
 	address: string
-	type: string
-	latitude: string
-	longitude: string
+	type: number
+	latitude: number
+	longitude: number
 	handleDelete: () => Promise<void>
-    handleEdit: () => Promise<void>
+	handleEdit: () => Promise<void>
 }> = props => {
 	const latitude = Number(props.latitude)
 	const longitude = Number(props.longitude)
@@ -35,21 +35,20 @@ const PointOfSaleItem: React.FC<{
 		setShowConfirmation(false)
 	}
 
-	const getTypeLabel = (type: string): string => {
+	const getTypeLabel = (type: number): string => {
 		switch (type) {
-		  case '1':
-			return 'Skup';
-		  case '2':
-			return 'Rynek hurtowy';
-		  case '3':
-			return 'Klient prywatny';
-		  case '4':
-			return 'Inne';
-		  default:
-			return '';
+			case 1:
+				return 'Skup'
+			case 2:
+				return 'Rynek hurtowy'
+			case 3:
+				return 'Klient prywatny'
+			case 4:
+				return 'Inne'
+			default:
+				return 'piesek'
 		}
-	  };
-	  const typeLabel = getTypeLabel(props.type);
+	}
 
 	return (
 		<div className='flex flex-col p-5 mt-4 bg-white rounded-sm ring-1 ring-zinc-200 shadow-lg text-black '>
@@ -57,7 +56,7 @@ const PointOfSaleItem: React.FC<{
 				<div className='md:w-1/2 lg:w-1/5 lg:mr-5'>
 					<h3 className='text-lg lg:text-xl font-semibold'>{props.name}</h3>
 					<p className='font-thin'>Adres: {props.address}</p>
-					<p className='font-thin'>Typ placówki: {typeLabel}</p>
+					<p className='font-thin'>Typ placówki: {getTypeLabel(props.type)}</p>
 				</div>
 				<div className='mt-3 md:mt-0 md:w-1/2 lg:w-4/5'>
 					<p className='text-lg font-semibold mb-2'>Mapa dojazdu</p>
@@ -81,7 +80,9 @@ const PointOfSaleItem: React.FC<{
 				</div>
 			) : (
 				<div className='div3 flex flex-row justify-start w-auto text-white mt-5'>
-					<Button onClick={props.handleEdit} className='mx-0'>Edytuj</Button>
+					<Button onClick={props.handleEdit} className='mx-0'>
+						Edytuj
+					</Button>
 					<Button onClick={handleDeleteClick}>Usuń</Button>
 				</div>
 			)}

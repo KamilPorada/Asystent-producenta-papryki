@@ -6,9 +6,8 @@ const TradeOfPepperSchema = new Schema({
 		ref: 'User',
 		required: [true, 'Użytkownik jest wymagany!'],
 	},
-	pointOfSale: {
-		type: Schema.Types.ObjectId,
-		ref: 'PointOfSale',
+	pointOfSaleId: {
+		type: String,
 		required: [true, 'Podanie punktu sprzedaży jest wymagane!'],
 	},
 	date: {

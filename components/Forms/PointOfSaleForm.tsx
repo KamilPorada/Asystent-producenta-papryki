@@ -8,8 +8,8 @@ interface AddPointOfSaleFormProps {
 		name: string
 		address: string
 		type: number
-		latitude: string
-		longitude: string
+		latitude: number
+		longitude: number
 	}
 	type: string
 	setPointOfSale: (pointOfSale: any) => void
@@ -23,8 +23,10 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
-			<SectionTitle title={type==='ADD' ? 'Nowy punkt sprzedaży' : 'Edycja punktu sprzedaży'} />
-			<p className='mt-3 lg:text-lg text-center'>{type==='ADD' ? 'Dodaj nowy' : 'Edytuj' } punkt sprzedaży i podaj niezbędne informacje.</p>
+			<SectionTitle title={type === 'ADD' ? 'Nowy punkt sprzedaży' : 'Edycja punktu sprzedaży'} />
+			<p className='mt-3 lg:text-lg text-center'>
+				{type === 'ADD' ? 'Dodaj nowy' : 'Edytuj'} punkt sprzedaży i podaj niezbędne informacje.
+			</p>
 			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Nazwa</span>
@@ -74,19 +76,20 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Szerokość geograficzna</span>
 					<input
 						onChange={e => setPointOfSale({ ...pointOfSale, latitude: e.target.value })}
-						type='text'
+						type='number'
+						step='any'
 						placeholder='Wpisz szerokość geograficzną'
 						pattern='^-?\d+(\.\d+)?$'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 						value={pointOfSale?.latitude || ''}
 					/>
 				</label>
-
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Długość geograficzna</span>
 					<input
 						onChange={e => setPointOfSale({ ...pointOfSale, longitude: e.target.value })}
-						type='text'
+						type='number'
+						step='any'
 						placeholder='Wpisz długość geograficzną'
 						pattern='^-?\d+(\.\d+)?$'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
@@ -98,7 +101,9 @@ const AddPointOfSaleForm: React.FC<AddPointOfSaleFormProps> = props => {
 					<Link href='/'>
 						<Button>Anuluj</Button>
 					</Link>
-					<Button disabled={submitting}>{submitting ? (type==='ADD' ? 'Dodawanie...' : 'Edycja...') : (type==='ADD' ? 'Dodaj' : 'Edytuj')}</Button>
+					<Button disabled={submitting}>
+						{submitting ? (type === 'ADD' ? 'Dodawanie...' : 'Edycja...') : type === 'ADD' ? 'Dodaj' : 'Edytuj'}
+					</Button>
 				</div>
 			</form>
 		</section>
