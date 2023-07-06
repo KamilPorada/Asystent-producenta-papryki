@@ -152,14 +152,6 @@
         "async": false
       }
     },
-    "(app-client)/./app/trades-of-pepper/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/trades-of-pepper/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
     "(app-client)/./public/assets/img/logo.png": {
       "*": {
         "id": "(sc_client)/./public/assets/img/logo.png",
@@ -208,33 +200,9 @@
         "async": false
       }
     },
-    "(app-client)/./app/points-of-sale/page.tsx": {
+    "(app-client)/./app/new-outgoing/page.tsx": {
       "*": {
-        "id": "(sc_client)/./app/points-of-sale/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/new-point-of-sale/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/new-point-of-sale/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/edit-trade-of-pepper/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/edit-trade-of-pepper/page.tsx",
-        "name": "*",
-        "chunks": [],
-        "async": false
-      }
-    },
-    "(app-client)/./app/new-trade-of-pepper/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/new-trade-of-pepper/page.tsx",
+        "id": "(sc_client)/./app/new-outgoing/page.tsx",
         "name": "*",
         "chunks": [],
         "async": false
@@ -499,14 +467,6 @@
       ],
       "async": false
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/trades-of-pepper/page.tsx": {
-      "id": "(app-client)/./app/trades-of-pepper/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/trades-of-pepper/page:static/chunks/app/trades-of-pepper/page.js"
-      ],
-      "async": false
-    },
     "/Users/kamil/Desktop/asystent-producenta-papryki/public/assets/img/logo.png": {
       "id": "(app-client)/./public/assets/img/logo.png",
       "name": "*",
@@ -551,7 +511,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/new-trade-of-pepper/page:static/chunks/app/new-trade-of-pepper/page.js"
+        "app/new-outgoing/page:static/chunks/app/new-outgoing/page.js"
       ],
       "async": false
     },
@@ -559,49 +519,21 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/new-trade-of-pepper/page:static/chunks/app/new-trade-of-pepper/page.js"
+        "app/new-outgoing/page:static/chunks/app/new-outgoing/page.js"
       ],
       "async": false
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/points-of-sale/page.tsx": {
-      "id": "(app-client)/./app/points-of-sale/page.tsx",
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-outgoing/page.tsx": {
+      "id": "(app-client)/./app/new-outgoing/page.tsx",
       "name": "*",
       "chunks": [
-        "app/points-of-sale/page:static/chunks/app/points-of-sale/page.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-point-of-sale/page.tsx": {
-      "id": "(app-client)/./app/new-point-of-sale/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/new-point-of-sale/page:static/chunks/app/new-point-of-sale/page.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/edit-trade-of-pepper/page.tsx": {
-      "id": "(app-client)/./app/edit-trade-of-pepper/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/edit-trade-of-pepper/page:static/chunks/app/edit-trade-of-pepper/page.js"
-      ],
-      "async": false
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-trade-of-pepper/page.tsx": {
-      "id": "(app-client)/./app/new-trade-of-pepper/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/new-trade-of-pepper/page:static/chunks/app/new-trade-of-pepper/page.js"
+        "app/new-outgoing/page:static/chunks/app/new-outgoing/page.js"
       ],
       "async": false
     }
   },
   "entryCSSFiles": {
     "/Users/kamil/Desktop/asystent-producenta-papryki/app/page": {
-      "modules": [],
-      "files": []
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/trades-of-pepper/page": {
       "modules": [],
       "files": []
     },
@@ -613,19 +545,7 @@
         "static/css/app/layout.css"
       ]
     },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/points-of-sale/page": {
-      "modules": [],
-      "files": []
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-point-of-sale/page": {
-      "modules": [],
-      "files": []
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/edit-trade-of-pepper/page": {
-      "modules": [],
-      "files": []
-    },
-    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-trade-of-pepper/page": {
+    "/Users/kamil/Desktop/asystent-producenta-papryki/app/new-outgoing/page": {
       "modules": [],
       "files": []
     }

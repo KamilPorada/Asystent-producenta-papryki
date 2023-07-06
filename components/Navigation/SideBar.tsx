@@ -63,7 +63,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('trade')}
 					/>
 					<MenuButton
-						links={['/', '/', '/']}
+						links={['/new-outgoing', '/']}
 						title='Wydatki'
 						icon='fa-solid fa-arrow-trend-down'
 						submenuIcon={true}
@@ -72,7 +72,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('outgoings')}
 					/>
 					<MenuButton
-						links={['/', '/', '/']}
+						links={['/', '/']}
 						title='Bilans zysków i strat'
 						icon='fa-solid fa-scale-balanced'
 						submenuIcon={true}
@@ -81,7 +81,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('balanced')}
 					/>
 					<MenuButton
-						links={['/', '/', '/']}
+						links={['/', '/']}
 						title='Zabiegi cheminizacyjne'
 						icon='fa-solid fa-skull-crossbones'
 						submenuIcon={true}
@@ -90,7 +90,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('pesticides')}
 					/>
 					<MenuButton
-						links={['/', '/', '/']}
+						links={['/', '/',]}
 						title='Dziennik fertygacji'
 						icon='fa-solid fa-droplet'
 						submenuIcon={true}

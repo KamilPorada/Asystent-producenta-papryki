@@ -507,9 +507,6 @@ video {
 .relative {
   position: relative;
 }
-.sticky {
-  position: sticky;
-}
 .inset-0 {
   inset: 0px;
 }
@@ -549,27 +546,6 @@ video {
 .top-5 {
   top: 1.25rem;
 }
-.top-10 {
-  top: 2.5rem;
-}
-.top-14 {
-  top: 3.5rem;
-}
-.top-1 {
-  top: 0.25rem;
-}
-.top-16 {
-  top: 4rem;
-}
-.top-20 {
-  top: 5rem;
-}
-.top-24 {
-  top: 6rem;
-}
-.top-28 {
-  top: 7rem;
-}
 .-z-10 {
   z-index: -10;
 }
@@ -582,14 +558,8 @@ video {
 .z-30 {
   z-index: 30;
 }
-.z-0 {
-  z-index: 0;
-}
 .z-50 {
   z-index: 50;
-}
-.m-0 {
-  margin: 0px;
 }
 .-mx-2 {
   margin-left: -0.5rem;
@@ -642,6 +612,9 @@ video {
 .ml-3 {
   margin-left: 0.75rem;
 }
+.ml-5 {
+  margin-left: 1.25rem;
+}
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -668,9 +641,6 @@ video {
 }
 .mt-8 {
   margin-top: 2rem;
-}
-.ml-5 {
-  margin-left: 1.25rem;
 }
 .block {
   display: block;
@@ -723,6 +693,9 @@ video {
 .max-h-0 {
   max-height: 0px;
 }
+.max-h-28 {
+  max-height: 7rem;
+}
 .max-h-screen {
   max-height: 100vh;
 }
@@ -744,8 +717,8 @@ video {
 .w-28 {
   width: 7rem;
 }
-.w-32 {
-  width: 8rem;
+.w-3\/4 {
+  width: 75%;
 }
 .w-6 {
   width: 1.5rem;
@@ -774,15 +747,6 @@ video {
 .w-screen {
   width: 100vw;
 }
-.w-3\/4 {
-  width: 75%;
-}
-.w-1\/3 {
-  width: 33.333333%;
-}
-.w-1\/5 {
-  width: 20%;
-}
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -810,16 +774,6 @@ video {
   --tw-scale-y: .75;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-.scale-50 {
-  --tw-scale-x: .5;
-  --tw-scale-y: .5;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-.scale-90 {
-  --tw-scale-x: .9;
-  --tw-scale-y: .9;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -837,9 +791,6 @@ video {
 }
 .flex-col {
   flex-direction: column;
-}
-.flex-wrap {
-  flex-wrap: wrap;
 }
 .items-end {
   align-items: flex-end;
@@ -878,9 +829,6 @@ video {
 }
 .self-start {
   align-self: flex-start;
-}
-.self-end {
-  align-self: flex-end;
 }
 .self-center {
   align-self: center;
@@ -933,30 +881,22 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
-.bg-zinc-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(82 82 91 / var(--tw-bg-opacity));
-}
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-}
 .bg-zinc-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(212 212 216 / var(--tw-bg-opacity));
 }
+.bg-zinc-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(82 82 91 / var(--tw-bg-opacity));
+}
 .bg-opacity-40 {
   --tw-bg-opacity: 0.4;
 }
-.bg-opacity-60 {
-  --tw-bg-opacity: 0.6;
-}
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
+}
+.bg-opacity-60 {
+  --tw-bg-opacity: 0.6;
 }
 .object-cover {
   -o-object-fit: cover;
@@ -1016,10 +956,6 @@ video {
 .py-px {
   padding-top: 1px;
   padding-bottom: 1px;
-}
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 .pb-1 {
   padding-bottom: 0.25rem;
@@ -1305,10 +1241,6 @@ html {
     grid-column: span 1 / span 1;
   }
 
-  .sm\:col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-
   .sm\:col-span-4 {
     grid-column: span 4 / span 4;
   }
@@ -1327,10 +1259,6 @@ html {
 
   .sm\:w-\[220px\] {
     width: 220px;
-  }
-
-  .sm\:w-full {
-    width: 100%;
   }
 
   .sm\:w-auto {
@@ -1352,14 +1280,6 @@ html {
 
   .sm\:flex-row-reverse {
     flex-direction: row-reverse;
-  }
-
-  .sm\:flex-wrap {
-    flex-wrap: wrap;
-  }
-
-  .sm\:justify-between {
-    justify-content: space-between;
   }
 
   .sm\:p-8 {
@@ -1396,10 +1316,6 @@ html {
 
   .md\:order-none {
     order: 0;
-  }
-
-  .md\:col-span-1 {
-    grid-column: span 1 / span 1;
   }
 
   .md\:mr-10 {
