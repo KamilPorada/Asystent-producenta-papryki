@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import NewPointOfSaleForm from '@components/Forms/PointOfSaleForm'
+import EditPointOfSaleForm from '@components/Forms/PointOfSaleForm'
 
 function EditPointOfSale() {
 	const [pointOfSale, setPointOfSale] = useState({
@@ -17,7 +17,7 @@ function EditPointOfSale() {
 	const searchParams = useSearchParams()
 	const pointId = searchParams.get('id')
 
-	const addPointOfSale = async (e: FormEvent<HTMLFormElement>) => {
+	const editPointOfSale = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setIsSubmitting(true)
 
@@ -74,12 +74,12 @@ function EditPointOfSale() {
 
 	return (
 		<section className='container py-20'>
-			<NewPointOfSaleForm
+			<EditPointOfSaleForm
 				type='EDIT'
 				pointOfSale={pointOfSale}
 				setPointOfSale={setPointOfSale}
 				submitting={submitting}
-				handleSubmit={addPointOfSale}
+				handleSubmit={editPointOfSale}
 				error={error}
 			/>
 		</section>

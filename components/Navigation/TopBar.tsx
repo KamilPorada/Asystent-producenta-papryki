@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 function TopBar() {
 	const { data: session } = useSession()
 	return (
-		<div className='fixed flex flex-row justify-end items-center t-0 l-0 w-full h-16  bg-mainColor'>
+		<div className='fixed flex flex-row justify-end items-center t-0 l-0 w-full h-16  bg-mainColor z-100'>
 			<p className='absolute top-1/2 left-1/3 sm:left-1/2 transform -translate-y-1/2 sm:-translate-x-1/2 text-lg sm:text-xl md:text-2xl font-semibold'>
 				Sezon 2023
 			</p>

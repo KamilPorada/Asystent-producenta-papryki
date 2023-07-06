@@ -15,7 +15,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { pointOfSaleId, date, clas, color, price, weight, vatRate, totalSum } = await request.json()
+	const { pointOfSaleId, clas, color, price, weight, vatRate, totalSum } = await request.json()
 
 	try {
 		await connectToDB()
@@ -27,7 +27,6 @@ export const PATCH = async (request, { params }) => {
 		}
 
 		existingTradeOfPepper.pointOfSaleId = pointOfSaleId
-		existingTradeOfPepper.date = date
 		existingTradeOfPepper.clas = clas
 		existingTradeOfPepper.color = color
 		existingTradeOfPepper.price = price

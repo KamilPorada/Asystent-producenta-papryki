@@ -19,7 +19,7 @@ interface PointOfSale {
 	type: string
 }
 
-function NewPointOfSale() {
+function NewTradeOfPepper() {
 	const [tradeOfPepper, setTradeOfPepper] = useState({
 		clas: 0,
 		color: 0,
@@ -125,4 +125,4 @@ function NewPointOfSale() {
 	)
 }
 
-export default NewPointOfSale
+export default NewTradeOfPepper

@@ -1,3 +1,5 @@
 {
-  "/points-of-sale/page": "app/points-of-sale/page.js"
+  "/trades-of-pepper/page": "app/trades-of-pepper/page.js",
+  "/new-trade-of-pepper/page": "app/new-trade-of-pepper/page.js",
+  "/api/point-of-sale/route": "app/api/point-of-sale/route.js"
 }

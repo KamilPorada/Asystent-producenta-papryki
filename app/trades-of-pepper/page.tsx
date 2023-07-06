@@ -6,6 +6,7 @@ import React from 'react'
 import SectionTitle from '@components/UI/SectionTitle'
 import TradeOfPepperTableHeader from '@components/Items/TradeOfPepperTableHeader'
 import TradeOfPepperItem from '@components/Items/TradeOfPepperItem'
+import TradeOfPepperFilterItem from '@components/Items/TradeOfPepperFilterItem'
 
 interface TradeOfPepper {
 	_id: string
@@ -15,7 +16,7 @@ interface TradeOfPepper {
 		username: string
 		image: string
 	}
-	pointOfSaleId:string
+	pointOfSaleId: string
 	date: string
 	clas: number
 	color: number
@@ -25,13 +26,61 @@ interface TradeOfPepper {
 	totalSum: number
 }
 
+interface TradeOfPepperFilters {
+	date: string
+	clas: number
+	color: number
+	pointOfSale: string
+}
+
 function TradesOfPepper() {
 	const [allTrades, setAllTrades] = useState<TradeOfPepper[]>([])
 	const [filteredTrades, setFilteredTrades] = useState<TradeOfPepper[]>([])
+	const [showFilters, setShowFilters] = useState(false)
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+
+	const handleShowFilters = () => {
+		setShowFilters(true)
+	}
+
+	const handleHideFilters = () => {
+		setShowFilters(false)
+	}
+
+	const handleFilter = (filters: TradeOfPepperFilters) => {
+		const { date, clas, color, pointOfSale } = filters
+
+		const filteredItems = allTrades.filter(trade => {
+			let matchesFilter = true
+
+			// Filtruj po dacie
+			if (date && formatDate(trade.date) !== formatDate(date)) {
+				matchesFilter = false
+			}
+
+			// Filtruj po klasie
+			if (clas && trade.clas !== clas) {
+				matchesFilter = false
+			}
+
+			// Filtruj po kolorze
+			if (color && trade.color !== color) {
+				matchesFilter = false
+			}
+
+			// Filtruj po punkcie sprzedaży
+			if (pointOfSale && trade.pointOfSaleId !== pointOfSale) {
+				matchesFilter = false
+			}
+
+			return matchesFilter
+		})
+
+		setFilteredTrades(filteredItems)
+	}
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString)
@@ -66,6 +115,25 @@ function TradesOfPepper() {
 		}
 	}
 
+	const handleDelete = async (trade: TradeOfPepper) => {
+		try {
+			await fetch(`/api/trade-of-pepper/${trade._id.toString()}`, {
+				method: 'DELETE',
+			})
+
+			const filteredTrades = allTrades.filter(item => item._id !== trade._id)
+
+			setAllTrades(filteredTrades)
+			setLoading(true)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const handleEdit = async (trade: TradeOfPepper) => {
+		router.push(`/edit-trade-of-pepper?id=${trade._id}`)
+	}
+
 	const fetchTradesOfPepper = async () => {
 		try {
 			const response = await fetch('/api/trade-of-pepper')
@@ -97,22 +165,35 @@ function TradesOfPepper() {
 	return (
 		<section className='container py-20'>
 			<SectionTitle title='Moje transakcje sprzedaży papryki' />
+			{showFilters ? (
+				<TradeOfPepperFilterItem handleFilter={handleFilter} handleCancel={handleHideFilters} />
+			) : (
+				<div className='flex flex-row justify-end'>
+					<button
+						className='px-2 py-1 rounded font-semibold bg-mainColor hover:bg-green-800 transition-colors'
+						onClick={handleShowFilters}>
+						Zastosuj filtry
+					</button>
+				</div>
+			)}
 			{filteredTrades.length > 0 ? (
 				<div className='overflow-x-auto ring-1 ring-black mt-5'>
 					<TradeOfPepperTableHeader />
 					{filteredTrades.length > 0
-						? filteredTrades.map((point, index) => (
+						? filteredTrades.map((trade, index) => (
 								<TradeOfPepperItem
-									key={point._id}
+									key={trade._id}
 									index={index + 1}
-									date={formatDate(point.date)}
-									clas={getClassLabel(point.clas)}
-									color={getColorLabel(point.color)}
-									price={point.price}
-									weight={point.weight}
-									vatRate={point.vatRate}
-									totalSum={point.totalSum}
-									pointOfSale={point.pointOfSaleId}
+									date={formatDate(trade.date)}
+									clas={getClassLabel(trade.clas)}
+									color={getColorLabel(trade.color)}
+									price={trade.price}
+									weight={trade.weight}
+									vatRate={trade.vatRate}
+									totalSum={trade.totalSum}
+									pointOfSale={trade.pointOfSaleId}
+									handleDelete={() => handleDelete(trade)}
+									handleEdit={() => handleEdit(trade)}
 								/>
 						  ))
 						: ''}

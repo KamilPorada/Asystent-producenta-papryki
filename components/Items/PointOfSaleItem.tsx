@@ -36,18 +36,16 @@ const PointOfSaleItem: React.FC<{
 	}
 
 	const getTypeLabel = (type: number): string => {
-		switch (type) {
-			case 1:
-				return 'Skup'
-			case 2:
-				return 'Rynek hurtowy'
-			case 3:
-				return 'Klient prywatny'
-			case 4:
-				return 'Inne'
-			default:
-				return 'piesek'
+		if (type == 1) {
+			return 'Skup'
+		} else if (type == 2) {
+			return 'Rynek hurtowy'
+		} else if (type == 3) {
+			return 'Klient prywatny'
+		} else if (type == 4) {
+			return 'Inne'
 		}
+		return ''
 	}
 
 	return (
