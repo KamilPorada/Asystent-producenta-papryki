@@ -63,7 +63,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('trade')}
 					/>
 					<MenuButton
-						links={['/new-outgoing', '/']}
+						links={['/new-outgoing', '/outgoings']}
 						title='Wydatki'
 						icon='fa-solid fa-arrow-trend-down'
 						submenuIcon={true}

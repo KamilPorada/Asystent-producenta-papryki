@@ -4,13 +4,12 @@ const Button: React.FC<{
 	disabled?: boolean
 	children: React.ReactNode
 }> = props => {
+	const buttonClassName = `px-6 py-1 mx-3 rounded-md font-semibold bg-mainColor ${
+		props.disabled ? 'bg-gray-500 cursor-not-allowed' : 'hover:bg-green-700 transition duration-300'
+	} ${props.className}`
+
 	return (
-		<button
-			className={`px-6 py-1 mx-3 sm:text-lg rounded-md font-semibold bg-mainColor ${
-                props.disabled ? 'bg-gray-500 cursor-not-allowed' : 'hover:bg-green-700 transition duration-300'
-              } ${props.className}`}
-			onClick={props.onClick}
-			disabled={props.disabled}>
+		<button className={buttonClassName} onClick={props.onClick} disabled={props.disabled}>
 			{props.children}
 		</button>
 	)

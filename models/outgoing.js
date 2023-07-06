@@ -11,7 +11,7 @@ const OutgoingSchema = new Schema({
 		required: [true, 'Podanie nazwy wydatku jest wymagane!'],
 	},
 	category: {
-		type: String,
+		type: Number,
 		required: [true, 'Podanie kategorii jest wymagane!'],
 	},
 	date: {

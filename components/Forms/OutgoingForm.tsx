@@ -6,11 +6,9 @@ import SectionTitle from '@components/UI/SectionTitle'
 interface AddOutgoingFormProps {
 	outgoing: {
 		name: string
-		category: string
-		date: string
+		category: number
 		price: number
 		amount: number
-		totalSum: number
 		describe: string
 	}
 	type: string
@@ -32,6 +30,10 @@ const AddOutgoingForm: React.FC<AddOutgoingFormProps> = props => {
 		'Inne',
 	])
 
+	const setOutgoingCategory = (category: number) => {
+		setOutgoing({ ...outgoing, category })
+	}
+
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title={type === 'ADD' ? 'Nowy wydatek' : 'Edycja wydatku'} />
@@ -52,14 +54,14 @@ const AddOutgoingForm: React.FC<AddOutgoingFormProps> = props => {
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Kategoria</span>
 					<select
-						value={outgoing?.category || ''}
-						onChange={e => setOutgoing({ ...outgoing, category: e.target.value })}
+						value={outgoing?.category !== undefined ? outgoing.category.toString() : ''}
+						onChange={e => setOutgoingCategory(parseInt(e.target.value))}
 						className='px-1 py-px ring-1 text-base ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'>
 						<option disabled value=''>
 							-- Wybierz kategorię --
 						</option>
 						{categoryOptions.map((category, index) => (
-							<option key={index} value={category} className='text-sm'>
+							<option key={index} value={index.toString()} className='text-sm'>
 								{category}
 							</option>
 						))}

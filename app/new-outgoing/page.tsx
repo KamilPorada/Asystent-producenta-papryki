@@ -7,7 +7,7 @@ import NewOutgoingForm from '@components/Forms/OutgoingForm'
 function NewOutgoing() {
 	const [outgoing, setOutgoing] = useState({
 		name: '',
-		category: '',
+		category: 0,
 		date: new Date().toISOString().split('T')[0],
 		price: 0,
 		amount: 0,
@@ -47,8 +47,7 @@ function NewOutgoing() {
 			})
 			setError('')
 			if (response.ok) {
-				// router.push('/outgoings')
-				router.push('/')
+				router.push('/outgoings')
 			} else {
 				throw new Error('Błąd podczas dodawania wydatku')
 			}

@@ -1,4 +1,4 @@
-import Outgoing from '@models/Outgoing'
+import Outgoing from '@models/outgoing'
 import { connectToDB } from '@utils/database'
 
 export const GET = async (request, { params }) => {
@@ -15,7 +15,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { name, category, date, price, amount, totalSum, describe } = await request.json()
+	const { name, category, price, amount, totalSum, describe } = await request.json()
 
 	try {
 		await connectToDB()
@@ -28,7 +28,6 @@ export const PATCH = async (request, { params }) => {
 
 		existingOutgoing.name = name
 		existingOutgoing.category = category
-		existingOutgoing.date = date
 		existingOutgoing.price = price
 		existingOutgoing.amount = amount
 		existingOutgoing.totalSum = totalSum

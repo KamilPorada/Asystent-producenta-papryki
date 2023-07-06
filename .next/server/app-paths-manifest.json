@@ -1,5 +1,6 @@
 {
-  "/page": "app/page.js",
   "/new-outgoing/page": "app/new-outgoing/page.js",
+  "/outgoings/page": "app/outgoings/page.js",
+  "/api/outgoing/route": "app/api/outgoing/route.js",
   "/api/outgoing/new/route": "app/api/outgoing/new/route.js"
 }
