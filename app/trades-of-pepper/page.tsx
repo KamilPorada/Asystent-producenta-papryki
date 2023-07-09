@@ -7,6 +7,7 @@ import SectionTitle from '@components/UI/SectionTitle'
 import TradeOfPepperTableHeader from '@components/Items/TradeOfPepperTableHeader'
 import TradeOfPepperItem from '@components/Items/TradeOfPepperItem'
 import TradeOfPepperFilterItem from '@components/Items/TradeOfPepperFilterItem'
+import ExcelJS from 'exceljs'
 
 interface TradeOfPepper {
 	_id: string
@@ -154,6 +155,58 @@ function TradesOfPepper() {
 		fetchTradesOfPepper()
 	}, [loading])
 
+	const exportToXLS = () => {
+		const workbook = new ExcelJS.Workbook()
+		const worksheet = workbook.addWorksheet('Transakcje papryki')
+
+		// Ustawianie niestandardowych formatów dla nagłówków kolumn
+		const headerCellStyle = {
+			font: { bold: true, color: { argb: 'FFFFFF' } },
+			fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: '009000' } as ExcelJS.Color },
+			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
+		}
+
+		// Dodawanie nagłówków kolumn
+		worksheet.addRow(['L.P.', 'Data', 'Klasa', 'Kolor', 'Cena', 'Waga', 'Stawka VAT', 'Suma', 'Punkt sprzedaży'])
+		const headerRow = worksheet.getRow(1)
+		headerRow.eachCell(cell => {
+			cell.fill = headerCellStyle.fill as ExcelJS.FillPattern
+			cell.font = headerCellStyle.font
+			cell.alignment = headerCellStyle.alignment
+		})
+
+		// Dodawanie danych
+		filteredTrades.forEach((trade, index) => {
+			const rowData = [
+				(index + 1).toString(),
+				formatDate(trade.date),
+				getClassLabel(trade.clas),
+				getColorLabel(trade.color),
+				trade.price.toString(),
+				trade.weight.toString(),
+				trade.vatRate.toString(),
+				trade.totalSum.toString(),
+				trade.pointOfSaleId,
+			]
+			worksheet.addRow(rowData)
+		})
+
+		// Auto dopasowanie szerokości kolumn
+		worksheet.columns.forEach(column => {
+			column.width = 15
+		})
+
+		// Generowanie pliku XLSX
+		workbook.xlsx.writeBuffer().then(buffer => {
+			const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+			const url = URL.createObjectURL(blob)
+			const link = document.createElement('a')
+			link.href = url
+			link.download = 'transakcje_papryki.xlsx'
+			link.click()
+		})
+	}
+
 	if (loading) {
 		return (
 			<section className='container py-20'>
@@ -169,6 +222,11 @@ function TradesOfPepper() {
 				<TradeOfPepperFilterItem handleFilter={handleFilter} handleCancel={handleHideFilters} />
 			) : (
 				<div className='flex flex-row justify-end'>
+					<button
+						className='px-2 py-1 mr-3 rounded font-semibold bg-mainColor hover:bg-green-800 transition-colors'
+						onClick={exportToXLS}>
+						Eksport do XLS
+					</button>
 					<button
 						className='px-2 py-1 rounded font-semibold bg-mainColor hover:bg-green-800 transition-colors'
 						onClick={handleShowFilters}>

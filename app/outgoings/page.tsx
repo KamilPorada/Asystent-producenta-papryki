@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
 import OutgoingItem from '@components/Items/OutgoingItem'
+import Button from '@components/UI/Button'
+import ExcelJS from 'exceljs'
 
 interface Outgoing {
 	_id: string
@@ -77,6 +79,56 @@ function page() {
 		setFilteredOutgoings(filteredOutgoings)
 	}
 
+	const exportToXLS = () => {
+		const workbook = new ExcelJS.Workbook()
+		const worksheet = workbook.addWorksheet('Wydatki')
+
+		// Ustawianie niestandardowych formatów dla nagłówków kolumn
+		const headerCellStyle = {
+			font: { bold: true, color: { argb: 'FFFFFF' } },
+			fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: '009000' } as ExcelJS.Color },
+			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
+		}
+
+		// Dodawanie nagłówków kolumn
+		worksheet.addRow(['Nazwa', 'Kategoria', 'Data', 'Cena', 'Ilość', 'Suma', 'Opis'])
+		const headerRow = worksheet.getRow(1)
+		headerRow.eachCell(cell => {
+			cell.fill = headerCellStyle.fill as ExcelJS.FillPattern
+			cell.font = headerCellStyle.font
+			cell.alignment = headerCellStyle.alignment
+		})
+
+		// Dodawanie danych
+		filteredOutgoings.forEach(outgoing => {
+			const rowData = [
+				outgoing.name,
+				outgoing.category.toString(),
+				outgoing.date,
+				outgoing.price.toString(),
+				outgoing.amount.toString(),
+				outgoing.totalSum.toString(),
+				outgoing.describe,
+			]
+			worksheet.addRow(rowData)
+		})
+
+		// Auto dopasowanie szerokości kolumn
+		worksheet.columns.forEach(column => {
+			column.width = 15
+		})
+
+		// Generowanie pliku XLSX
+		workbook.xlsx.writeBuffer().then(buffer => {
+			const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+			const url = URL.createObjectURL(blob)
+			const link = document.createElement('a')
+			link.href = url
+			link.download = 'wydatki.xlsx'
+			link.click()
+		})
+	}
+
 	useEffect(() => {
 		fetchOutgoinhs()
 	}, [loading])
@@ -93,6 +145,9 @@ function page() {
 		<section className='container py-20'>
 			<SectionTitle title='Moje wydatki' />
 			<SearchInput onSearch={handleSearch} />
+			<div>
+				<Button onClick={exportToXLS}>Eksport do XLS</Button>
+			</div>
 			<div className='flex flex-row justify-between flex-wrap'>
 				{filteredOutgoings.length > 0 ? (
 					filteredOutgoings.map(outgoing => (

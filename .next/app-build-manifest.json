@@ -6,15 +6,10 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/page": [
+    "/outgoings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/new-outgoing/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/new-outgoing/page.js"
+      "static/chunks/app/outgoings/page.js"
     ],
     "/new-trade-of-pepper/page": [
       "static/chunks/webpack.js",
@@ -26,6 +21,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/trades-of-pepper/page.js"
     ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/new-point-of-sale/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -36,15 +36,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/points-of-sale/page.js"
     ],
-    "/outgoings/page": [
+    "/new-outgoing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/outgoings/page.js"
-    ],
-    "/edit-outgoing/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/edit-outgoing/page.js"
+      "static/chunks/app/new-outgoing/page.js"
     ]
   }
 }
