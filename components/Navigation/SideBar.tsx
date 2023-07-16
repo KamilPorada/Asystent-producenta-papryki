@@ -72,12 +72,12 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('outgoings')}
 					/>
 					<MenuButton
-						links={['/', '/']}
+						links={['balance-of-pepper-trades/', '/']}
 						title='Bilans zysków i strat'
 						icon='fa-solid fa-scale-balanced'
 						submenuIcon={true}
 						active={activeMenuButton === 'balanced'}
-						submenuItems={['Bilans w liczbach', 'Bilans na wykresach']}
+						submenuItems={['Bilans sprzedaży papryki', 'Bilans wydatków']}
 						onClick={() => handleMenuButtonClick('balanced')}
 					/>
 					<MenuButton

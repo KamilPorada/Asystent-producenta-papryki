@@ -146,7 +146,7 @@ function page() {
 			<SectionTitle title='Moje wydatki' />
 			<SearchInput onSearch={handleSearch} />
 			<div>
-				<Button onClick={exportToXLS}>Eksport do XLS</Button>
+				<Button onClick={exportToXLS} className='ml-0 mt-4'>Eksport do XLS</Button>
 			</div>
 			<div className='flex flex-row justify-between flex-wrap'>
 				{filteredOutgoings.length > 0 ? (

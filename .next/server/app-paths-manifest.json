@@ -1,10 +1,5 @@
 {
-  "/outgoings/page": "app/outgoings/page.js",
-  "/new-point-of-sale/page": "app/new-point-of-sale/page.js",
+  "/page": "app/page.js",
   "/trades-of-pepper/page": "app/trades-of-pepper/page.js",
-  "/points-of-sale/page": "app/points-of-sale/page.js",
-  "/new-trade-of-pepper/page": "app/new-trade-of-pepper/page.js",
-  "/api/trade-of-pepper/route": "app/api/trade-of-pepper/route.js",
-  "/api/outgoing/route": "app/api/outgoing/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/balance-of-pepper-trades/page": "app/balance-of-pepper-trades/page.js"
 }
