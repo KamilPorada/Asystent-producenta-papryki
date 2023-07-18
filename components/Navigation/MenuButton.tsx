@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface MenuButtonProps {
 	links: string[]
 	title: string
-	icon: string
+	icon: IconProp
 	submenuIcon?: boolean
 	active?: boolean
 	submenuItems?: string[]
@@ -41,7 +43,7 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
 							className={`flex items-center justify-start text-sm sm:text-base transition-colors duration-300 hover:text-mainColor hover:font-semibold ${padding}`}
 							onClick={props.onClick}>
 							<div className='w-6 h-6 mr-2'>
-								<i className={props.icon}></i>
+								<FontAwesomeIcon icon={props.icon}/>
 							</div>
 							{props.title}
 						</button>
@@ -55,7 +57,7 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
 							className={`flex items-center justify-start text-sm sm:text-base transition-colors duration-300 hover:text-mainColor hover:font-semibold ${padding}`}
 							onClick={props.onClick}>
 							<div className='w-6 h-6 mr-2'>
-								<i className={props.icon}></i>
+								<FontAwesomeIcon icon={props.icon}/>
 							</div>
 							{props.title}
 						</button>

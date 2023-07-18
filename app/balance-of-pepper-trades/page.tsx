@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import SectionTitle from '@components/UI/SectionTitle'
 import React from 'react'
-import TradesOfPepperByMonth from '@components/Charts/TradesOfPepperByMonth'
-import NumberOfTradesPepper from '@components/Charts/NumberOfTradesPepper'
-import ClassesOfPepper from '@components/Charts/ColorsAndClassOfPepper'
-import AveragePepperPrices from '@components/Charts/AveragePepperPrices'
-import MonthlyPointOfSalesTrades from '@components/Charts/MonthlyPointOfSalesTrades'
+import TradesOfPepperByMonth from '@components/Charts/TradesOfPepper/TradesOfPepperByMonth'
+import NumberOfTradesPepper from '@components/Charts/TradesOfPepper/NumberOfTradesPepper'
+import ClassesOfPepper from '@components/Charts/TradesOfPepper/ColorsAndClassOfPepper'
+import AveragePepperPrices from '@components/Charts/TradesOfPepper/AveragePepperPrices'
+import MonthlyPointOfSalesTrades from '@components/Charts/TradesOfPepper/MonthlyPointOfSalesTrades'
 
 interface TradeOfPepper {
 	_id: string
@@ -38,7 +38,11 @@ function BalanceOfPepperTrades() {
 			const response = await fetch('/api/trade-of-pepper')
 			const data = await response.json()
 
-			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
+			const currentYear = new Date().getFullYear()
+			const filteredTrades = data.filter((trade: TradeOfPepper) => {
+				const tradeYear = new Date(trade.date).getFullYear()
+				return trade.creator._id.toString() === userId.toString() && tradeYear === currentYear
+			})
 
 			setAllTrades(filteredTrades)
 		} catch (error) {
@@ -52,8 +56,6 @@ function BalanceOfPepperTrades() {
 		fetchTradesOfPepper()
 	}, [loading])
 
-
-
 	return (
 		<section className='container py-20 text-black'>
 			<SectionTitle title='Bilans sprzedaży papryki' />
@@ -61,10 +63,9 @@ function BalanceOfPepperTrades() {
 				<div className='flex flex-row justify-center flex-wrap gap-6 py-6'>
 					<TradesOfPepperByMonth allTrades={allTrades} />
 					<NumberOfTradesPepper allTrades={allTrades} />
-                    <ClassesOfPepper allTrades={allTrades}/>
-                    <AveragePepperPrices allTrades={allTrades}/>
-                    <MonthlyPointOfSalesTrades allTrades={allTrades}/>
-				
+					<ClassesOfPepper allTrades={allTrades} />
+					<AveragePepperPrices allTrades={allTrades} />
+					<MonthlyPointOfSalesTrades allTrades={allTrades} />
 				</div>
 			) : (
 				<p className='mt-10 md:text-lg text-center'>Wczytywanie danych...</p>

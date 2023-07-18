@@ -2,6 +2,20 @@ import React, { useState } from 'react'
 import { signOut } from 'next-auth/react'
 import Brand from '@components/UI/Brand'
 import MenuButton from './MenuButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faBars,
+	faXmark,
+	faCompass,
+	faArrowTrendUp,
+	faArrowTrendDown,
+	faScaleBalanced,
+	faSkullCrossbones,
+	faDroplet,
+	faClipboard,
+	faGears,
+	faRightFromBracket,
+} from '@fortawesome/free-solid-svg-icons'
 
 function SideBar() {
 	const [isMenuVisible, setIsMenuVisible] = useState(true)
@@ -32,7 +46,7 @@ function SideBar() {
 			<div
 				className='fixed top-5 left-2 flex flex-row justify-around items-center w-[100px] px-1/5 uppercase bg-secondaryColor text-white rounded-md cursor-pointer z-20'
 				onClick={handleMenuButton}>
-				<i className='fa-solid fa-bars'></i>
+				<FontAwesomeIcon icon={faBars} />
 				<p className='hamburger-menu__text'>menu</p>
 			</div>
 			<nav
@@ -40,7 +54,7 @@ function SideBar() {
 					isMenuVisible ? 'translate-x-0' : '-translate-x-full'
 				}`}>
 				<div className='absolute top-5 left-5 text-white cursor-pointer' onClick={handleXButton}>
-					<i className='fa-solid fa-xmark'></i>
+					<FontAwesomeIcon icon={faXmark} />
 				</div>
 				<Brand />
 				<div className='flex flex-col space-y-2 mt-5'>
@@ -48,7 +62,7 @@ function SideBar() {
 					<MenuButton
 						links={['/']}
 						title='Strona główna'
-						icon='fa-solid fa-compass'
+						icon={faCompass}
 						active={activeMenuButton === 'dashboard'}
 						onClick={() => handleMenuButtonClick('dashboard')}
 					/>
@@ -56,7 +70,7 @@ function SideBar() {
 					<MenuButton
 						links={['/new-trade-of-pepper', '/trades-of-pepper', '/new-point-of-sale', '/points-of-sale']}
 						title='Sprzedaż papryki'
-						icon='fa-solid fa-arrow-trend-up'
+						icon={faArrowTrendUp}
 						submenuIcon={true}
 						active={activeMenuButton === 'trade'}
 						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Nowy punkt sprzedaży', 'Punkty sprzedaży']}
@@ -65,16 +79,16 @@ function SideBar() {
 					<MenuButton
 						links={['/new-outgoing', '/outgoings']}
 						title='Wydatki'
-						icon='fa-solid fa-arrow-trend-down'
+						icon={faArrowTrendDown}
 						submenuIcon={true}
 						active={activeMenuButton === 'outgoings'}
 						submenuItems={['Nowy wydatek', 'Lista wydatków']}
 						onClick={() => handleMenuButtonClick('outgoings')}
 					/>
 					<MenuButton
-						links={['balance-of-pepper-trades/', '/']}
+						links={['balance-of-pepper-trades', 'balance-of-outgoings']}
 						title='Bilans zysków i strat'
-						icon='fa-solid fa-scale-balanced'
+						icon={faScaleBalanced}
 						submenuIcon={true}
 						active={activeMenuButton === 'balanced'}
 						submenuItems={['Bilans sprzedaży papryki', 'Bilans wydatków']}
@@ -83,16 +97,16 @@ function SideBar() {
 					<MenuButton
 						links={['/', '/']}
 						title='Zabiegi cheminizacyjne'
-						icon='fa-solid fa-skull-crossbones'
+						icon={faSkullCrossbones}
 						submenuIcon={true}
 						active={activeMenuButton === 'pesticides'}
 						submenuItems={['Nowy zabieg', 'Lista zabiegów']}
 						onClick={() => handleMenuButtonClick('pesticides')}
 					/>
 					<MenuButton
-						links={['/', '/',]}
+						links={['/', '/']}
 						title='Dziennik fertygacji'
-						icon='fa-solid fa-droplet'
+						icon={faDroplet}
 						submenuIcon={true}
 						active={activeMenuButton === 'fertigation'}
 						submenuItems={['Nowa fertgacja', 'Lista fertygacji']}
@@ -101,7 +115,7 @@ function SideBar() {
 					<MenuButton
 						links={['/', '/', '/']}
 						title='Notatki'
-						icon='fa-regular fa-clipboard'
+						icon={faClipboard}
 						submenuIcon={true}
 						active={activeMenuButton === 'notes'}
 						submenuItems={['Nowa notatka', 'Lista notatek', 'Ważne daty']}
@@ -111,11 +125,11 @@ function SideBar() {
 					<MenuButton
 						links={['/']}
 						title='Ustawienia'
-						icon='fa-solid fa-right-from-bracket'
+						icon={faGears}
 						active={activeMenuButton === 'settings'}
 						onClick={() => handleMenuButtonClick('settings')}
 					/>
-					<MenuButton links={['/']} title='Wyloguj się' icon='fa-solid fa-gear' onClick={handleSignOut} />
+					<MenuButton links={['/']} title='Wyloguj się' icon={faRightFromBracket} onClick={handleSignOut} />
 				</div>
 				<footer className='absolute bottom-0 w-full -mx-2 mb-2 flex flex-col text-center text-white text-xs sm:text-sm font-light'>
 					<p>&copy; {currentYear} Asystent Producenta Papryki</p>
