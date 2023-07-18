@@ -21,6 +21,7 @@ interface PointOfSale {
 
 function EditPointOfSale() {
 	const [tradeOfPepper, setTradeOfPepper] = useState({
+		date: '',
 		clas: 0,
 		color: 0,
 		price: 0,
@@ -43,6 +44,7 @@ function EditPointOfSale() {
 		setIsSubmitting(true)
 
 		if (
+			tradeOfPepper.date === '' ||
 			!tradeOfPepper.clas ||
 			!tradeOfPepper.color ||
 			!tradeOfPepper.price ||
@@ -61,6 +63,7 @@ function EditPointOfSale() {
 				method: 'PATCH',
 				body: JSON.stringify({
 					pointOfSaleId: tradeOfPepper.pointOfSale,
+					date: tradeOfPepper.date,
 					clas: tradeOfPepper.clas,
 					color: tradeOfPepper.color,
 					price: tradeOfPepper.price,
@@ -112,6 +115,7 @@ function EditPointOfSale() {
 			const data = await response.json()
 
 			setTradeOfPepper({
+				date:data.date,
 				pointOfSale: data.pointOfSale,
 				clas: data.clas,
 				color: data.color,

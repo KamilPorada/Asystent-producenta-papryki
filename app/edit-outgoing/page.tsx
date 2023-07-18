@@ -6,6 +6,7 @@ import EditOutgoingForm from '@components/Forms/OutgoingForm'
 function EditOutgoing() {
 	const [outgoing, setOutgoing] = useState({
 		name: '',
+		date:'',
 		category: 0,
 		price: 0,
 		amount: 0,
@@ -33,6 +34,7 @@ function EditOutgoing() {
 				method: 'PATCH',
 				body: JSON.stringify({
 					name: outgoing.name,
+					date:outgoing.date,
 					category: outgoing.category,
 					price: outgoing.price,
 					amount: outgoing.amount,
@@ -40,14 +42,6 @@ function EditOutgoing() {
 					describe: outgoing.describe,
 				}),
 			})
-			console.log(
-				outgoing.name,
-				outgoing.category,
-				outgoing.price,
-				outgoing.amount,
-				parseFloat(totalSum),
-				outgoing.describe
-			)
 
 			if (response.ok) {
 				router.push('/outgoings')
@@ -66,6 +60,7 @@ function EditOutgoing() {
 
 			setOutgoing({
 				name: data.name,
+				date:data.date,
 				category: data.category,
 				price: data.price,
 				amount: data.amount,

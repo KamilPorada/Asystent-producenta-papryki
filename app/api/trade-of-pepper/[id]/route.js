@@ -15,7 +15,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { pointOfSaleId, clas, color, price, weight, vatRate, totalSum } = await request.json()
+	const { pointOfSaleId, date, clas, color, price, weight, vatRate, totalSum } = await request.json()
 
 	try {
 		await connectToDB()
@@ -26,6 +26,7 @@ export const PATCH = async (request, { params }) => {
 			return new Response('Nie znaleziono transakcji sprzedaży papryki!', { status: 404 })
 		}
 
+		existingTradeOfPepper.date = date
 		existingTradeOfPepper.pointOfSaleId = pointOfSaleId
 		existingTradeOfPepper.clas = clas
 		existingTradeOfPepper.color = color
@@ -33,7 +34,6 @@ export const PATCH = async (request, { params }) => {
 		existingTradeOfPepper.weight = weight
 		existingTradeOfPepper.vatRate = vatRate
 		existingTradeOfPepper.totalSum = totalSum
-		
 
 		await existingTradeOfPepper.save()
 

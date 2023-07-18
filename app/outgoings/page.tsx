@@ -42,14 +42,17 @@ function page() {
 				(outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString()
 			)
 
-			setAllOutgoings(filteredOutgoings)
-			setFilteredOutgoings(filteredOutgoings)
+			const sortedOutgoings = sortOutgoingsByDate(filteredOutgoings)
+
+			setAllOutgoings(sortedOutgoings)
+			setFilteredOutgoings(sortedOutgoings)
 		} catch (error) {
 			console.log(error)
 		} finally {
 			setLoading(false)
 		}
 	}
+
 	const handleDelete = async (outgoing: Outgoing) => {
 		try {
 			await fetch(`/api/outgoing/${outgoing._id.toString()}`, {
@@ -77,6 +80,15 @@ function page() {
 		)
 
 		setFilteredOutgoings(filteredOutgoings)
+	}
+
+	const sortOutgoingsByDate = (outgoings: Outgoing[]) => {
+		outgoings.sort((a, b) => {
+			const dateA = new Date(a.date)
+			const dateB = new Date(b.date)
+			return dateA.getTime() - dateB.getTime()
+		})
+		return outgoings
 	}
 
 	const exportToXLS = () => {
@@ -146,7 +158,9 @@ function page() {
 			<SectionTitle title='Moje wydatki' />
 			<SearchInput onSearch={handleSearch} />
 			<div>
-				<Button onClick={exportToXLS} className='ml-0 mt-4'>Eksport do XLS</Button>
+				<Button onClick={exportToXLS} className='ml-0 mt-4'>
+					Eksport do XLS
+				</Button>
 			</div>
 			<div className='flex flex-row justify-between flex-wrap'>
 				{filteredOutgoings.length > 0 ? (

@@ -21,6 +21,7 @@ interface PointOfSale {
 
 function NewTradeOfPepper() {
 	const [tradeOfPepper, setTradeOfPepper] = useState({
+		date: '',
 		clas: 0,
 		color: 0,
 		price: 0,
@@ -41,6 +42,7 @@ function NewTradeOfPepper() {
 		setIsSubmitting(true)
 
 		if (
+			tradeOfPepper.date === '' ||
 			!tradeOfPepper.clas ||
 			!tradeOfPepper.color ||
 			!tradeOfPepper.price ||
@@ -55,13 +57,12 @@ function NewTradeOfPepper() {
 
 		try {
 			const totalSum = calculateTotalSum(tradeOfPepper.price, tradeOfPepper.vatRate, tradeOfPepper.weight)
-			const today = new Date().toISOString().split('T')[0]
 			const response = await fetch('/api/trade-of-pepper/new', {
 				method: 'POST',
 				body: JSON.stringify({
 					userId: userId,
 					pointOfSaleId: tradeOfPepper.pointOfSale,
-					date: today,
+					date: tradeOfPepper.date,
 					clas: tradeOfPepper.clas,
 					color: tradeOfPepper.color,
 					price: tradeOfPepper.price,

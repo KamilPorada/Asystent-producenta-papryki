@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+import { useState ,useEffect } from 'react'
 import Link from 'next/link'
 import Button from '@components/UI/Button'
 import SectionTitle from '@components/UI/SectionTitle'
@@ -6,6 +7,7 @@ import React from 'react'
 
 interface AddTradeOfPepperFormProps {
 	tradeOfPepper: {
+		date: string
 		clas: number
 		color: number
 		price: number
@@ -38,6 +40,25 @@ interface PointOfSale {
 
 const AddTradeOfPepperForm: React.FC<AddTradeOfPepperFormProps> = props => {
 	const { type, tradeOfPepper, setTradeOfPepper, submitting, handleSubmit, error, pointOfSales } = props
+
+	const [currentDate, setCurrentDate] = useState<string>('')
+
+	useEffect(() => {
+		if (type === 'ADD') {
+			setCurrentDate(new Date().toISOString().slice(0, 10))
+		} else if (type === 'EDIT' && tradeOfPepper?.date) {
+			const parsedDate = Date.parse(tradeOfPepper.date)
+			if (!isNaN(parsedDate)) {
+				setCurrentDate(new Date(parsedDate).toISOString().slice(0, 10))
+			}
+		}
+	}, [type, tradeOfPepper])
+
+	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCurrentDate(e.target.value)
+		setTradeOfPepper({ ...tradeOfPepper, date: e.target.value })
+	}
+
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title={type === 'ADD' ? 'Nowa sprzedaż papryki' : 'Edycja sprzedaży papryki'} />
@@ -45,6 +66,15 @@ const AddTradeOfPepperForm: React.FC<AddTradeOfPepperFormProps> = props => {
 				{type === 'ADD' ? 'Dodaj nową' : 'Edytuj'} sprzedaż papryki i podaj niezbędne informacje.
 			</p>
 			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
+				<label className='flex flex-col'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Data</span>
+					<input
+						type='date'
+						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={currentDate}
+						onChange={handleDateChange}
+					/>
+				</label>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Klasa</span>
 					<select

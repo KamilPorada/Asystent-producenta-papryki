@@ -135,6 +135,15 @@ function TradesOfPepper() {
 		router.push(`/edit-trade-of-pepper?id=${trade._id}`)
 	}
 
+	const sortTradesByDate = (trades: TradeOfPepper[]) => {
+		trades.sort((a, b) => {
+			const dateA = new Date(a.date)
+			const dateB = new Date(b.date)
+			return dateA.getTime() - dateB.getTime()
+		})
+		return trades
+	}
+
 	const fetchTradesOfPepper = async () => {
 		try {
 			const response = await fetch('/api/trade-of-pepper')
@@ -142,8 +151,10 @@ function TradesOfPepper() {
 
 			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
 
-			setAllTrades(filteredTrades)
-			setFilteredTrades(filteredTrades)
+			const sortedTrades = sortTradesByDate(filteredTrades)
+
+			setAllTrades(sortedTrades)
+			setFilteredTrades(sortedTrades)
 		} catch (error) {
 			console.log(error)
 		} finally {
