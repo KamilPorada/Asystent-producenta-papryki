@@ -1,5 +1,4 @@
 import { FormEvent, useState } from 'react'
-import { useEffect } from 'react'
 import Link from 'next/link'
 import Button from '@components/UI/Button'
 import SectionTitle from '@components/UI/SectionTitle'
@@ -36,24 +35,6 @@ const AddOutgoingForm: React.FC<AddOutgoingFormProps> = props => {
 		setOutgoing({ ...outgoing, category })
 	}
 
-	const [currentDate, setCurrentDate] = useState<string>('')
-
-	useEffect(() => {
-		if (type === 'ADD') {
-			setCurrentDate(new Date().toISOString().slice(0, 10))
-		} else if (type === 'EDIT' && outgoing?.date) {
-			const parsedDate = Date.parse(outgoing.date)
-			if (!isNaN(parsedDate)) {
-				setCurrentDate(new Date(parsedDate).toISOString().slice(0, 10))
-			}
-		}
-	}, [type, outgoing])
-
-	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCurrentDate(e.target.value)
-		setOutgoing({ ...outgoing, date: e.target.value })
-	}
-
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title={type === 'ADD' ? 'Nowy wydatek' : 'Edycja wydatku'} />
@@ -66,8 +47,8 @@ const AddOutgoingForm: React.FC<AddOutgoingFormProps> = props => {
 					<input
 						type='date'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-						value={currentDate}
-						onChange={handleDateChange}
+						value={outgoing?.date || ''}
+						onChange={e => setOutgoing({ ...outgoing, date: e.target.value })}
 					/>
 				</label>
 				<label className='flex flex-col'>

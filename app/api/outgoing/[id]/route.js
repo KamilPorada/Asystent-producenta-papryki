@@ -1,4 +1,4 @@
-import Outgoing from '@models/outgoings'
+import Outgoing from '@models/outgoing'
 import { connectToDB } from '@utils/database'
 
 export const GET = async (request, { params }) => {

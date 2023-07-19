@@ -170,14 +170,12 @@ function TradesOfPepper() {
 		const workbook = new ExcelJS.Workbook()
 		const worksheet = workbook.addWorksheet('Transakcje papryki')
 
-		// Ustawianie niestandardowych formatów dla nagłówków kolumn
 		const headerCellStyle = {
 			font: { bold: true, color: { argb: 'FFFFFF' } },
 			fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: '009000' } as ExcelJS.Color },
 			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
 		}
 
-		// Dodawanie nagłówków kolumn
 		worksheet.addRow(['L.P.', 'Data', 'Klasa', 'Kolor', 'Cena', 'Waga', 'Stawka VAT', 'Suma', 'Punkt sprzedaży'])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
@@ -186,7 +184,6 @@ function TradesOfPepper() {
 			cell.alignment = headerCellStyle.alignment
 		})
 
-		// Dodawanie danych
 		filteredTrades.forEach((trade, index) => {
 			const rowData = [
 				(index + 1).toString(),
@@ -202,12 +199,10 @@ function TradesOfPepper() {
 			worksheet.addRow(rowData)
 		})
 
-		// Auto dopasowanie szerokości kolumn
 		worksheet.columns.forEach(column => {
 			column.width = 15
 		})
 
-		// Generowanie pliku XLSX
 		workbook.xlsx.writeBuffer().then(buffer => {
 			const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
 			const url = URL.createObjectURL(blob)
@@ -232,7 +227,7 @@ function TradesOfPepper() {
 			{showFilters ? (
 				<TradeOfPepperFilterItem handleFilter={handleFilter} handleCancel={handleHideFilters} />
 			) : (
-				<div className='flex flex-row justify-end'>
+				<div className='flex flex-row justify-evenly sm:justify-end mt-2'>
 					<button
 						className='px-2 py-1 mr-3 rounded font-semibold bg-mainColor hover:bg-green-800 transition-colors'
 						onClick={exportToXLS}>

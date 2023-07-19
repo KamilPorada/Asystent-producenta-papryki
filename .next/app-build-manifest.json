@@ -1,35 +1,24 @@
 {
   "pages": {
-    "/balance-of-pepper-trades/page": [
+    "/new-operation/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/balance-of-pepper-trades/page.js"
-    ],
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
-    "/new-outgoing/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/new-outgoing/page.js"
+      "static/chunks/app/new-operation/page.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
+    "/new-outgoing/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/new-outgoing/page.js"
+    ],
     "/new-trade-of-pepper/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/new-trade-of-pepper/page.js"
-    ],
-    "/balance-of-outgoings/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/balance-of-outgoings/page.js"
     ],
     "/trades-of-pepper/page": [
       "static/chunks/webpack.js",
@@ -51,15 +40,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/outgoings/page.js"
     ],
-    "/points-of-sale/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/points-of-sale/page.js"
-    ],
     "/edit-outgoing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/edit-outgoing/page.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ]
   }
 }

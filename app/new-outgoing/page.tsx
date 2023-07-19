@@ -8,7 +8,7 @@ function NewOutgoing() {
 	const [outgoing, setOutgoing] = useState({
 		name: '',
 		category: 0,
-		date: '',
+		date: new Date().toISOString().slice(0, 10),
 		price: 0,
 		amount: 0,
 		totalSum: 0,

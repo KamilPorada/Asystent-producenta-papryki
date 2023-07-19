@@ -41,24 +41,6 @@ interface PointOfSale {
 const AddTradeOfPepperForm: React.FC<AddTradeOfPepperFormProps> = props => {
 	const { type, tradeOfPepper, setTradeOfPepper, submitting, handleSubmit, error, pointOfSales } = props
 
-	const [currentDate, setCurrentDate] = useState<string>('')
-
-	useEffect(() => {
-		if (type === 'ADD') {
-			setCurrentDate(new Date().toISOString().slice(0, 10))
-		} else if (type === 'EDIT' && tradeOfPepper?.date) {
-			const parsedDate = Date.parse(tradeOfPepper.date)
-			if (!isNaN(parsedDate)) {
-				setCurrentDate(new Date(parsedDate).toISOString().slice(0, 10))
-			}
-		}
-	}, [type, tradeOfPepper])
-
-	const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCurrentDate(e.target.value)
-		setTradeOfPepper({ ...tradeOfPepper, date: e.target.value })
-	}
-
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title={type === 'ADD' ? 'Nowa sprzedaż papryki' : 'Edycja sprzedaży papryki'} />
@@ -71,8 +53,8 @@ const AddTradeOfPepperForm: React.FC<AddTradeOfPepperFormProps> = props => {
 					<input
 						type='date'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-						value={currentDate}
-						onChange={handleDateChange}
+						value={tradeOfPepper.date}
+						onChange={e => setTradeOfPepper({ ...tradeOfPepper, date: e.target.value })}
 					/>
 				</label>
 				<label className='flex flex-col'>

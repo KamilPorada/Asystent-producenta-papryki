@@ -1,7 +1,5 @@
 {
-  "/outgoings/page": "app/outgoings/page.js",
-  "/balance-of-pepper-trades/page": "app/balance-of-pepper-trades/page.js",
-  "/edit-trade-of-pepper/page": "app/edit-trade-of-pepper/page.js",
-  "/api/outgoing/route": "app/api/outgoing/route.js",
+  "/edit-outgoing/page": "app/edit-outgoing/page.js",
+  "/trades-of-pepper/page": "app/trades-of-pepper/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

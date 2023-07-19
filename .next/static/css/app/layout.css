@@ -658,8 +658,8 @@ video {
 .mt-8 {
   margin-top: 2rem;
 }
-.mr-\[13px\] {
-  margin-right: 13px;
+.mt-2 {
+  margin-top: 0.5rem;
 }
 .block {
   display: block;
@@ -1038,9 +1038,6 @@ video {
 .pl-1 {
   padding-left: 0.25rem;
 }
-.pl-2 {
-  padding-left: 0.5rem;
-}
 .pt-14 {
   padding-top: 3.5rem;
 }
@@ -1102,6 +1099,12 @@ video {
 }
 .leading-5 {
   line-height: 1.25rem;
+}
+.leading-3 {
+  line-height: .75rem;
+}
+.leading-6 {
+  line-height: 1.5rem;
 }
 .text-black {
   --tw-text-opacity: 1;
@@ -1376,6 +1379,10 @@ html {
 
   .sm\:flex-row-reverse {
     flex-direction: row-reverse;
+  }
+
+  .sm\:justify-end {
+    justify-content: flex-end;
   }
 
   .sm\:p-4 {

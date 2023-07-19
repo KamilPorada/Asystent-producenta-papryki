@@ -1,12 +1,13 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { parseISO, format } from 'date-fns'
 import EditOutgoingForm from '@components/Forms/OutgoingForm'
 
 function EditOutgoing() {
 	const [outgoing, setOutgoing] = useState({
 		name: '',
-		date:'',
+		date: '',
 		category: 0,
 		price: 0,
 		amount: 0,
@@ -34,7 +35,7 @@ function EditOutgoing() {
 				method: 'PATCH',
 				body: JSON.stringify({
 					name: outgoing.name,
-					date:outgoing.date,
+					date: outgoing.date,
 					category: outgoing.category,
 					price: outgoing.price,
 					amount: outgoing.amount,
@@ -57,10 +58,12 @@ function EditOutgoing() {
 		const getOutgoingDetails = async () => {
 			const response = await fetch(`/api/outgoing/${outgoingId}`)
 			const data = await response.json()
+			const formattedDate = format(parseISO(data.date), 'yyyy-MM-dd')
 
 			setOutgoing({
+				...outgoing,
 				name: data.name,
-				date:data.date,
+				date: formattedDate,
 				category: data.category,
 				price: data.price,
 				amount: data.amount,

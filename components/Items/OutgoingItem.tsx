@@ -73,9 +73,9 @@ const OutgoingItem: React.FC<{
 	}
 
 	return (
-		<div className='flex flex-row justify-between w-full md:w-[48%] mt-5 p-3 bg-white text-black rounded ring-1 ring-zinc-300'>
+		<div className='flex flex-row justify-between items-center w-full md:w-[48%] mt-5 p-3 bg-white text-black rounded ring-1 ring-zinc-300'>
 			<div className='flex flex-col w-3/5'>
-				<p className='font-semibold mb-1 text-lg'>{props.name}</p>
+				<p className='font-semibold mb-1 text-lg leading-4'>{props.name}</p>
 				<p className='leading-4 font-thin'>
 					<span className='font-semibold'>Kategoria: </span>
 					{getCategoryLabel(props.category)}

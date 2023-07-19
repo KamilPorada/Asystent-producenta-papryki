@@ -21,7 +21,7 @@ interface PointOfSale {
 
 function NewTradeOfPepper() {
 	const [tradeOfPepper, setTradeOfPepper] = useState({
-		date: '',
+		date: new Date().toISOString().slice(0, 10),
 		clas: 0,
 		color: 0,
 		price: 0,

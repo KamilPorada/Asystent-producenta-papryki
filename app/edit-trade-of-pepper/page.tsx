@@ -2,6 +2,7 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { parseISO, format } from 'date-fns'
 import EditTradeOfPepper from '@components/Forms/TradeOfPepperForm'
 
 interface PointOfSale {
@@ -31,7 +32,7 @@ function EditPointOfSale() {
 	})
 	const [pointOfSales, setPointOfSales] = useState<PointOfSale[]>([])
 	const [submitting, setIsSubmitting] = useState(false)
-    const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
 	const router = useRouter()
 	const { data: session } = useSession()
@@ -113,9 +114,11 @@ function EditPointOfSale() {
 		const getTradeDetails = async () => {
 			const response = await fetch(`/api/trade-of-pepper/${tradeId}`)
 			const data = await response.json()
+			const formattedDate = format(parseISO(data.date), 'yyyy-MM-dd')
 
 			setTradeOfPepper({
-				date:data.date,
+				...tradeOfPepper,
+				date: formattedDate,
 				pointOfSale: data.pointOfSale,
 				clas: data.clas,
 				color: data.color,
@@ -137,7 +140,7 @@ function EditPointOfSale() {
 				submitting={submitting}
 				handleSubmit={editTradeOfPepper}
 				error={error}
-                pointOfSales={pointOfSales}
+				pointOfSales={pointOfSales}
 			/>
 		</section>
 	)
