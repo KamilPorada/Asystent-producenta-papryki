@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Button from '@components/UI/Button'
 
 const categoryOptions = [
 	'Nasiona',

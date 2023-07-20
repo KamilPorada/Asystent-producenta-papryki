@@ -95,7 +95,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('balanced')}
 					/>
 					<MenuButton
-						links={['new-operation/', '/']}
+						links={['new-operation/', '/operations']}
 						title='Zabiegi cheminizacyjne'
 						icon={faSkullCrossbones}
 						submenuIcon={true}

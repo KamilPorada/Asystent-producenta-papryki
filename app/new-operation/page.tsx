@@ -2,7 +2,7 @@
 import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { parseISO, addDays, format } from 'date-fns'
+import { parseISO, addDays } from 'date-fns'
 import OperationForm from '../../components/Forms/OperationForm'
 
 function NewOperation() {
@@ -65,7 +65,7 @@ function NewOperation() {
 			})
 			setError('')
 			if (response.ok) {
-				router.push('/')
+				router.push('/operations')
 			} else {
 				throw new Error('Błąd podczas dodawania zabiegu pielęgnacyjnego')
 			}

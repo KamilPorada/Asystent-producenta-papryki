@@ -1,5 +1,4 @@
 {
-  "/edit-outgoing/page": "app/edit-outgoing/page.js",
-  "/trades-of-pepper/page": "app/trades-of-pepper/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/operations/page": "app/operations/page.js",
+  "/new-operation/page": "app/new-operation/page.js"
 }
