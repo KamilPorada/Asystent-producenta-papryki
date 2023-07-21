@@ -44,6 +44,7 @@ export const PATCH = async (request, { params }) => {
 		return new Response('Błąd podczas edycji danych zabiegu cheminizacyjnego', { status: 500 })
 	}
 }
+  
 
 export const DELETE = async (request, { params }) => {
 	try {

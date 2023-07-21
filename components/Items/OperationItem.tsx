@@ -23,7 +23,10 @@ const OperationItem: React.FC<{
 	waitingTime: number
 	waitingTimeDate: string
 	status: boolean
+	updatedStatus: boolean
 	handleDelete: () => Promise<void>
+	handleEdit: () => Promise<void>
+	handleUpdateStatus: () => Promise<void>
 }> = props => {
 	const getOperationTypeName = (pesticideIndex: number) => {
 		switch (pesticideIndex) {
@@ -70,12 +73,16 @@ const OperationItem: React.FC<{
 		setShowModal(true)
 	}
 
-	const handleConfirmDelete = async () => {
-		await props.handleDelete()
-		setShowModal(false)
+	const handleUpdateStatus = async () => {
+		await props.handleUpdateStatus()
 	}
 
 	const handleCancelDelete = () => {
+		setShowModal(false)
+	}
+
+	const handleConfirmDelete = async () => {
+		await props.handleDelete()
 		setShowModal(false)
 	}
 
@@ -86,12 +93,15 @@ const OperationItem: React.FC<{
 					<div className='flex flex-col items-center w-48 pb-3 border-b-[1px] border-zinc-300'>
 						<p className='text-lg font-semibold leading-7'>{getOperationTypeName(props.pesticideType)}</p>
 						<div className='flex flex-row'>
-							<FontAwesomeIcon icon={getOperationIcon(props.pesticideType)} className='mr-3 text-5xl' />
+							<FontAwesomeIcon
+								icon={getOperationIcon(props.pesticideType)}
+								className='mr-3 text-5xl text-secondaryColor'
+							/>
 							<div className='flex flex-col justify-around pl-3 border-l-[1px] border-zinc-300'>
-								<p className='leading-4'>
+								<p className='leading-4 font-thin'>
 									<FontAwesomeIcon icon={faCalendar} /> {getFormattedDate(props.date)}
 								</p>
-								<p className='leading-4'>
+								<p className='leading-4 font-thin'>
 									<FontAwesomeIcon icon={faClock} /> {props.time}
 								</p>
 							</div>
@@ -99,33 +109,36 @@ const OperationItem: React.FC<{
 					</div>
 					<div className='w-48 py-2 border-b-[1px] border-zinc-300'>
 						<p className='text-lg font-semibold leading-7'>Dane pestycydu:</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Pestycyd:</span> {props.pesticideName}
 						</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Dawka:</span> {props.pesticideDose}ml/100l wody
 						</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Ilość cieczy roboczej:</span> {props.liquidAmount}l
 						</p>
 					</div>
 					<div className='w-48 py-2 border-b-[1px] border-zinc-300'>
 						<p className='text-lg font-semibold leading-7'>Dane karencji:</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Karencja:</span> {props.waitingTime} dni
 						</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Koniec karencji:</span> {getFormattedDate(props.waitingTimeDate)}
 						</p>
-						<p className='leading-4'>
+						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Status:</span> {props.status ? 'Zabieg wykonany' : 'Zabieg zaplanowany'}
 						</p>
 					</div>
 					<div className='flex flex-col justify-between items-center w-48 py-2  h-5/6 text-white border-b-[1px] border-zinc-300'>
-						<Button className='w-full mb-1 py-[1px] text-sm' disabled={isPastDate || isPastDate}>
+						<Button
+							className='w-full mb-1 py-[1px] text-sm'
+							disabled={isPastDate || isExecuted}
+							onClick={handleUpdateStatus}>
 							Wykonaj zabieg
 						</Button>
-						<Button className='w-full mb-1 py-[1px] text-sm' disabled={isExecuted}>
+						<Button className='w-full mb-1 py-[1px] text-sm' disabled={isExecuted} onClick={props.handleEdit}>
 							Edytuj zabieg
 						</Button>
 						<Button className='w-full py-[1px] text-sm' onClick={handleDeleteClick}>
@@ -135,8 +148,8 @@ const OperationItem: React.FC<{
 					<div className='flex flex-row justify-around items-center pt-2 w-48'>
 						{!props.status && (
 							<>
-								<FontAwesomeIcon icon={faDroplet} className='text-3xl text-blue-500' />
-								<p className='font-semibold text-blue-500'>WYKONAJ ZABIEG!</p>
+								<FontAwesomeIcon icon={faDroplet} className='text-3xl text-blue-600' />
+								<p className='font-semibold text-blue-600'>WYKONAJ ZABIEG!</p>
 							</>
 						)}
 						{props.status && currentDate < formattedWaitingTimeDate && (
