@@ -1,13 +1,12 @@
 'use client'
-import { useState, FormEvent } from 'react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { parseISO } from 'date-fns'
-import FertigationForm from '@components/Forms/FertigationForm'
+import { useState, useEffect, FormEvent } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { parseISO, format } from 'date-fns'
+import EditFertigationForm from '@components/Forms/FertigationForm'
 
-function NewFertigation() {
+function EditFertigation() {
 	const [fertigation, setFertigation] = useState({
-		date: new Date().toISOString().slice(0, 10),
+		date: '',
 		fertilizerName: '',
 		numberOfTunnels: 0,
 		fertilizerDosePerTunnel: 0,
@@ -16,13 +15,11 @@ function NewFertigation() {
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
 	const router = useRouter()
-	const { data: session } = useSession()
-	const userId = (session?.user as { id?: string })?.id ?? ''
+	const searchParams = useSearchParams()
+	const fertigationId = searchParams.get('id')
 
-	const addFertigation = async (e: FormEvent<HTMLFormElement>) => {
+	const editFertigation = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		setIsSubmitting(true)
-
 		if (!fertigation.fertilizerName) {
 			setError('Wypełnij wszystkie pola formularza odpowiednimi danymi!')
 
@@ -41,10 +38,9 @@ function NewFertigation() {
 		}
 
 		try {
-			const response = await fetch('/api/fertigation/new', {
-				method: 'POST',
+			const response = await fetch(`/api/fertigation/${fertigationId?.toString()}`, {
+				method: 'PATCH',
 				body: JSON.stringify({
-					userId: userId,
 					date: fertigation.date,
 					fertilizerName: fertigation.fertilizerName,
 					numberOfTunnels: fertigation.numberOfTunnels,
@@ -52,11 +48,9 @@ function NewFertigation() {
 					waterAmountPerTunnel: fertigation.waterAmountPerTunnel,
 				}),
 			})
-			setError('')
+
 			if (response.ok) {
 				router.push('/fertigations')
-			} else {
-				throw new Error('Błąd podczas dodawania zabiegu fertygacji')
 			}
 		} catch (error) {
 			console.log(error)
@@ -65,18 +59,37 @@ function NewFertigation() {
 		}
 	}
 
+	useEffect(() => {
+		const getFertigationDetails = async () => {
+			const response = await fetch(`/api/fertigation/${fertigationId?.toString()}`)
+			const data = await response.json()
+			const formattedDate = format(parseISO(data.date), 'yyyy-MM-dd')
+
+			setFertigation({
+				...fertigation,
+				date: formattedDate,
+				fertilizerName: data.fertilizerName,
+				numberOfTunnels: data.numberOfTunnels,
+				fertilizerDosePerTunnel: data.fertilizerDosePerTunnel,
+				waterAmountPerTunnel: data.waterAmountPerTunnel,
+			})
+		}
+
+		if (fertigationId) getFertigationDetails()
+	}, [fertigationId])
+
 	return (
 		<section className='container py-20'>
-			<FertigationForm
-				type='ADD'
+			<EditFertigationForm
+				type='EDIT'
 				fertigation={fertigation}
 				setFertigation={setFertigation}
 				submitting={submitting}
-				handleSubmit={addFertigation}
+				handleSubmit={editFertigation}
 				error={error}
 			/>
 		</section>
 	)
 }
 
-export default NewFertigation
+export default EditFertigation

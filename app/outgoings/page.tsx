@@ -119,7 +119,7 @@ function Outgoings() {
 			const rowData = [
 				outgoing.name,
 				outgoing.category.toString(),
-				outgoing.date,
+				getFormattedDate(outgoing.date),
 				outgoing.price.toString(),
 				outgoing.amount.toString(),
 				outgoing.totalSum.toString(),
@@ -140,6 +140,14 @@ function Outgoings() {
 			link.download = 'wydatki.xlsx'
 			link.click()
 		})
+	}
+
+	const getFormattedDate = (dateString: string) => {
+		const date = new Date(dateString)
+		const day = date.getDate().toString().padStart(2, '0')
+		const month = (date.getMonth() + 1).toString().padStart(2, '0')
+		const year = date.getFullYear()
+		return `${day}.${month}.${year}`
 	}
 
 	useEffect(() => {

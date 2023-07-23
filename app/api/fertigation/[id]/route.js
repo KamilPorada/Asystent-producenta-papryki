@@ -1,11 +1,11 @@
-import Operation from '@models/fertigation'
+import Fertigation from '@models/fertigation'
 import { connectToDB } from '@utils/database'
 
 export const GET = async (request, { params }) => {
 	try {
 		await connectToDB()
 
-		const fertigation = await fertigation.findById(params.id).populate('creator')
+		const fertigation = await Fertigation.findById(params.id).populate('creator')
 		if (!fertigation) return new Response('Nie znaleziono zabiegu fertygacji!', { status: 404 })
 
 		return new Response(JSON.stringify(fertigation), { status: 200 })

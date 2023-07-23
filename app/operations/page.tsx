@@ -68,8 +68,10 @@ const Operations = () => {
 				}
 			})
 
-			setAllOperations(filteredOperationsNotExpired)
-			setFilteredOperations(filteredOperationsNotExpired)
+			const sortedOperations = sortOperationsByDate(filteredOperationsNotExpired)
+
+			setAllOperations(sortedOperations)
+			setFilteredOperations(sortedOperations)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -134,7 +136,7 @@ const Operations = () => {
 		const filteredItems = allOperations.filter(operation => {
 			let matchesFilter = true
 
-			if (date && formatDate(operation.date) !== formatDate(date)) {
+			if (date && getFormattedDate(operation.date) !== getFormattedDate(date)) {
 				matchesFilter = false
 			}
 			if (time && operation.time !== time) {
@@ -156,13 +158,13 @@ const Operations = () => {
 		setFilteredOperations(filteredItems)
 	}
 
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString)
-		const day = date.getDate()
-		const month = date.getMonth() + 1
-		const year = date.getFullYear()
-
-		return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`
+	const sortOperationsByDate = (operations: Operation[]) => {
+		operations.sort((a, b) => {
+			const dateA = new Date(a.date)
+			const dateB = new Date(b.date)
+			return dateA.getTime() - dateB.getTime()
+		})
+		return operations
 	}
 
 	const exportToXLS = () => {
@@ -197,14 +199,14 @@ const Operations = () => {
 		filteredOperations.forEach((operation, index) => {
 			const rowData = [
 				(index + 1).toString(),
-				formatDate(operation.date),
+				getFormattedDate(operation.date),
 				operation.time,
 				operation.pesticideType.toString(),
 				operation.pesticideName,
 				operation.pesticideDose.toString(),
 				operation.liquidAmount.toString(),
 				operation.waitingTime.toString(),
-				formatDate(operation.waitingTimeDate),
+				getFormattedDate(operation.waitingTimeDate),
 				operation.status ? 'Wykonane' : 'Zaplanowane',
 			]
 			worksheet.addRow(rowData)
@@ -222,6 +224,14 @@ const Operations = () => {
 			link.download = 'zabiegi_cheminizacyjne.xlsx'
 			link.click()
 		})
+	}
+
+	const getFormattedDate = (dateString: string) => {
+		const date = new Date(dateString)
+		const day = date.getDate().toString().padStart(2, '0')
+		const month = (date.getMonth() + 1).toString().padStart(2, '0')
+		const year = date.getFullYear()
+		return `${day}.${month}.${year}`
 	}
 
 	useEffect(() => {

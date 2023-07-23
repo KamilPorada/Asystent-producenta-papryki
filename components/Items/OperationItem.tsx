@@ -73,10 +73,6 @@ const OperationItem: React.FC<{
 		setShowModal(true)
 	}
 
-	const handleUpdateStatus = async () => {
-		await props.handleUpdateStatus()
-	}
-
 	const handleCancelDelete = () => {
 		setShowModal(false)
 	}
@@ -84,6 +80,10 @@ const OperationItem: React.FC<{
 	const handleConfirmDelete = async () => {
 		await props.handleDelete()
 		setShowModal(false)
+	}
+
+	const handleUpdateStatus = async () => {
+		await props.handleUpdateStatus()
 	}
 
 	return (

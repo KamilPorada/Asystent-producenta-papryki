@@ -104,7 +104,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('pesticides')}
 					/>
 					<MenuButton
-						links={['new-fertigation/', '/']}
+						links={['new-fertigation/', '/fertigations']}
 						title='Dziennik fertygacji'
 						icon={faDroplet}
 						submenuIcon={true}

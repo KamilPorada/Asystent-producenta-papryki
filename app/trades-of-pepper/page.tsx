@@ -57,7 +57,7 @@ function TradesOfPepper() {
 		const filteredItems = allTrades.filter(trade => {
 			let matchesFilter = true
 
-			if (date && formatDate(trade.date) !== formatDate(date)) {
+			if (date && getFormattedDate(trade.date) !== getFormattedDate(date)) {
 				matchesFilter = false
 			}
 			if (clas && trade.clas !== clas) {
@@ -74,15 +74,6 @@ function TradesOfPepper() {
 		})
 
 		setFilteredTrades(filteredItems)
-	}
-
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString)
-		const day = date.getDate()
-		const month = date.getMonth() + 1
-		const year = date.getFullYear()
-
-		return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`
 	}
 
 	const getClassLabel = (index: number) => {
@@ -186,7 +177,7 @@ function TradesOfPepper() {
 		filteredTrades.forEach((trade, index) => {
 			const rowData = [
 				(index + 1).toString(),
-				formatDate(trade.date),
+				getFormattedDate(trade.date),
 				getClassLabel(trade.clas),
 				getColorLabel(trade.color),
 				trade.price.toString(),
@@ -210,6 +201,14 @@ function TradesOfPepper() {
 			link.download = 'transakcje_papryki.xlsx'
 			link.click()
 		})
+	}
+
+	const getFormattedDate = (dateString: string) => {
+		const date = new Date(dateString)
+		const day = date.getDate().toString().padStart(2, '0')
+		const month = (date.getMonth() + 1).toString().padStart(2, '0')
+		const year = date.getFullYear()
+		return `${day}.${month}.${year}`
 	}
 
 	if (loading) {
@@ -247,7 +246,7 @@ function TradesOfPepper() {
 								<TradeOfPepperItem
 									key={trade._id}
 									index={index + 1}
-									date={formatDate(trade.date)}
+									date={getFormattedDate(trade.date)}
 									clas={getClassLabel(trade.clas)}
 									color={getColorLabel(trade.color)}
 									price={trade.price}
