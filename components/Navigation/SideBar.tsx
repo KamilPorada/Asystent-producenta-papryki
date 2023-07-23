@@ -86,7 +86,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('outgoings')}
 					/>
 					<MenuButton
-						links={['balance-of-pepper-trades', 'balance-of-outgoings']}
+						links={['/balance-of-pepper-trades', '/balance-of-outgoings']}
 						title='Bilans zysków i strat'
 						icon={faScaleBalanced}
 						submenuIcon={true}
@@ -95,7 +95,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('balanced')}
 					/>
 					<MenuButton
-						links={['new-operation/', '/operations']}
+						links={['/new-operation', '/operations']}
 						title='Zabiegi cheminizacyjne'
 						icon={faSkullCrossbones}
 						submenuIcon={true}
@@ -104,7 +104,7 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('pesticides')}
 					/>
 					<MenuButton
-						links={['new-fertigation/', '/fertigations']}
+						links={['/new-fertigation', '/fertigations']}
 						title='Dziennik fertygacji'
 						icon={faDroplet}
 						submenuIcon={true}
@@ -113,12 +113,12 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('fertigation')}
 					/>
 					<MenuButton
-						links={['/', '/', '/']}
+						links={['/new-note', '/notes']}
 						title='Notatki'
 						icon={faClipboard}
 						submenuIcon={true}
 						active={activeMenuButton === 'notes'}
-						submenuItems={['Nowa notatka', 'Lista notatek', 'Ważne daty']}
+						submenuItems={['Nowa notatka', 'Lista notatek']}
 						onClick={() => handleMenuButtonClick('notes')}
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>

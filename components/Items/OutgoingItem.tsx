@@ -54,7 +54,7 @@ const OutgoingItem: React.FC<{
 		return categoryOptions[categoryIndex]
 	}
 
-	const formatDate = (dateString: string) => {
+	const getformattedDate = (dateString: string) => {
 		const date = new Date(dateString)
 		const day = date.getDate()
 		const month = date.getMonth() + 1
@@ -81,7 +81,7 @@ const OutgoingItem: React.FC<{
 				</p>
 				<p className='leading-4 font-thin'>
 					<span className='font-semibold'>Data: </span>
-					{formatDate(props.date)}
+					{getformattedDate(props.date)}
 				</p>
 				<p className='leading-4 font-thin'>
 					<span className='font-semibold'>Cena: </span>
