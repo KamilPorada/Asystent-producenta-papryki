@@ -1,5 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react'
-import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 
 interface OperationFilterItemProps {
 	handleFilter: (filters: OperationFilters) => void
@@ -20,10 +19,6 @@ const OperationFilterItem: React.FC<OperationFilterItemProps> = props => {
 		pesticideType: 0,
 		status: 0,
 	})
-	const [loading, setLoading] = useState(true)
-	const { data: session } = useSession()
-	const userId = (session?.user as { id?: string })?.id ?? ''
-
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		props.handleFilter(filters)
@@ -89,7 +84,7 @@ const OperationFilterItem: React.FC<OperationFilterItemProps> = props => {
 								<input
 									type='radio'
 									value='planned'
-									checked={filters.status===1}
+									checked={filters.status === 1}
 									onChange={() => setFilters({ ...filters, status: 1 })}
 									className='mr-1'
 								/>
@@ -99,7 +94,7 @@ const OperationFilterItem: React.FC<OperationFilterItemProps> = props => {
 								<input
 									type='radio'
 									value='executed'
-									checked={filters.status===2}
+									checked={filters.status === 2}
 									onChange={() => setFilters({ ...filters, status: 2 })}
 									className='mr-1'
 								/>

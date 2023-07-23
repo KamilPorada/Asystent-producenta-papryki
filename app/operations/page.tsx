@@ -6,6 +6,7 @@ import SectionTitle from '@components/UI/SectionTitle'
 import OperationItem from '@components/Items/OperationItem'
 import OperationFilterItem from '@components/Items/OperationFilterItem'
 import ExcelJS from 'exceljs'
+import { isPast } from 'date-fns'
 
 interface Operation {
 	_id: string
@@ -52,8 +53,23 @@ const Operations = () => {
 				(operation: Operation) => operation.creator._id.toString() === userId.toString()
 			)
 
-			setAllOperations(filteredOperations)
-			setFilteredOperations(filteredOperations)
+			const currentYear = new Date().getFullYear()
+			const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
+				const operationYear = new Date(operation.date).getFullYear()
+				return operationYear === currentYear
+			})
+
+			const filteredOperationsNotExpired = filteredOperationsCurrentYear.filter((operation: Operation) => {
+				if (operation.status === true) {
+					return true
+				} else {
+					const operationDate = new Date(operation.date)
+					return !isPast(operationDate)
+				}
+			})
+
+			setAllOperations(filteredOperationsNotExpired)
+			setFilteredOperations(filteredOperationsNotExpired)
 		} catch (error) {
 			console.log(error)
 		} finally {

@@ -25,7 +25,7 @@ interface Outgoing {
 	describe: string
 }
 
-function page() {
+function Outgoings() {
 	const [allOutgoings, setAllOutgoings] = useState<Outgoing[]>([])
 	const [filteredOutgoings, setFilteredOutgoings] = useState<Outgoing[]>([])
 	const [loading, setLoading] = useState(true)
@@ -33,25 +33,31 @@ function page() {
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
 
-	const fetchOutgoinhs = async () => {
+	const fetchOutgoings = async () => {
 		try {
-			const response = await fetch('/api/outgoing')
-			const data = await response.json()
-
-			const filteredOutgoings = data.filter(
-				(outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString()
-			)
-
-			const sortedOutgoings = sortOutgoingsByDate(filteredOutgoings)
-
-			setAllOutgoings(sortedOutgoings)
-			setFilteredOutgoings(sortedOutgoings)
+		  const response = await fetch('/api/outgoing')
+		  const data = await response.json()
+	
+		  const filteredOutgoings = data.filter(
+			(outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString()
+		  )
+	
+		  const currentYear = new Date().getFullYear();
+		  const filteredOutgoingsCurrentYear = filteredOutgoings.filter((outgoing: Outgoing) => {
+			const outgoingYear = new Date(outgoing.date).getFullYear();
+			return outgoingYear === currentYear;
+		  });
+	
+		  const sortedOutgoings = sortOutgoingsByDate(filteredOutgoingsCurrentYear);
+	
+		  setAllOutgoings(sortedOutgoings);
+		  setFilteredOutgoings(sortedOutgoings);
 		} catch (error) {
-			console.log(error)
+		  console.log(error)
 		} finally {
-			setLoading(false)
+		  setLoading(false)
 		}
-	}
+	  }
 
 	const handleDelete = async (outgoing: Outgoing) => {
 		try {
@@ -95,14 +101,12 @@ function page() {
 		const workbook = new ExcelJS.Workbook()
 		const worksheet = workbook.addWorksheet('Wydatki')
 
-		// Ustawianie niestandardowych formatów dla nagłówków kolumn
 		const headerCellStyle = {
 			font: { bold: true, color: { argb: 'FFFFFF' } },
 			fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: '009000' } as ExcelJS.Color },
 			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
 		}
 
-		// Dodawanie nagłówków kolumn
 		worksheet.addRow(['Nazwa', 'Kategoria', 'Data', 'Cena', 'Ilość', 'Suma', 'Opis'])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
@@ -111,7 +115,6 @@ function page() {
 			cell.alignment = headerCellStyle.alignment
 		})
 
-		// Dodawanie danych
 		filteredOutgoings.forEach(outgoing => {
 			const rowData = [
 				outgoing.name,
@@ -125,12 +128,10 @@ function page() {
 			worksheet.addRow(rowData)
 		})
 
-		// Auto dopasowanie szerokości kolumn
 		worksheet.columns.forEach(column => {
 			column.width = 15
 		})
 
-		// Generowanie pliku XLSX
 		workbook.xlsx.writeBuffer().then(buffer => {
 			const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
 			const url = URL.createObjectURL(blob)
@@ -142,7 +143,7 @@ function page() {
 	}
 
 	useEffect(() => {
-		fetchOutgoinhs()
+		fetchOutgoings()
 	}, [loading])
 
 	if (loading) {
@@ -186,4 +187,4 @@ function page() {
 	)
 }
 
-export default page
+export default Outgoings

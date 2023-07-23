@@ -57,22 +57,15 @@ function TradesOfPepper() {
 		const filteredItems = allTrades.filter(trade => {
 			let matchesFilter = true
 
-			// Filtruj po dacie
 			if (date && formatDate(trade.date) !== formatDate(date)) {
 				matchesFilter = false
 			}
-
-			// Filtruj po klasie
 			if (clas && trade.clas !== clas) {
 				matchesFilter = false
 			}
-
-			// Filtruj po kolorze
 			if (color && trade.color !== color) {
 				matchesFilter = false
 			}
-
-			// Filtruj po punkcie sprzedaży
 			if (pointOfSale && trade.pointOfSaleId !== pointOfSale) {
 				matchesFilter = false
 			}
@@ -151,7 +144,13 @@ function TradesOfPepper() {
 
 			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
 
-			const sortedTrades = sortTradesByDate(filteredTrades)
+			const currentYear = new Date().getFullYear()
+			const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
+				const tradeYear = new Date(trade.date).getFullYear()
+				return tradeYear === currentYear
+			})
+
+			const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
 
 			setAllTrades(sortedTrades)
 			setFilteredTrades(sortedTrades)
