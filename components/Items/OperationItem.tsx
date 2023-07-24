@@ -24,9 +24,10 @@ const OperationItem: React.FC<{
 	waitingTimeDate: string
 	status: boolean
 	updatedStatus: boolean
-	handleDelete: () => Promise<void>
-	handleEdit: () => Promise<void>
 	handleUpdateStatus: () => Promise<void>
+	handleEdit: () => Promise<void>
+	handleDelete: () => Promise<void>
+	
 }> = props => {
 	const getOperationTypeName = (pesticideIndex: number) => {
 		switch (pesticideIndex) {

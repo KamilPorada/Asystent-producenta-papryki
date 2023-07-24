@@ -293,9 +293,9 @@ const Operations = () => {
 							waitingTimeDate={operation.waitingTimeDate}
 							status={operation.status}
 							updatedStatus={statusUpdated}
-							handleDelete={() => handleDelete(operation)}
-							handleEdit={() => handleEdit(operation)}
 							handleUpdateStatus={() => handleUpdateStatus(operation)}
+							handleEdit={() => handleEdit(operation)}
+							handleDelete={() => handleDelete(operation)}
 						/>
 					))
 				) : (

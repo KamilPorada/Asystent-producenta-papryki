@@ -68,12 +68,12 @@ function SideBar() {
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>
 					<MenuButton
-						links={['/new-trade-of-pepper', '/trades-of-pepper', '/new-point-of-sale', '/points-of-sale']}
+						links={['/new-trade-of-pepper', '/trades-of-pepper', '/new-invoice', '/invoices', '/new-point-of-sale', '/points-of-sale']}
 						title='Sprzedaż papryki'
 						icon={faArrowTrendUp}
 						submenuIcon={true}
 						active={activeMenuButton === 'trade'}
-						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Nowy punkt sprzedaży', 'Punkty sprzedaży']}
+						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Nowa faktura', 'Lista faktur', 'Nowy punkt sprzedaży', 'Punkty sprzedaży']}
 						onClick={() => handleMenuButtonClick('trade')}
 					/>
 					<MenuButton

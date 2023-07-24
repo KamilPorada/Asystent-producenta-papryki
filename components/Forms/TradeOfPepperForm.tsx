@@ -1,5 +1,4 @@
 import { FormEvent } from 'react'
-import { useState ,useEffect } from 'react'
 import Link from 'next/link'
 import Button from '@components/UI/Button'
 import SectionTitle from '@components/UI/SectionTitle'
