@@ -6,7 +6,9 @@ import SectionTitle from '@components/UI/SectionTitle'
 import OperationItem from '@components/Items/OperationItem'
 import OperationFilterItem from '@components/Items/OperationFilterItem'
 import ExcelJS from 'exceljs'
-import { isPast } from 'date-fns'
+import { isPast, isToday } from 'date-fns'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Operation {
 	_id: string
@@ -64,7 +66,7 @@ const Operations = () => {
 					return true
 				} else {
 					const operationDate = new Date(operation.date)
-					return !isPast(operationDate)
+					return !isPast(operationDate) || isToday(operationDate)					
 				}
 			})
 
@@ -86,6 +88,10 @@ const Operations = () => {
 			})
 
 			const filteredOperations = allOperations.filter(item => item._id !== operation._id)
+
+			toast.success('Pomyślnie usunięto zabieg cheminizacyjny!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllOperations(filteredOperations)
 			setLoading(true)
@@ -110,6 +116,9 @@ const Operations = () => {
 				}),
 			})
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano status zabiegu cheminizacyjnego!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/operations')
 				setStatusUpdated(true)
 			}

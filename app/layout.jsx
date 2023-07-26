@@ -1,6 +1,7 @@
 import Navigation from '@components/Navigation/Navigation'
 import Footer from '@components/HomePage/Footer'
 import Provider from '@components/Provider'
+import { ToastContainer, toast, Zoom, Bounce } from 'react-toastify'
 
 import '@styles/globals.css'
 
@@ -20,9 +21,10 @@ const RootLayout = ({ children }) => (
 		</head>
 		<body>
 			<Provider>
-				<Navigation/>
+				<Navigation />
 				<main className='app'>{children}</main>
-				<Footer/>
+				<Footer />
+				<ToastContainer draggable={false} transition={Zoom} autoClose={4000} />
 			</Provider>
 		</body>
 	</html>

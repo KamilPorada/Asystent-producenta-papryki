@@ -3,6 +3,8 @@ import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parseISO, format } from 'date-fns'
 import EditFertigationForm from '@components/Forms/FertigationForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function EditFertigation() {
 	const [fertigation, setFertigation] = useState({
@@ -50,6 +52,9 @@ function EditFertigation() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano dane zabiegu fertygacji!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/fertigations')
 			}
 		} catch (error) {

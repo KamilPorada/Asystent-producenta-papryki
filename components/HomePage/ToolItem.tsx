@@ -4,7 +4,7 @@ const ToolItem: React.FC<{
     describe: string
     imgLeft: boolean
   }> = props => {
-    const mainDivClasses = `flex flex-col sm:flex-row my-10 text-black ring-black ring-1 rounded-md bg-white overflow-hidden ${
+    const mainDivClasses = `flex flex-col sm:flex-row my-10 text-black ring-zinc-200 ring-1 rounded-md bg-white shadow-md overflow-hidden ${
       !props.imgLeft ? 'sm:flex-row-reverse' : ''
     }`;
   

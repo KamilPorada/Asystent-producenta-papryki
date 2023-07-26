@@ -3,6 +3,8 @@ import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewOutgoingForm from '@components/Forms/OutgoingForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewOutgoing() {
 	const [outgoing, setOutgoing] = useState({
@@ -47,6 +49,9 @@ function NewOutgoing() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie dodano nowy wydatek!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/outgoings')
 			} else {
 				throw new Error('Błąd podczas dodawania wydatku')

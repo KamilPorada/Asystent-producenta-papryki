@@ -1,8 +1,9 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { parseISO, format } from 'date-fns'
 import EditNoteForm from '@components/Forms/NoteForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function EditNote() {
 	const [note, setNote] = useState({
@@ -37,6 +38,9 @@ function EditNote() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano dane notatki!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/notes')
 			}
 		} catch (error) {

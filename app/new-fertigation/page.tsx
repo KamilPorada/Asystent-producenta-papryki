@@ -2,8 +2,9 @@
 import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { parseISO } from 'date-fns'
 import FertigationForm from '@components/Forms/FertigationForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewFertigation() {
 	const [fertigation, setFertigation] = useState({
@@ -54,6 +55,9 @@ function NewFertigation() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie utworzono nowy zabieg fertygacji!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/fertigations')
 			} else {
 				throw new Error('Błąd podczas dodawania zabiegu fertygacji')

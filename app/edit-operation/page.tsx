@@ -3,6 +3,8 @@ import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parseISO, format } from 'date-fns'
 import EditOperationForm from '@components/Forms/OperationForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function EditOperation() {
 	const [operation, setOperation] = useState({
@@ -61,6 +63,9 @@ function EditOperation() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano dane zebiegu cheminizacyjnego!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/operations')
 			}
 		} catch (error) {

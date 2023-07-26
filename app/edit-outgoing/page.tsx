@@ -3,6 +3,8 @@ import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { parseISO, format } from 'date-fns'
 import EditOutgoingForm from '@components/Forms/OutgoingForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function EditOutgoing() {
 	const [outgoing, setOutgoing] = useState({
@@ -45,6 +47,9 @@ function EditOutgoing() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano dane wydatku!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/outgoings')
 			}
 		} catch (error) {

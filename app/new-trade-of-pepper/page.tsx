@@ -3,6 +3,8 @@ import { useState, useEffect, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewTradeOfPepperForm from '@components/Forms/TradeOfPepperForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface PointOfSale {
 	_id: string
@@ -73,6 +75,9 @@ function NewTradeOfPepper() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie utworzono nową transakcje sprzedaży papryki!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/trades-of-pepper')
 			} else {
 				throw new Error('Błąd podczas dodawania nowej transakcji sprzedaży')

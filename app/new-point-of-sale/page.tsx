@@ -3,6 +3,8 @@ import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewPointOfSaleForm from '@components/Forms/PointOfSaleForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewPointOfSale() {
 	const [pointOfSale, setPointOfSale] = useState({
@@ -48,6 +50,9 @@ function NewPointOfSale() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie dodano nowy punkt sprzedaży!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/points-of-sale')
 			} else {
 				throw new Error('Błąd podczas dodawania punktu sprzedaży')

@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import PointOfSaleItem from '@components/Items/PointOfSaleItem'
 
@@ -53,6 +55,10 @@ function PointsOfSale() {
 			})
 
 			const filteredPoints = allPoints.filter(item => item._id !== point._id)
+
+			toast.success('Pomyślnie usunięto punkt sprzedaży!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllPoints(filteredPoints)
 			setLoading(true)

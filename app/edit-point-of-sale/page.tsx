@@ -2,6 +2,8 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import EditPointOfSaleForm from '@components/Forms/PointOfSaleForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function EditPointOfSale() {
 	const [pointOfSale, setPointOfSale] = useState({
@@ -46,6 +48,9 @@ function EditPointOfSale() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie edytowano dane punktu sprzedaży!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/points-of-sale')
 			}
 		} catch (error) {

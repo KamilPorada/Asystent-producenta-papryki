@@ -7,6 +7,8 @@ import SearchInput from '@components/UI/SearchInput'
 import FertigationItem from '@components/Items/FertigationItem'
 import Button from '@components/UI/Button'
 import ExcelJS from 'exceljs'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Fertigation {
 	_id: string
@@ -62,6 +64,10 @@ const Fertigations = () => {
 			})
 
 			const filteredFertigations = allFertigations.filter(item => item._id !== fertigation._id)
+
+			toast.success('Pomyślnie usunięto zabieg fertygacji!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllFertigations(filteredFertigations)
 			setLoading(true)

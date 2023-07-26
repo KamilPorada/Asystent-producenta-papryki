@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { parseISO, format } from 'date-fns'
 import EditTradeOfPepper from '@components/Forms/TradeOfPepperForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface PointOfSale {
 	_id: string
@@ -75,6 +77,9 @@ function EditPointOfSale() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie edytowano dane transakcji sprzedaży papryki!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/trades-of-pepper')
 			}
 		} catch (error) {

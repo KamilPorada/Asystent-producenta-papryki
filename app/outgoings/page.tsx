@@ -7,6 +7,8 @@ import SearchInput from '@components/UI/SearchInput'
 import OutgoingItem from '@components/Items/OutgoingItem'
 import Button from '@components/UI/Button'
 import ExcelJS from 'exceljs'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Outgoing {
 	_id: string
@@ -66,6 +68,10 @@ function Outgoings() {
 			})
 
 			const filteredOutgoings = allOutgoings.filter(item => item._id !== outgoing._id)
+
+			toast.success('Pomyślnie usunięto wydatek!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllOutgoings(filteredOutgoings)
 			setLoading(true)

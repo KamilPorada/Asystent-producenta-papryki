@@ -8,6 +8,8 @@ import TradeOfPepperTableHeader from '@components/Items/TradeOfPepperTableHeader
 import TradeOfPepperItem from '@components/Items/TradeOfPepperItem'
 import TradeOfPepperFilterItem from '@components/Items/TradeOfPepperFilterItem'
 import ExcelJS from 'exceljs'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface TradeOfPepper {
 	_id: string
@@ -108,6 +110,9 @@ function TradesOfPepper() {
 
 			const filteredTrades = allTrades.filter(item => item._id !== trade._id)
 
+			toast.success('Pomyślnie usunięto transakcję sprzedaży papryki!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 			setAllTrades(filteredTrades)
 			setLoading(true)
 		} catch (error) {

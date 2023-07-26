@@ -7,6 +7,8 @@ import SearchInput from '@components/UI/SearchInput'
 import NoteItem from '@components/Items/NoteItem'
 import Button from '@components/UI/Button'
 import ExcelJS from 'exceljs'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Note {
 	_id: string
@@ -60,6 +62,10 @@ function Notes() {
 			})
 
 			const filteredNotes = allNotes.filter(item => item._id !== note._id)
+
+			toast.success('Pomyślnie usunięto notatkę!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllNotes(filteredNotes)
 			setLoading(true)

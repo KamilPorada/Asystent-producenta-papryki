@@ -8,6 +8,8 @@ import InvoiceTableHeader from '@components/Items/InvoiceTableHeader'
 import InvoiceItem from '@components/Items/InvoiceItem'
 import InvoiceFilterItem from '@components/Items/InvoiceFilterItem'
 import ExcelJS from 'exceljs'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Invoice {
 	_id: string
@@ -87,6 +89,9 @@ function Invoices() {
 				}),
 			})
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano status faktury!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/invoices')
 				setStatusUpdated(true)
 			}
@@ -106,6 +111,10 @@ function Invoices() {
 			})
 
 			const filteredInvoices = allInvoices.filter(item => item._id !== invoice._id)
+
+			toast.success('Pomyślnie usunięto fakturę!', {
+				position: toast.POSITION.TOP_CENTER,
+			})
 
 			setAllInvoices(filteredInvoices)
 			setLoading(true)

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AddInvoiceForm from '@components/Forms/InvoiceForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface PointOfSale {
 	_id: string
@@ -59,6 +61,9 @@ function NewInvoice() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie dodano nową fakturę!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/invoices')
 			} else {
 				throw new Error('Błąd podczas dodawania nowej faktury')

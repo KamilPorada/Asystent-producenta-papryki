@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { parseISO, addDays } from 'date-fns'
 import OperationForm from '../../components/Forms/OperationForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewOperation() {
 	const [operation, setOperation] = useState({
@@ -45,7 +47,7 @@ function NewOperation() {
 
 		try {
 			const operationDate = parseISO(operation.date)
-			const waitingTimeInDays = Number(operation.waitingTime)+1
+			const waitingTimeInDays = Number(operation.waitingTime) + 1
 			const waitingTimeDate = addDays(operationDate, waitingTimeInDays)
 
 			const response = await fetch('/api/operation/new', {
@@ -65,6 +67,9 @@ function NewOperation() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie dodano nowy zabieg cheminizacyjny!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/operations')
 			} else {
 				throw new Error('Błąd podczas dodawania zabiegu pielęgnacyjnego')

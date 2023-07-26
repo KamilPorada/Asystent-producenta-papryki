@@ -3,6 +3,8 @@ import { useState, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import NewNoteForm from '@components/Forms/NoteForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function NewNotePage() {
 	const [note, setNote] = useState({
@@ -38,6 +40,9 @@ function NewNotePage() {
 			})
 			setError('')
 			if (response.ok) {
+				toast.success('Pomyślnie utworzono nową notatkę!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/notes')
 			} else {
 				throw new Error('Błąd podczas dodawania notatki')

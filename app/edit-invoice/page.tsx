@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { parseISO, format } from 'date-fns'
 import EditInvoiceForm from '@components/Forms/InvoiceForm'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface PointOfSale {
 	_id: string
@@ -62,6 +64,9 @@ function EditInvoice() {
 			})
 
 			if (response.ok) {
+				toast.success('Pomyślnie zaktualizowano dane faktury!', {
+					position: toast.POSITION.TOP_CENTER,
+				})
 				router.push('/invoices')
 			}
 		} catch (error) {
