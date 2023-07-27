@@ -13,7 +13,7 @@ import {
 	faSkullCrossbones,
 	faDroplet,
 	faClipboard,
-	faGears,
+	faUserPen,
 	faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -66,14 +66,35 @@ function SideBar() {
 						active={activeMenuButton === 'dashboard'}
 						onClick={() => handleMenuButtonClick('dashboard')}
 					/>
+					<MenuButton
+						links={['/my-account']}
+						title='Moje konto'
+						icon={faUserPen}
+						active={activeMenuButton === 'account'}
+						onClick={() => handleMenuButtonClick('account')}
+					/>
 					<div className='h-px w-full bg-zinc-600'></div>
 					<MenuButton
-						links={['/new-trade-of-pepper', '/trades-of-pepper', '/new-invoice', '/invoices', '/new-point-of-sale', '/points-of-sale']}
+						links={[
+							'/new-trade-of-pepper',
+							'/trades-of-pepper',
+							'/new-invoice',
+							'/invoices',
+							'/new-point-of-sale',
+							'/points-of-sale',
+						]}
 						title='Sprzedaż papryki'
 						icon={faArrowTrendUp}
 						submenuIcon={true}
 						active={activeMenuButton === 'trade'}
-						submenuItems={['Nowa transakcja', 'Lista transakcji', 'Nowa faktura', 'Lista faktur', 'Nowy punkt sprzedaży', 'Punkty sprzedaży']}
+						submenuItems={[
+							'Nowa transakcja',
+							'Lista transakcji',
+							'Nowa faktura',
+							'Lista faktur',
+							'Nowy punkt sprzedaży',
+							'Punkty sprzedaży',
+						]}
 						onClick={() => handleMenuButtonClick('trade')}
 					/>
 					<MenuButton
@@ -122,13 +143,6 @@ function SideBar() {
 						onClick={() => handleMenuButtonClick('notes')}
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>
-					<MenuButton
-						links={['/']}
-						title='Ustawienia'
-						icon={faGears}
-						active={activeMenuButton === 'settings'}
-						onClick={() => handleMenuButtonClick('settings')}
-					/>
 					<MenuButton links={['/']} title='Wyloguj się' icon={faRightFromBracket} onClick={handleSignOut} />
 				</div>
 				<footer className='absolute bottom-0 w-full -mx-2 mb-2 flex flex-col text-center text-white text-xs sm:text-sm font-light'>

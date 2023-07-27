@@ -17,6 +17,14 @@ const UserSchema = new Schema({
 	image: {
 		type: String,
 	},
+	area:{
+		type: Number,
+		required: [true, 'Podanie powierzchni gospodarstwa jest wymagane!'],
+	},
+	numberOfTunnels:{
+		type: Number,
+		required: [true, 'Podanie liczby tuneli jest wymagane!'],
+	}
 })
 
 const User = models.User || model('User', UserSchema)
