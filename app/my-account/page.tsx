@@ -2,7 +2,6 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import SectionTitle from '@components/UI/SectionTitle'
 import Button from '@components/UI/Button'
-import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import FarmDataForm from '../../components/Forms/FarmDataForm'
 import { toast } from 'react-toastify'

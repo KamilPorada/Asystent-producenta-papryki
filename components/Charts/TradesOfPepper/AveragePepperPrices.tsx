@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import ReactApexChart from 'react-apexcharts'
 import ChartArea from '@components/UI/ChartArea'
 
@@ -25,6 +26,9 @@ interface Props {
 }
 
 const PepperPrices: React.FC<Props> = ({ allTrades }) => {
+	const [numberOfTunnels, setNumberOfTunnels] = useState(0)
+	const { data: session } = useSession()
+	const userId = (session?.user as { id?: string })?.id ?? ''
 	const calculateAveragePrices = (trades: TradeOfPepper[]) => {
 		const monthlyPrices: number[] = [0, 0, 0, 0, 0, 0]
 		const monthlyWeights: number[] = [0, 0, 0, 0, 0, 0]
@@ -60,6 +64,41 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 
 	const averagePrices = calculateAveragePrices(allTrades)
 	const averageSeasonPrice = calculateAverageSeasonPrice(allTrades)
+
+	// Statystyki
+	const averagePricesByMonth = averagePrices.map((price, index) => ({
+		month: ['Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'][index],
+		price: price.toFixed(2),
+	}))
+
+	const calculateAverageProfitPerTunnel = (trades: TradeOfPepper[]): number => {
+		let totalSum = 0
+		trades.forEach(trade => {
+			totalSum += trade.totalSum
+		})
+		return totalSum / numberOfTunnels
+	}
+	const calculateAverageYieldPerTunnel = (trades: TradeOfPepper[]): number => {
+		let totalWeight = 0
+		trades.forEach(trade => {
+			totalWeight += trade.weight
+		})
+		return totalWeight / numberOfTunnels
+	}
+
+	const averageProfitPerTunnel = calculateAverageProfitPerTunnel(allTrades).toFixed(2)
+	const averageYieldPerTunnel = calculateAverageYieldPerTunnel(allTrades).toFixed()
+
+	useEffect(() => {
+		const getUserDetails = async () => {
+			const response = await fetch(`/api/user/${userId}`)
+			const data = await response.json()
+
+			setNumberOfTunnels(data.numberOfTunnels)
+		}
+
+		if (userId) getUserDetails()
+	}, [userId])
 
 	const [chartData] = useState<{ series: { data: number[]; name: string }[]; options: ApexCharts.ApexOptions }>(() => {
 		const options: ApexCharts.ApexOptions = {
@@ -123,15 +162,6 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 			options: options,
 		}
 	})
-
-	// Statystyki
-	const averagePricesByMonth = averagePrices.map((price, index) => ({
-		month: ['Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'][index],
-		price: price.toFixed(2),
-	}))
-
-	const averageProfitPerTunnel = (averageSeasonPrice * 1000).toFixed(2)
-	const averageYieldPerTunnel = ((averageSeasonPrice * 1000) / averagePrices.length).toFixed(2)
 
 	return (
 		<ChartArea className='w-full h-[420px] overflow-x-auto'>
