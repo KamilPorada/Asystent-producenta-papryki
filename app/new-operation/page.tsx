@@ -33,12 +33,7 @@ function NewOperation() {
 			setIsSubmitting(false)
 			return
 		}
-		if (
-			operation.pesticideType <= 0 ||
-			operation.pesticideDose <= 0 ||
-			operation.liquidAmount <= 0 ||
-			operation.waitingTime <= 0
-		) {
+		if (operation.pesticideType <= 0 || operation.pesticideDose <= 0 || operation.liquidAmount <= 0) {
 			setError('Wszystkie pola liczbowe powinny być większe zera!')
 
 			setIsSubmitting(false)
@@ -49,6 +44,10 @@ function NewOperation() {
 			const operationDate = parseISO(operation.date)
 			const waitingTimeInDays = Number(operation.waitingTime) + 1
 			const waitingTimeDate = addDays(operationDate, waitingTimeInDays)
+
+			const today = new Date().toISOString().slice(0, 10)
+			const isPastDate = operation.date < today
+			const status = isPastDate ? true : false
 
 			const response = await fetch('/api/operation/new', {
 				method: 'POST',
@@ -62,7 +61,7 @@ function NewOperation() {
 					liquidAmount: operation.liquidAmount,
 					waitingTime: operation.waitingTime,
 					waitingTimeDate: waitingTimeDate,
-					status: false,
+					status: status,
 				}),
 			})
 			setError('')

@@ -44,6 +44,7 @@ function TradesOfPepper() {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const storedYear = localStorage.getItem('selectedYear')
 
 	const handleShowFilters = () => {
 		setShowFilters(true)
@@ -135,31 +136,40 @@ function TradesOfPepper() {
 
 	const fetchTradesOfPepper = async () => {
 		try {
-			const response = await fetch('/api/trade-of-pepper')
-			const data = await response.json()
-
-			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
-
-			const currentYear = new Date().getFullYear()
-			const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
-				const tradeYear = new Date(trade.date).getFullYear()
-				return tradeYear === currentYear
-			})
-
-			const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
-
-			setAllTrades(sortedTrades)
-			setFilteredTrades(sortedTrades)
+		  const response = await fetch('/api/trade-of-pepper')
+		  const data = await response.json()
+	
+		  const filteredTrades = data.filter(
+			(trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString()
+		  )
+	
+		  const currentYear = new Date().getFullYear()
+	
+		  const selectedYear = storedYear ? parseInt(storedYear) : currentYear
+	
+		  const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
+			const tradeYear = new Date(trade.date).getFullYear()
+			return tradeYear === selectedYear
+		  })
+	
+		  const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
+	
+		  setAllTrades(sortedTrades)
+		  setFilteredTrades(sortedTrades)
 		} catch (error) {
-			console.log(error)
+		  console.log(error)
 		} finally {
-			setLoading(false)
+		  setLoading(false)
 		}
-	}
+	  }
 
 	useEffect(() => {
 		fetchTradesOfPepper()
 	}, [loading])
+
+	useEffect(() => {
+		fetchTradesOfPepper()
+	}, [storedYear])
 
 	const exportToXLS = () => {
 		const workbook = new ExcelJS.Workbook()

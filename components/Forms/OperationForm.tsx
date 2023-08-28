@@ -23,7 +23,7 @@ interface OperationFormProps {
 const OperationForm: React.FC<OperationFormProps> = props => {
 	const { type, operation, setOperation, submitting, handleSubmit } = props
 
-    return (
+	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
 			<SectionTitle title={type === 'ADD' ? 'Nowy zabieg chemizacyjny' : 'Edycja zabiegu chemizacyjnego'} />
 			<p className='mt-3 lg:text-lg text-center'>
@@ -49,7 +49,9 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 					/>
 				</label>
 				<label className='flex flex-col'>
-					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Rodzaj pestycytu</span>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>
+						{operation.pesticideType === 4 ? 'Rodzaj odżywki' : 'Rodzaj pestycydu'}
+					</span>
 					<select
 						value={operation?.pesticideType || 0}
 						onChange={e => setOperation({ ...operation, pesticideType: Number(e.target.value) })}
@@ -66,10 +68,13 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						<option value={3} className='text-sm'>
 							Herbicydy
 						</option>
+						<option value={4} className='text-sm'>
+							Odżywka
+						</option>
 					</select>
 				</label>
 				<label className='flex flex-col'>
-					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Nazwa pestycydu</span>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>{operation.pesticideType === 4 ? 'Nazwa odżywki' : 'Nazwa pestycydu'}</span>
 					<input
 						onChange={e => setOperation({ ...operation, pesticideName: e.target.value })}
 						type='text'
@@ -79,7 +84,7 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 					/>
 				</label>
 				<label className='flex flex-col'>
-					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Dawka pestycydu</span>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>{operation.pesticideType === 4 ? 'Dawka odżywki' : 'Dawka pestycydu'}</span>
 					<input
 						onChange={e => setOperation({ ...operation, pesticideDose: parseFloat(e.target.value) })}
 						type='number'
@@ -109,9 +114,7 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						value={operation?.waitingTime || ''}
 					/>
 				</label>
-				<p className='mt-1 text-center font-semibold text-red-500'>
-                    {props.error}
-				</p>
+				<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>
 				<div className='flex flex-row justify-center text-white'>
 					<Link href='/'>
 						<Button>Anuluj</Button>

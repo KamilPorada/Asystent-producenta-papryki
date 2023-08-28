@@ -7,6 +7,7 @@ import {
 	faBugs,
 	faViruses,
 	faSkullCrossbones,
+	faClover,
 	faCheck,
 	faDroplet,
 } from '@fortawesome/free-solid-svg-icons'
@@ -27,7 +28,6 @@ const OperationItem: React.FC<{
 	handleUpdateStatus: () => Promise<void>
 	handleEdit: () => Promise<void>
 	handleDelete: () => Promise<void>
-	
 }> = props => {
 	const getOperationTypeName = (pesticideIndex: number) => {
 		switch (pesticideIndex) {
@@ -37,6 +37,8 @@ const OperationItem: React.FC<{
 				return 'Zabieg grzybobójczy'
 			case 3:
 				return 'Zabieg chwastobójczy'
+			case 4:
+				return 'Zabieg pielęgnacyjny'
 			default:
 				return 'Zabieg'
 		}
@@ -49,6 +51,8 @@ const OperationItem: React.FC<{
 				return faViruses
 			case 3:
 				return faPagelines
+			case 4:
+				return faClover
 			default:
 				return faSkullCrossbones
 		}
@@ -109,9 +113,10 @@ const OperationItem: React.FC<{
 						</div>
 					</div>
 					<div className='w-48 py-2 border-b-[1px] border-zinc-300'>
-						<p className='text-lg font-semibold leading-7'>Dane pestycydu:</p>
+						<p className='text-lg font-semibold leading-7'>{props.pesticideType === 4 ? 'Dane odżywki:' : 'Dane pestycydu:'}</p>
 						<p className='leading-4 font-thin'>
-							<span className='font-bold'>Pestycyd:</span> {props.pesticideName}
+							<span className='font-bold'>{props.pesticideType === 4 ? 'Odżywka:' : 'Pestycyd:'}</span>{' '}
+							{props.pesticideName}
 						</p>
 						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Dawka:</span> {props.pesticideDose}ml/100l wody
