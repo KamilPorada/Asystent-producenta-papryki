@@ -17,6 +17,14 @@ const InvoiceItem: React.FC<{
 }> = props => {
 	const [showModal, setShowModal] = useState(false)
 
+	const formatNumber = (number: number) => {
+		return number.toLocaleString('pl-PL', {
+			style: 'currency',
+			currency: 'PLN',
+			minimumFractionDigits: 2,
+		})
+	}
+
 	const handleDeleteClick = async () => {
 		setShowModal(true)
 	}
@@ -48,13 +56,15 @@ const InvoiceItem: React.FC<{
 					<p className='w-16 h-full ring-1 ring-black'>{props.index}</p>
 					<p className='w-28 ring-1 ring-black'>{props.date}</p>
 					<p className='w-44 ring-1 ring-black'>{props.invoiceNumber}</p>
-					<p className='w-40 ring-1 ring-black'>{props.totalSum}</p>
+					<p className='w-40 ring-1 ring-black'>{formatNumber(props.totalSum)}</p>
 					<p className='w-80 ring-1 ring-black'>{props.pointOfSale}</p>
 					<p className='w-36 ring-1 ring-black'>{getStatusLabel(props.status)}</p>
 					<div className='flex flex-row justify-evenly w-44 ring-1 ring-black text-white'>
 						<button
 							className={`scale-75 px-[10px] bg-mainColor ${
-								props.status ? 'bg-gray-100 text-zinc-400 cursor-not-allowed ring-1 ring-zinc-400' : 'hover:bg-green-800 transition'
+								props.status
+									? 'bg-gray-100 text-zinc-400 cursor-not-allowed ring-1 ring-zinc-400'
+									: 'hover:bg-green-800 transition'
 							}`}
 							disabled={props.status}
 							onClick={handleUpdateStatus}>

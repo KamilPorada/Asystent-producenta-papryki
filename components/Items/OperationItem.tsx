@@ -10,6 +10,7 @@ import {
 	faClover,
 	faCheck,
 	faDroplet,
+	faSunPlantWilt
 } from '@fortawesome/free-solid-svg-icons'
 import { faPagelines } from '@fortawesome/free-brands-svg-icons'
 import Button from '@components/UI/Button'
@@ -39,6 +40,8 @@ const OperationItem: React.FC<{
 				return 'Zabieg chwastobójczy'
 			case 4:
 				return 'Zabieg pielęgnacyjny'
+			case 5:
+				return 'Stymulacja wzrostu'
 			default:
 				return 'Zabieg'
 		}
@@ -53,6 +56,8 @@ const OperationItem: React.FC<{
 				return faPagelines
 			case 4:
 				return faClover
+			case 5:
+				return faSunPlantWilt
 			default:
 				return faSkullCrossbones
 		}

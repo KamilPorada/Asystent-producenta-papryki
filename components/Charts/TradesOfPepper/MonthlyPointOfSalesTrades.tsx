@@ -1,62 +1,85 @@
-import React, { useState } from 'react'
-import ReactApexChart from 'react-apexcharts'
-import ChartArea from '@components/UI/ChartArea'
+import React, { useState } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import ChartArea from '@components/UI/ChartArea';
 
 interface TradeOfPepper {
-  _id: string
+  _id: string;
   creator: {
-    _id: string
-    email: string
-    username: string
-    image: string
-  }
-  pointOfSaleId: string
-  date: string
-  clas: number
-  color: number
-  price: number
-  weight: number
-  vatRate: number
-  totalSum: number
+    _id: string;
+    email: string;
+    username: string;
+    image: string;
+  };
+  pointOfSaleId: string;
+  date: string;
+  clas: number;
+  color: number;
+  price: number;
+  weight: number;
+  vatRate: number;
+  totalSum: number;
 }
 
 interface Props {
-  allTrades: TradeOfPepper[]
+  allTrades: TradeOfPepper[];
 }
 
 const PepperWeightsBySeller: React.FC<Props> = ({ allTrades }) => {
   const calculateWeightsBySellerAndMonth = (trades: TradeOfPepper[]) => {
-    const weightsBySellerAndMonth: { [sellerId: string]: number[] } = {}
+    const weightsBySellerAndMonth: { [sellerId: string]: number[] } = {};
 
-    trades.forEach(trade => {
-      const month = new Date(trade.date).getMonth()
-      const sellerId = trade.pointOfSaleId
+    trades.forEach((trade) => {
+      const month = new Date(trade.date).getMonth();
+      const sellerId = trade.pointOfSaleId;
 
-      if (month >= 5 && month <= 10) {
+      if (month >= 6 && month <= 10) {
         if (weightsBySellerAndMonth[sellerId]) {
-          weightsBySellerAndMonth[sellerId][month - 5] += trade.weight
+          weightsBySellerAndMonth[sellerId][month - 6] += trade.weight;
         } else {
-          weightsBySellerAndMonth[sellerId] = [0, 0, 0, 0, 0, 0]
-          weightsBySellerAndMonth[sellerId][month - 5] = trade.weight
+          weightsBySellerAndMonth[sellerId] = [0, 0, 0, 0, 0];
+          weightsBySellerAndMonth[sellerId][month - 6] = trade.weight;
         }
       }
-    })
+    });
 
-    return weightsBySellerAndMonth
-  }
+    return weightsBySellerAndMonth;
+  };
+  const calculateTotalSumsBySellerAndMonth = (trades: TradeOfPepper[]) => {
+    const totalSumBySellerAndMonth: { [sellerId: string]: number[] } = {};
 
-  const weightsBySellerAndMonth = calculateWeightsBySellerAndMonth(allTrades)
+    trades.forEach((trade) => {
+      const month = new Date(trade.date).getMonth();
+      const sellerId = trade.pointOfSaleId;
 
-  const sellers = Object.keys(weightsBySellerAndMonth)
-  const seriesData = sellers.map(sellerId => {
-    const sellerWeights = weightsBySellerAndMonth[sellerId]
+      if (month >= 6 && month <= 10) {
+        if (totalSumBySellerAndMonth[sellerId]) {
+          totalSumBySellerAndMonth[sellerId][month - 6] += trade.totalSum;
+        } else {
+          totalSumBySellerAndMonth[sellerId] = [0, 0, 0, 0, 0];
+          totalSumBySellerAndMonth[sellerId][month - 6] = trade.totalSum;
+        }
+      }
+    });
+
+    return totalSumBySellerAndMonth;
+  };
+
+  const weightsBySellerAndMonth = calculateWeightsBySellerAndMonth(allTrades);
+  const totalSumBySellerAndMonth = calculateTotalSumsBySellerAndMonth(allTrades);
+
+  const sellers = Object.keys(weightsBySellerAndMonth);
+  const seriesData = sellers.map((sellerId) => {
+    const sellerWeights = weightsBySellerAndMonth[sellerId];
     return {
       name: sellerId,
       data: sellerWeights,
-    }
-  })
+    };
+  });
 
-  const [chartData] = useState<{ series: { data: number[]; name: string }[]; options: ApexCharts.ApexOptions }>(() => {
+  const [chartData] = useState<{
+    series: { data: number[]; name: string }[];
+    options: ApexCharts.ApexOptions;
+  }>(() => {
     const options: ApexCharts.ApexOptions = {
       chart: {
         type: 'bar',
@@ -86,9 +109,9 @@ const PepperWeightsBySeller: React.FC<Props> = ({ allTrades }) => {
         text: 'Punkty sprzedaży',
       },
       xaxis: {
-        categories: ['Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'],
+        categories: ['Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'],
         labels: {
-          formatter: (value: string) => (parseInt(value)).toString() + ' kg',
+          formatter: (value: string) => parseInt(value).toString() + ' kg',
         },
       },
       yaxis: {
@@ -109,13 +132,13 @@ const PepperWeightsBySeller: React.FC<Props> = ({ allTrades }) => {
         horizontalAlign: 'left',
         offsetX: 40,
       },
-    }
+    };
 
     return {
       series: seriesData,
       options: options,
-    }
-  })
+    };
+  });
 
   return (
     <ChartArea className='w-full h-[420px]'>
@@ -126,7 +149,7 @@ const PepperWeightsBySeller: React.FC<Props> = ({ allTrades }) => {
         </div>
       </div>
     </ChartArea>
-  )
-}
+  );
+};
 
-export default PepperWeightsBySeller
+export default PepperWeightsBySeller;

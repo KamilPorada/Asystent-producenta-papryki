@@ -71,6 +71,9 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						<option value={4} className='text-sm'>
 							Odżywka
 						</option>
+						<option value={5} className='text-sm'>
+							Stymulator wzrostu
+						</option>
 					</select>
 				</label>
 				<label className='flex flex-col'>

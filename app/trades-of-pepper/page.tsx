@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import SectionTitle from '@components/UI/SectionTitle'
 import TradeOfPepperTableHeader from '@components/Items/TradeOfPepperTableHeader'
+import TradeOfPepperTableFooter from '@components/Items/TradeOfPepperTableFooter'
 import TradeOfPepperItem from '@components/Items/TradeOfPepperItem'
 import TradeOfPepperFilterItem from '@components/Items/TradeOfPepperFilterItem'
 import ExcelJS from 'exceljs'
@@ -30,10 +31,12 @@ interface TradeOfPepper {
 }
 
 interface TradeOfPepperFilters {
-	date: string
+	dateFrom: string
+	dateTo: string
 	clas: number
 	color: number
 	pointOfSale: string
+	vatRate: number
 }
 
 function TradesOfPepper() {
@@ -55,20 +58,43 @@ function TradesOfPepper() {
 	}
 
 	const handleFilter = (filters: TradeOfPepperFilters) => {
-		const { date, clas, color, pointOfSale } = filters
+		const { dateFrom, dateTo, clas, color, pointOfSale, vatRate } = filters
 
 		const filteredItems = allTrades.filter(trade => {
 			let matchesFilter = true
 
-			if (date && getFormattedDate(trade.date) !== getFormattedDate(date)) {
-				matchesFilter = false
+			if (dateFrom) {
+				const tradeDate = new Date(trade.date)
+				const fromDate = new Date(dateFrom)
+				tradeDate.setHours(0, 0, 0, 0)
+				fromDate.setHours(0, 0, 0, 0)
+				if (tradeDate < fromDate) {
+					matchesFilter = false
+				}
 			}
+
+			if (dateTo) {
+				const tradeDate = new Date(trade.date)
+				const toDate = new Date(dateTo)
+				tradeDate.setHours(0, 0, 0, 0)
+				toDate.setHours(0, 0, 0, 0)
+				if (tradeDate > toDate) {
+					matchesFilter = false
+				}
+			}
+
 			if (clas && trade.clas !== clas) {
 				matchesFilter = false
 			}
+
 			if (color && trade.color !== color) {
 				matchesFilter = false
 			}
+
+			if (vatRate !== -1 && trade.vatRate !== vatRate) {
+				matchesFilter = false
+			}
+
 			if (pointOfSale && trade.pointOfSaleId !== pointOfSale) {
 				matchesFilter = false
 			}
@@ -136,32 +162,30 @@ function TradesOfPepper() {
 
 	const fetchTradesOfPepper = async () => {
 		try {
-		  const response = await fetch('/api/trade-of-pepper')
-		  const data = await response.json()
-	
-		  const filteredTrades = data.filter(
-			(trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString()
-		  )
-	
-		  const currentYear = new Date().getFullYear()
-	
-		  const selectedYear = storedYear ? parseInt(storedYear) : currentYear
-	
-		  const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
-			const tradeYear = new Date(trade.date).getFullYear()
-			return tradeYear === selectedYear
-		  })
-	
-		  const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
-	
-		  setAllTrades(sortedTrades)
-		  setFilteredTrades(sortedTrades)
+			const response = await fetch('/api/trade-of-pepper')
+			const data = await response.json()
+
+			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
+
+			const currentYear = new Date().getFullYear()
+
+			const selectedYear = storedYear ? parseInt(storedYear) : currentYear
+
+			const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
+				const tradeYear = new Date(trade.date).getFullYear()
+				return tradeYear === selectedYear
+			})
+
+			const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
+
+			setAllTrades(sortedTrades)
+			setFilteredTrades(sortedTrades)
 		} catch (error) {
-		  console.log(error)
+			console.log(error)
 		} finally {
-		  setLoading(false)
+			setLoading(false)
 		}
-	  }
+	}
 
 	useEffect(() => {
 		fetchTradesOfPepper()
@@ -226,6 +250,20 @@ function TradesOfPepper() {
 		return `${day}.${month}.${year}`
 	}
 
+	const calculateSum = () => {
+		let totalSum = 0;
+		let weightSum = 0;
+	  
+		filteredTrades.forEach(trade => {
+		  totalSum += trade.totalSum;
+		  weightSum += trade.weight;
+		});
+	  
+		return { totalSum, weightSum };
+	  };
+	  
+	  const { totalSum, weightSum } = calculateSum();
+
 	if (loading) {
 		return (
 			<section className='container py-20'>
@@ -274,6 +312,7 @@ function TradesOfPepper() {
 								/>
 						  ))
 						: ''}
+						<TradeOfPepperTableFooter totalSum={totalSum} weightSum={weightSum} />
 				</div>
 			) : (
 				<p className='mt-10 text-black text-center'>Brak transakcji sprzedaży papryki</p>

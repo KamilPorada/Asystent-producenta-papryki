@@ -33,14 +33,14 @@ interface Props {
 function TradesOfPepperByMonth({ allTrades }: Props) {
 	const calculateMonthlySums = (trades: TradeOfPepper[]): number[] => {
 		const currentYear = new Date().getFullYear()
-		const monthlySums: number[] = [0, 0, 0, 0, 0, 0]
+		const monthlySums: number[] = [0, 0, 0, 0, 0]
 
 		trades.forEach(trade => {
 			const year = new Date(trade.date).getFullYear()
 			const month = new Date(trade.date).getMonth()
 
-			if (year === currentYear && month >= 5 && month <= 10) {
-				monthlySums[month - 5] += trade.totalSum
+			if (year === currentYear && month >= 6 && month <= 10) {
+				monthlySums[month - 6] += trade.totalSum
 			}
 		})
 
@@ -49,14 +49,14 @@ function TradesOfPepperByMonth({ allTrades }: Props) {
 
 	const calculateMonthlyWeights = (trades: TradeOfPepper[]): number[] => {
 		const currentYear = new Date().getFullYear()
-		const monthlyWeights: number[] = [0, 0, 0, 0, 0, 0]
+		const monthlyWeights: number[] = [0, 0, 0, 0, 0]
 
 		trades.forEach(trade => {
 			const year = new Date(trade.date).getFullYear()
 			const month = new Date(trade.date).getMonth()
 
-			if (year === currentYear && month >= 5 && month <= 10) {
-				monthlyWeights[month - 5] += trade.weight
+			if (year === currentYear && month >= 6 && month <= 10) {
+				monthlyWeights[month - 6] += trade.weight
 			}
 		})
 
@@ -99,7 +99,7 @@ function TradesOfPepperByMonth({ allTrades }: Props) {
 			},
 		},
 		xaxis: {
-			categories: ['Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'],
+			categories: ['Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad'],
 		},
 		yaxis: [
 			{

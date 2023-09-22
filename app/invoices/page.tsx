@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import SectionTitle from '@components/UI/SectionTitle'
 import InvoiceTableHeader from '@components/Items/InvoiceTableHeader'
+import InvoiceTableFooter from '@components/Items/InvoiceTableFooter'
 import InvoiceItem from '@components/Items/InvoiceItem'
 import InvoiceFilterItem from '@components/Items/InvoiceFilterItem'
 import ExcelJS from 'exceljs'
@@ -38,6 +39,7 @@ function Invoices() {
 	const [showFilters, setShowFilters] = useState(false)
 	const [statusUpdated, setStatusUpdated] = useState(false)
 	const [loading, setLoading] = useState(true)
+	const [totalSumSum, setTotalSumSum] = useState(0)
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
@@ -172,6 +174,12 @@ function Invoices() {
 		}
 	}, [statusUpdated])
 
+	useEffect(() => {
+		// Oblicz sumę totalSum wszystkich faktur
+		const totalSum = filteredInvoices.reduce((sum, invoice) => sum + invoice.totalSum, 0)
+		setTotalSumSum(totalSum)
+	}, [filteredInvoices])
+
 	const sortInvoicesByDate = (invoices: Invoice[]) => {
 		invoices.sort((a, b) => {
 			const dateA = new Date(a.date)
@@ -278,6 +286,7 @@ function Invoices() {
 							handleDelete={() => handleDelete(invoice)}
 						/>
 					))}
+					<InvoiceTableFooter totalSumSum={totalSumSum} />
 				</div>
 			) : (
 				<p className='mt-10 text-black text-center'>Brak faktur</p>

@@ -198,41 +198,51 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 					<p className='font-semibold text-center'>
 						Zbiory papryki w bieżącym sezonie w zależności od jej koloru oraz klasy w liczbach
 					</p>
-					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
-						<div className='flex flex-row items-center'>
-							<img src={red.src} alt='ikona czerwonej papryki' className='w-6 mr-3' />
-							<p>Papryka czerwona</p>
+					{colorWeights[0] > 0 && (
+						<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
+							<div className='flex flex-row items-center'>
+								<img src={red.src} alt='ikona czerwonej papryki' className='w-6 mr-3' />
+								<p>Papryka czerwona</p>
+							</div>
+							<p className='justify-self-end'>{colorWeights[0]?.toLocaleString('pl-PL') + ' kg'}</p>
 						</div>
-						<p className='justify-self-end'>{colorWeights[0]?.toLocaleString('pl-PL') + ' kg'}</p>
-					</div>
-					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
-						<div className='flex flex-row items-center'>
-							<img src={yellow.src} alt='ikona żółtej papryki' className='w-6 mr-3' />
-							<p>Papryka żółta</p>
+					)}
+					{colorWeights[1] > 0 && (
+						<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
+							<div className='flex flex-row items-center'>
+								<img src={yellow.src} alt='ikona żółtej papryki' className='w-6 mr-3' />
+								<p>Papryka żółta</p>
+							</div>
+							<p className='justify-self-end'>{colorWeights[1]?.toLocaleString('pl-PL') + ' kg'}</p>
 						</div>
-						<p className='justify-self-end'>{colorWeights[1]?.toLocaleString('pl-PL') + ' kg'}</p>
-					</div>
-					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
-						<div className='flex flex-row items-center'>
-							<img src={green.src} alt='ikona zielonej papryki' className='w-6 mr-3' />
-							<p>Papryka zielona</p>
+					)}
+					{colorWeights[2] > 0 && (
+						<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
+							<div className='flex flex-row items-center'>
+								<img src={green.src} alt='ikona zielonej papryki' className='w-6 mr-3' />
+								<p>Papryka zielona</p>
+							</div>
+							<p className='justify-self-end'>{colorWeights[2]?.toLocaleString('pl-PL') + ' kg'}</p>
 						</div>
-						<p className='justify-self-end'>{colorWeights[2]?.toLocaleString('pl-PL') + ' kg'}</p>
-					</div>
-					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
-						<div className='flex flex-row items-center'>
-							<img src={orange.src} alt='ikona pomarańczowej papryki' className='w-6 mr-3' />
-							<p>Papryka pomarańczowa</p>
+					)}
+					{colorWeights[3] > 0 && (
+						<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
+							<div className='flex flex-row items-center'>
+								<img src={orange.src} alt='ikona pomarańczowej papryki' className='w-6 mr-3' />
+								<p>Papryka pomarańczowa</p>
+							</div>
+							<p className='justify-self-end'>{colorWeights[3]?.toLocaleString('pl-PL') + ' kg'}</p>
 						</div>
-						<p className='justify-self-end'>{colorWeights[3]?.toLocaleString('pl-PL') + ' kg'}</p>
-					</div>
-					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
-						<div className='flex flex-row items-center'>
-							<img src={blond.src} alt='ikona blond papryki' className='w-6 mr-3' />
-							<p>Papryka blondyna</p>
+					)}
+					{colorWeights[4] > 0 && (
+						<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
+							<div className='flex flex-row items-center'>
+								<img src={blond.src} alt='ikona blond papryki' className='w-6 mr-3' />
+								<p>Papryka blondyna</p>
+							</div>
+							<p className='justify-self-end'>{colorWeights[4]?.toLocaleString('pl-PL') + ' kg'}</p>
 						</div>
-						<p className='justify-self-end'>{colorWeights[4]?.toLocaleString('pl-PL') + ' kg'}</p>
-					</div>
+					)}
 					<div className='flex flex-row justify-between items-center py-[px] border-b border-solid border-gray-400'>
 						<div className='flex flex-row items-center'>
 							<FontAwesomeIcon icon={fa1} className='mr-[15px] w-6 pl-1 font-bold text-2xl' />

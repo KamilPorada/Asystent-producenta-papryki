@@ -8,6 +8,7 @@ import NumberOfTradesPepper from '@components/Charts/TradesOfPepper/NumberOfTrad
 import ClassesOfPepper from '@components/Charts/TradesOfPepper/ColorsAndClassOfPepper'
 import AveragePepperPrices from '@components/Charts/TradesOfPepper/AveragePepperPrices'
 import MonthlyPointOfSalesTrades from '@components/Charts/TradesOfPepper/MonthlyPointOfSalesTrades'
+import PointOfSaleSum from '@components/Charts/TradesOfPepper/PointOfSalesSums'
 
 interface TradeOfPepper {
 	_id: string
@@ -66,6 +67,7 @@ function BalanceOfPepperTrades() {
 					<ClassesOfPepper allTrades={allTrades} />
 					<AveragePepperPrices allTrades={allTrades} />
 					<MonthlyPointOfSalesTrades allTrades={allTrades} />
+					<PointOfSaleSum allTrades={allTrades}/>
 				</div>
 			) : (
 				<p className='mt-10 md:text-lg text-center'>Wczytywanie danych...</p>
