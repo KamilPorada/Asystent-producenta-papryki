@@ -55,13 +55,13 @@ const Operations = () => {
 				(operation: Operation) => operation.creator._id.toString() === userId.toString()
 			)
 
-			const currentYear = new Date().getFullYear()
-			const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
-				const operationYear = new Date(operation.date).getFullYear()
-				return operationYear === currentYear
-			})
+			// const currentYear = new Date().getFullYear()
+			// const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
+			// 	const operationYear = new Date(operation.date).getFullYear()
+			// 	return operationYear === currentYear
+			// })
 
-			const filteredOperationsNotExpired = filteredOperationsCurrentYear.filter((operation: Operation) => {
+			const filteredOperationsNotExpired = filteredOperations.filter((operation: Operation) => {
 				if (operation.status === true) {
 					return true
 				} else {

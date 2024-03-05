@@ -38,16 +38,16 @@ function Notes() {
 
 			const filteredNotes = data.filter((note: Note) => note.creator._id.toString() === userId.toString())
 
-			const currentYear = new Date().getFullYear()
-			const filteredNotesCurrentYear = filteredNotes.filter((note: Note) => {
-				const noteYear = new Date(note.date).getFullYear()
-				return noteYear === currentYear
-			})
+			// const currentYear = new Date().getFullYear()
+			// const filteredNotesCurrentYear = filteredNotes.filter((note: Note) => {
+			// 	const noteYear = new Date(note.date).getFullYear()
+			// 	return noteYear === currentYear
+			// })
 
-			const sortedNotes = sortNotesByDate(filteredNotesCurrentYear)
+			// const sortedNotes = sortNotesByDate(filteredNotesCurrentYear)
 
-			setAllNotes(sortedNotes)
-			setFilteredNotes(sortedNotes)
+			setAllNotes(filteredNotes)
+			setFilteredNotes(filteredNotes)
 		} catch (error) {
 			console.log(error)
 		} finally {
