@@ -1,4 +1,4 @@
-import Operation from '@models/operation'
+import Operation from '@models/Operation'
 import { connectToDB } from '@utils/database'
 
 export const POST = async request => {
