@@ -1,16 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSun, faCloudSun, faCloud, faCloudRain, faSnowflake, faSmog } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect } from 'react'
+import Sun from '../../public/assets/icon/Sun.png'
+import CloudSun from '../../public/assets/icon/CloudSun.png'
+import Clouds from '../../public/assets/icon/Clouds.png'
+import CloudFoggy from '../../public/assets/icon/CloudFoggy.png'
+import CloudSnow from '../../public/assets/icon/CloudSnow.png'
+import CloudWind from '../../public/assets/icon/CloudWind.png'
+import CloudRain from '../../public/assets/icon/CloudRain.png'
+import CloudThunder from '../../public/assets/icon/CloudThunder.png'
 
 function WeatherItem() {
-    const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true)
 
-    const [weatherData, setWeatherData] = useState<any>(null)
+	const [weatherData, setWeatherData] = useState<any>(null)
 	const [forecastData, setForecastData] = useState<any>(null)
 	const [latitude, setLatitude] = useState<number>(0)
 	const [longitude, setLongitude] = useState<number>(0)
 
-    useEffect(() => {
+	useEffect(() => {
 		const API_KEY = '06ab3b2ba2fac212c63eb206d29a1be8'
 		const CITY_NAME = 'Kozieniec'
 
@@ -46,15 +52,25 @@ function WeatherItem() {
 	const renderWeatherIcon = (weatherType: string) => {
 		switch (weatherType) {
 			case 'Clear':
-				return <FontAwesomeIcon icon={faSun} />
+				return <img src={CloudFoggy.src} className='w-10'/>
 			case 'Clouds':
-				return <FontAwesomeIcon icon={faCloud} />
+				return <img src={CloudSun.src} className='w-10'/>
 			case 'Rain':
-				return <FontAwesomeIcon icon={faCloudRain} />
+				return <img src={CloudRain.src} className='w-10'/>
 			case 'Snow':
-				return <FontAwesomeIcon icon={faSnowflake} />
+				return <img src={CloudSnow.src} className='w-10'/>
 			case 'Mist':
-				return <FontAwesomeIcon icon={faSmog} />
+				return <img src={CloudFoggy.src} className='w-10'/>
+			case 'Few clouds':
+			case 'Scattered clouds':
+			case 'Broken clouds':
+				return <img src={Clouds.src} className='w-10'/>
+			case 'Windy':
+				return <img src={CloudWind.src} className='w-10'/>
+			case 'Thunderstorm':
+				return <img src={CloudThunder.src} className='w-10'/>
+			case 'Sleet':
+				return <img src={CloudSnow.src} className='w-10'/>
 			default:
 				return null
 		}
@@ -87,62 +103,37 @@ function WeatherItem() {
 		return <div>{forecastItems}</div>
 	}
 
-	const renderHourlyForecast = () => {
-		if (!forecastData || !forecastData.list) return null;
-	
-		const next24HoursForecast = forecastData.list.slice(0, 8);
-	
-		const hourlyForecastItems = next24HoursForecast.map((item: any, index: number) => {
-			const itemHour = new Date(item.dt_txt).getHours();
-	
-			if (itemHour % 3 === 0 || index === 0 || index === next24HoursForecast.length - 1) {
-				return (
-					<div key={index}>
-						<p>{item.dt_txt}</p>
-						<p>{kelvinToCelsius(item.main.temp)}°C</p>
-						{renderWeatherIcon(item.weather[0].main)}
+	return (
+		<section className='container py-20 text-black'>
+			<div>
+				{loading ? (
+					<p>Loading...</p>
+				) : weatherData ? (
+					<div>
+						<h1>
+							Pogoda w {weatherData.name}: {weatherData.weather[0].description}
+						</h1>
+						<h2>Temperatura: {kelvinToCelsius(weatherData.main.temp)}°C</h2>
+						<h2>Temperatura odczuwalna: {kelvinToCelsius(weatherData.main.feels_like)}°C</h2>
+						<p>Wilgotność: {weatherData.main.humidity}%</p>
+						<p>Ciśnienie: {weatherData.main.pressure} hPa</p>
+						<p>Prędkość wiatru: {weatherData.wind.speed.toFixed(1)} m/s</p>
+
+						<p>Współrzędne geograficzne:</p>
+						<p>Szerokość: {latitude}</p>
+						<p>Długość: {longitude}</p>
+
+						<h2>Prognoza na najbliższe 3 dni:</h2>
+						{renderForecast()}
 					</div>
-				);
-			} else {
-				return null; 
-			}
-		});
-	
-		return <div>{hourlyForecastItems}</div>;
-	};
-
-  return (
-    <section className='container py-20 text-black'>
-				<div>
-					{loading ? (
-						<p>Loading...</p>
-					) : weatherData ? (
-						<div>
-							<h1>
-								Pogoda w {weatherData.name}: {weatherData.weather[0].description}
-							</h1>
-							<h2>Temperatura: {kelvinToCelsius(weatherData.main.temp)}°C</h2>
-							<h2>Temperatura odczuwalna: {kelvinToCelsius(weatherData.main.feels_like)}°C</h2>
-							<p>Wilgotność: {weatherData.main.humidity}%</p>
-							<p>Ciśnienie: {weatherData.main.pressure} hPa</p>
-							<p>Prędkość wiatru: {weatherData.wind.speed.toFixed(1)} m/s</p>
-
-							<p>Współrzędne geograficzne:</p>
-							<p>Szerokość: {latitude}</p>
-							<p>Długość: {longitude}</p>
-
-							<h2>Prognoza na najbliższe 3 dni:</h2>
-							{renderForecast()}
-							------------------
-							<h2>Prognoza na najbliższe 24 godziny:</h2>
-							{renderHourlyForecast()}
-						</div>
-					) : (
-						<p>Nie udało się pobrać danych pogodowych</p>
-					)}
-				</div>
-			</section>
-  )
+				) : (
+					<p>Nie udało się pobrać danych pogodowych</p>
+				)}
+			</div>
+			la
+			<div>'</div>
+		</section>
+	)
 }
 
 export default WeatherItem

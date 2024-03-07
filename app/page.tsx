@@ -7,6 +7,7 @@ import OurTools from '@/components/HomePage/OurTools'
 import JoinToUs from '@/components/HomePage/JoinToUs'
 import DateItem from '@components/Items/DateItem'
 import { useSession } from 'next-auth/react'
+import WeatherItem from '@components/Items/WeatherItem'
 
 const Home = () => {
 	const { data: session } = useSession()
@@ -26,6 +27,7 @@ const Home = () => {
 		return (
 			<section className=' flex flex-row flex-wrap justify-center container py-20 text-black'>
 				<DateItem />
+				<WeatherItem/>
 			</section>
 		)
 	}

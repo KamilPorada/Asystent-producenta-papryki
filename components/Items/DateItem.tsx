@@ -45,7 +45,7 @@ const DateItem = () => {
     const diffDays: number = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
     return (
-        <div>
+        <div className='flex flex-col justify-center items-center'>
             <div className='pb-1 mb-1 border-b-[1px] border-mainColor text-secondaryColor text-center'>
                 <h2 className='text-center text-xl md:text-2xl'>
                     Witaj
@@ -60,7 +60,7 @@ const DateItem = () => {
                     bocznego!
                 </p>
             </div>
-            <div className='mt-4 md:text-lg text-center font-medium'>
+            <div className='mt-4 md:text-lg text-center font-medium ring-2 w-1/2 p-2 ring-white rounded-sm bg-white bg-opacity-50'>
                 <p className=''>Dziś jest </p>
                 <p className=''>
                     {date.getDate()} {month} {year}
@@ -70,8 +70,8 @@ const DateItem = () => {
                     {hours < 10 ? '0' + hours : hours}:{minutes < 10 ? '0' + minutes : minutes}:
                     {seconds < 10 ? '0' + seconds : seconds}
                 </p>
-                <p className='font-normal text-md mt-3'>Do końca roku pozostało: {diffDays} dni</p>
             </div>
+            <p className='font-semibold text-md mt-2 text-center'>Do końca roku pozostało: {diffDays} dni</p>
         </div>
     )
 }
