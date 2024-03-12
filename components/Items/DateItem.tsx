@@ -39,8 +39,7 @@ const DateItem = () => {
     const minutes = date.getMinutes()
     const seconds = date.getSeconds()
 
-    // Obliczanie dni pozostałych do końca roku
-    const endOfYear: Date = new Date(year, 11, 31) // 11 to indeks grudnia
+    const endOfYear: Date = new Date(year, 11, 31) 
     const diffTime: number = endOfYear.getTime() - date.getTime()
     const diffDays: number = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
