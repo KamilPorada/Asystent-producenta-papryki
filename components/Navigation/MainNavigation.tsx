@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Brand from '@components/UI/Brand'
+import logoGoogle from '../../public/assets/img/logo-google.png'
 
 import { signIn, useSession, getProviders } from 'next-auth/react'
 import { LiteralUnion, ClientSafeProvider } from 'next-auth/react'
@@ -50,10 +51,10 @@ function MainNavigation() {
 							signIn(provider.id)
 						}}
 						key={provider.id}>
-						<div className='bg-white p-2 ring-mainColor rounded'>
+						<div className='bg-gray-100 p-2 ring-mainColor rounded'>
 							<img
 								alt='Google "G" Logo'
-								src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png'
+								src={logoGoogle.src}
 								className='w-7 rounded-sm'
 							/>
 						</div>
