@@ -18,13 +18,11 @@ function WeatherItem() {
 
 	const [weatherData, setWeatherData] = useState<any>(null)
 	const [forecastData, setForecastData] = useState<any>(null)
-	const [latitude, setLatitude] = useState<number>(0)
-	const [longitude, setLongitude] = useState<number>(0)
 	const [currentDate, setCurrentDate] = useState('');
 
 
 	useEffect(() => {
-		const API_KEY = '06ab3b2ba2fac212c63eb206d29a1be8'
+		const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API;
 		const CITY_NAME = 'Kozieniec'
 
 		const fetchWeatherData = async () => {
@@ -40,8 +38,6 @@ function WeatherItem() {
 
 				setWeatherData(weatherData)
 				setForecastData(forecastData)
-				setLatitude(weatherData.coord.lat)
-				setLongitude(weatherData.coord.lon)
 				setLoading(false)
 			} catch (error) {
 				console.error('Error fetching weather data:', error)
@@ -94,18 +90,14 @@ function WeatherItem() {
 	const renderForecast = () => {
 		if (!forecastData || !forecastData.list) return null;
 	
-		// Obecna data w formacie "YYYY-MM-DD"
 		const currentDate = new Date().toISOString().split('T')[0];
 	
 		const forecastItems = forecastData.list
-			// Odrzucenie dzisiejszego dnia
 			.filter((item: { dt_txt: string }) => {
 				const itemDate = item.dt_txt.split(' ')[0];
 				return itemDate !== currentDate;
 			})
-			// Wybranie prognozy na 12:00 PM dla każdego dnia
-			.filter((item: { dt_txt: string }) => item.dt_txt.includes('15:00:00'))
-			// Wybranie prognozy na najbliższe 3 dni
+			.filter((item: { dt_txt: string }) => item.dt_txt.includes('12:00:00'))
 			.slice(0, 3)
 			.map((item: { dt_txt: string; weather: { main: string }[]; main: { temp: number } }, index: number) => {
 				const forecastDate = new Date(item.dt_txt);
@@ -114,9 +106,9 @@ function WeatherItem() {
 				
 				return (
 					<div key={index} className='w-full flex flex-row justify-between items-center py-2 '>
-						<p className='w-20 text-left'>{capitalizedDayOfWeek}</p> {/* Dzień tygodnia z wielkiej litery */}
-						{renderWeatherIcon(item.weather[0].main, 'w-8 h-7 filter drop-shadow-lg')} {/* Ikona pogody */}
-						<p className='font-semibold'>{kelvinToCelsius(item.main.temp)}°C</p> {/* Temperatura w stopniach Celcjusza */}
+						<p className='w-20 text-left'>{capitalizedDayOfWeek}</p>
+						{renderWeatherIcon(item.weather[0].main, 'w-8 h-7 filter drop-shadow-lg')}
+						<p className='font-semibold'>{kelvinToCelsius(item.main.temp)}°C</p>
 					</div>
 				);
 			});
@@ -156,7 +148,8 @@ function WeatherItem() {
 						</div>
 					</div>
 				) : (
-					<p>Nie udało się pobrać danych pogodowych</p>
+					<p className='mt-10 text-black text-center'>Nie udało się pobrać danych pogodowych!</p>
+
 				)}
 			</div>
 		</section>
