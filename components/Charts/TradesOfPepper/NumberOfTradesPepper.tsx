@@ -31,14 +31,12 @@ interface Props {
 
 function NumberOfTradesPepper({ allTrades }: Props) {
   const calculateMonthlyTransactionCount = (trades: TradeOfPepper[]): number[] => {
-    const currentYear = new Date().getFullYear();
     const monthlyTransactionCounts: number[] = [0, 0, 0, 0, 0];
 
     trades.forEach((trade) => {
-      const year = new Date(trade.date).getFullYear();
       const month = new Date(trade.date).getMonth();
 
-      if (year === currentYear && month >= 6 && month <= 10) {
+      if (month >= 6 && month <= 10) {
         monthlyTransactionCounts[month - 6] += 1;
       }
     });

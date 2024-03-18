@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
 import OutgoingItem from '@components/Items/OutgoingItem'
@@ -32,6 +33,7 @@ function Outgoings() {
 	const [filteredOutgoings, setFilteredOutgoings] = useState<Outgoing[]>([])
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
+	const { selectedYear } = useTopBar();
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
 
@@ -44,11 +46,10 @@ function Outgoings() {
 			(outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString()
 		  )
 	
-		  const currentYear = new Date().getFullYear();
-		  const filteredOutgoingsCurrentYear = filteredOutgoings.filter((outgoing: Outgoing) => {
-			const outgoingYear = new Date(outgoing.date).getFullYear();
-			return outgoingYear === currentYear;
-		  });
+		  const filteredOutgoingsCurrentYear = filteredOutgoings.filter((trade: Outgoing) => {
+			const outgoingYear = new Date(trade.date).getFullYear()
+			return outgoingYear === selectedYear
+		})
 	
 		  const sortedOutgoings = sortOutgoingsByDate(filteredOutgoingsCurrentYear);
 	
@@ -158,7 +159,7 @@ function Outgoings() {
 
 	useEffect(() => {
 		fetchOutgoings()
-	}, [loading])
+	}, [loading, selectedYear])
 
 	if (loading) {
 		return (
@@ -194,7 +195,7 @@ function Outgoings() {
 						/>
 					))
 				) : (
-					<p className='w-full mt-10 text-black text-center'>Brak wydatków</p>
+					<p className='w-full mt-10 text-black text-center'>Brak wydatków!</p>
 				)}
 			</div>
 		</section>

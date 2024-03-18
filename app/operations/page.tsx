@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import OperationItem from '@components/Items/OperationItem'
 import OperationFilterItem from '@components/Items/OperationFilterItem'
@@ -45,6 +46,8 @@ const Operations = () => {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { selectedYear } = useTopBar();
+
 
 	const fetchOperations = async () => {
 		try {
@@ -55,13 +58,12 @@ const Operations = () => {
 				(operation: Operation) => operation.creator._id.toString() === userId.toString()
 			)
 
-			// const currentYear = new Date().getFullYear()
-			// const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
-			// 	const operationYear = new Date(operation.date).getFullYear()
-			// 	return operationYear === currentYear
-			// })
+			const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
+				const operationYear = new Date(operation.date).getFullYear()
+				return operationYear === selectedYear
+			})
 
-			const filteredOperationsNotExpired = filteredOperations.filter((operation: Operation) => {
+			const filteredOperationsNotExpired = filteredOperationsCurrentYear.filter((operation: Operation) => {
 				if (operation.status === true) {
 					return true
 				} else {
@@ -245,7 +247,7 @@ const Operations = () => {
 
 	useEffect(() => {
 		fetchOperations()
-	}, [loading])
+	}, [loading, selectedYear])
 	useEffect(() => {
 		setStatusUpdated(false)
 	}, [])
@@ -308,7 +310,7 @@ const Operations = () => {
 						/>
 					))
 				) : (
-					<p className='mt-10 text-black text-center'>Brak zabiegów cheminizacyjnych</p>
+					<p className='mt-10 text-black text-center'>Brak zabiegów cheminizacyjnych!</p>
 				)}
 			</div>
 		</section>

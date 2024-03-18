@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import InvoiceTableHeader from '@components/Items/InvoiceTableHeader'
 import InvoiceTableFooter from '@components/Items/InvoiceTableFooter'
@@ -43,6 +44,8 @@ function Invoices() {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { selectedYear } = useTopBar();
+
 
 	const handleShowFilters = () => {
 		setShowFilters(true)
@@ -132,10 +135,9 @@ function Invoices() {
 
 			const filteredInvoices = data.filter((invoice: Invoice) => invoice.creator._id.toString() === userId.toString())
 
-			const currentYear = new Date().getFullYear()
-			const filteredInvoicesCurrentYear = filteredInvoices.filter((invoice: Invoice) => {
-				const invoiceYear = new Date(invoice.date).getFullYear()
-				return invoiceYear === currentYear
+			const filteredInvoicesCurrentYear = filteredInvoices.filter((trade: Invoice) => {
+				const invoiceYear = new Date(trade.date).getFullYear()
+				return invoiceYear === selectedYear
 			})
 
 			const invoicesWithStatusFalse = filteredInvoicesCurrentYear.filter((invoice: Invoice) => !invoice.status)
@@ -158,7 +160,7 @@ function Invoices() {
 
 	useEffect(() => {
 		fetchInvoices()
-	}, [loading])
+	}, [loading, selectedYear])
 
 	useEffect(() => {
 		setStatusUpdated(false)
@@ -289,7 +291,7 @@ function Invoices() {
 					<InvoiceTableFooter totalSumSum={totalSumSum} />
 				</div>
 			) : (
-				<p className='mt-10 text-black text-center'>Brak faktur</p>
+				<p className='mt-10 text-black text-center'>Brak faktur!</p>
 			)}
 		</section>
 	)

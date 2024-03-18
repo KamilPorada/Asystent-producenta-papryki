@@ -31,6 +31,6 @@
 		".next/types/**/*.ts",
 		"app/layout.jsx",
 		"app/new-point-of-sale/page.tsx"
-, "app/points-of-sale/page.tsx", "components/Charts/TradesOfPepperByMonth.tsx"	],
+, "app/points-of-sale/page.tsx", "components/Charts/TradesOfPepperByMonth.tsx", "components/contexts/TopBarContext.jsx"	],
 	"exclude": ["node_modules"]
 }

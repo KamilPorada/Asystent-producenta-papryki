@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import SectionTitle from '@components/UI/SectionTitle'
 import React from 'react'
+import { useTopBar } from '../../components/contexts/TopBarContext'
 import TradesOfPepperByMonth from '@components/Charts/TradesOfPepper/TradesOfPepperByMonth'
 import NumberOfTradesPepper from '@components/Charts/TradesOfPepper/NumberOfTradesPepper'
 import ClassesOfPepper from '@components/Charts/TradesOfPepper/ColorsAndClassOfPepper'
@@ -33,29 +34,39 @@ function BalanceOfPepperTrades() {
 	const [loading, setLoading] = useState(true)
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
-
-	const fetchTradesOfPepper = async () => {
-		try {
-			const response = await fetch('/api/trade-of-pepper')
-			const data = await response.json()
-
-			const currentYear = new Date().getFullYear()
-			const filteredTrades = data.filter((trade: TradeOfPepper) => {
-				const tradeYear = new Date(trade.date).getFullYear()
-				return trade.creator._id.toString() === userId.toString() && tradeYear === currentYear
-			})
-
-			setAllTrades(filteredTrades)
-		} catch (error) {
-			console.log(error)
-		} finally {
-			setLoading(false)
-		}
-	}
+	const { selectedYear } = useTopBar()
 
 	useEffect(() => {
+		const fetchTradesOfPepper = async () => {
+			try {
+				const response = await fetch('/api/trade-of-pepper')
+				const data = await response.json()
+
+				const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
+
+				const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
+					const tradeYear = new Date(trade.date).getFullYear()
+					return tradeYear === selectedYear
+				})
+
+				setAllTrades(filteredTradesCurrentYear)
+			} catch (error) {
+				console.log(error)
+			} finally {
+				setLoading(false)
+			}
+		}
+
 		fetchTradesOfPepper()
-	}, [loading])
+	}, [selectedYear, loading])
+
+	if (loading) {
+		return (
+			<section className='container py-20'>
+				<p className='mt-10 text-black text-center'>Wczytywanie danych...</p>
+			</section>
+		)
+	}
 
 	return (
 		<section className='container py-20 text-black'>
@@ -67,10 +78,10 @@ function BalanceOfPepperTrades() {
 					<ClassesOfPepper allTrades={allTrades} />
 					<AveragePepperPrices allTrades={allTrades} />
 					<MonthlyPointOfSalesTrades allTrades={allTrades} />
-					<PointOfSaleSum allTrades={allTrades}/>
+					<PointOfSaleSum allTrades={allTrades} />
 				</div>
 			) : (
-				<p className='mt-10 md:text-lg text-center'>Wczytywanie danych...</p>
+				<p className='mt-10 text-black text-center'>Brak danych z tego roku!</p>
 			)}
 		</section>
 	)

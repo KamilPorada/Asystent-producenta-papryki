@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
 import FertigationItem from '@components/Items/FertigationItem'
@@ -32,6 +33,7 @@ const Fertigations = () => {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { selectedYear } = useTopBar();
 
 	const fetchFertigations = async () => {
 		try {
@@ -42,12 +44,11 @@ const Fertigations = () => {
 				(fertigation: Fertigation) => fertigation.creator._id.toString() === userId.toString()
 			)
 
-			const currentYear = new Date().getFullYear()
-			const filteredFertigationsCurrentYear = filteredFertigations.filter((fertigation: Fertigation) => {
+			const filteredFerigationsCurrentYear = filteredFertigations.filter((fertigation: Fertigation) => {
 				const fertigationYear = new Date(fertigation.date).getFullYear()
-				return fertigationYear === currentYear
+				return fertigationYear === selectedYear
 			})
-			const sortedFertigations = sortFertigationsByDate(filteredFertigationsCurrentYear)
+			const sortedFertigations = sortFertigationsByDate(filteredFerigationsCurrentYear)
 			setAllFertigations(sortedFertigations)
 			setFilteredFertigations(sortedFertigations)
 		} catch (error) {
@@ -152,7 +153,7 @@ const Fertigations = () => {
 
 	useEffect(() => {
 		fetchFertigations()
-	}, [loading])
+	}, [loading, selectedYear])
 
 	if (loading) {
 		return (
@@ -186,7 +187,7 @@ const Fertigations = () => {
 						/>
 					))
 				) : (
-					<p className='mt-10 text-black text-center'>Brak zabiegów fertygacji</p>
+					<p className='mt-10 text-black text-center'>Brak zabiegów fertygacji!</p>
 				)}
 			</div>
 		</section>

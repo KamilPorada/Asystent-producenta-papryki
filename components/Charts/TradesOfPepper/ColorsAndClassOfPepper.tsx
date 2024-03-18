@@ -41,7 +41,7 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 			const year = new Date(trade.date).getFullYear()
 			const month = new Date(trade.date).getMonth()
 
-			if (year === currentYear && month >= 5 && month <= 10) {
+			if (month >= 5 && month <= 10) {
 				monthlyWeights[month - 5] += trade.weight
 			}
 		})
@@ -50,20 +50,16 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 	}
 
 	const calculateColorWeights = (trades: TradeOfPepper[]): number[] => {
-		const currentYear = new Date().getFullYear()
 		const colorWeights: { [color: number]: number } = {}
 
 		trades.forEach(trade => {
-			const year = new Date(trade.date).getFullYear()
 			const color = trade.color
 			const weight = trade.weight
 
-			if (year === currentYear) {
-				if (colorWeights[color]) {
-					colorWeights[color] += weight
-				} else {
-					colorWeights[color] = weight
-				}
+			if (colorWeights[color]) {
+				colorWeights[color] += weight
+			} else {
+				colorWeights[color] = weight
 			}
 		})
 
@@ -73,20 +69,16 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 	}
 
 	const calculateClassWeights = (trades: TradeOfPepper[]): number[] => {
-		const currentYear = new Date().getFullYear()
 		const classWeights: { [clas: number]: number } = {}
 
 		trades.forEach(trade => {
-			const year = new Date(trade.date).getFullYear()
 			const clas = trade.clas
 			const weight = trade.weight
 
-			if (year === currentYear) {
-				if (classWeights[clas]) {
-					classWeights[clas] += weight
-				} else {
-					classWeights[clas] = weight
-				}
+			if (classWeights[clas]) {
+				classWeights[clas] += weight
+			} else {
+				classWeights[clas] = weight
 			}
 		})
 

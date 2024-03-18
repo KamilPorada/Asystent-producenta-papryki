@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import TradeOfPepperTableHeader from '@components/Items/TradeOfPepperTableHeader'
 import TradeOfPepperTableFooter from '@components/Items/TradeOfPepperTableFooter'
@@ -47,7 +48,7 @@ function TradesOfPepper() {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
-	const storedYear = localStorage.getItem('selectedYear')
+	const { selectedYear } = useTopBar();
 
 	const handleShowFilters = () => {
 		setShowFilters(true)
@@ -167,10 +168,6 @@ function TradesOfPepper() {
 
 			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
 
-			const currentYear = new Date().getFullYear()
-
-			const selectedYear = storedYear ? parseInt(storedYear) : currentYear
-
 			const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
 				const tradeYear = new Date(trade.date).getFullYear()
 				return tradeYear === selectedYear
@@ -189,11 +186,7 @@ function TradesOfPepper() {
 
 	useEffect(() => {
 		fetchTradesOfPepper()
-	}, [loading])
-
-	useEffect(() => {
-		fetchTradesOfPepper()
-	}, [storedYear])
+	}, [loading, selectedYear])
 
 	const exportToXLS = () => {
 		const workbook = new ExcelJS.Workbook()
@@ -315,7 +308,7 @@ function TradesOfPepper() {
 						<TradeOfPepperTableFooter totalSum={totalSum} weightSum={weightSum} />
 				</div>
 			) : (
-				<p className='mt-10 text-black text-center'>Brak transakcji sprzedaży papryki</p>
+				<p className='mt-10 text-black text-center'>Brak transakcji sprzedaży papryki!</p>
 			)}
 		</section>
 	)

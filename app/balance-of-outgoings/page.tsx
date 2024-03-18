@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 import SectionTitle from '@components/UI/SectionTitle'
 import OutgoingsByMonth from '@components/Charts/Outgoings/OutgoingsByMonth'
 import OutgoingsByCategory from '@components/Charts/Outgoings/OutgoingsByCategory'
+import { useTopBar } from '../../components/contexts/TopBarContext';
+
 
 interface Outgoing {
 	_id: string
@@ -27,19 +29,21 @@ function BalanceOfOutgoings() {
 	const [loading, setLoading] = useState(true)
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { selectedYear } = useTopBar();
 
 	const fetchOutgoings = async () => {
 		try {
 			const response = await fetch('/api/outgoing')
 			const data = await response.json()
 
-			const currentYear = new Date().getFullYear()
-			const filteredOutgoings = data.filter((outgoing: Outgoing) => {
+			const filteredOutgoings = data.filter((outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString())
+
+			const filteredOutgoingsCurrentYear = filteredOutgoings.filter((outgoing: Outgoing) => {
 				const outgoingYear = new Date(outgoing.date).getFullYear()
-				return outgoing.creator._id.toString() === userId.toString() && outgoingYear === currentYear
+				return outgoingYear === selectedYear
 			})
 
-			setAllOutgoings(filteredOutgoings)
+			setAllOutgoings(filteredOutgoingsCurrentYear)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -49,7 +53,15 @@ function BalanceOfOutgoings() {
 
 	useEffect(() => {
 		fetchOutgoings()
-	}, [loading])
+	}, [loading, selectedYear])
+
+	if (loading) {
+		return (
+			<section className='container py-20'>
+				<p className='mt-10 text-black text-center'>Wczytywanie danych...</p>
+			</section>
+		)
+	}
 
 	return (
 		<section className='container py-20 text-black'>
@@ -60,7 +72,7 @@ function BalanceOfOutgoings() {
 					<OutgoingsByCategory allOutgoings={allOutgoings}/>
                 </div>
 			) : (
-				<p className='mt-10 md:text-lg text-center'>Wczytywanie danych...</p>
+				<p className='mt-10 text-black text-center'>Brak danych z tego roku!</p>
 			)}
 		</section>
 	)

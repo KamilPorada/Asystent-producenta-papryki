@@ -32,14 +32,12 @@ interface Props {
 
 function TradesOfPepperByMonth({ allTrades }: Props) {
 	const calculateMonthlySums = (trades: TradeOfPepper[]): number[] => {
-		const currentYear = new Date().getFullYear()
 		const monthlySums: number[] = [0, 0, 0, 0, 0]
 
 		trades.forEach(trade => {
-			const year = new Date(trade.date).getFullYear()
 			const month = new Date(trade.date).getMonth()
 
-			if (year === currentYear && month >= 6 && month <= 10) {
+			if (month >= 6 && month <= 10) {
 				monthlySums[month - 6] += trade.totalSum
 			}
 		})
@@ -48,14 +46,12 @@ function TradesOfPepperByMonth({ allTrades }: Props) {
 	}
 
 	const calculateMonthlyWeights = (trades: TradeOfPepper[]): number[] => {
-		const currentYear = new Date().getFullYear()
 		const monthlyWeights: number[] = [0, 0, 0, 0, 0]
 
 		trades.forEach(trade => {
-			const year = new Date(trade.date).getFullYear()
 			const month = new Date(trade.date).getMonth()
 
-			if (year === currentYear && month >= 6 && month <= 10) {
+			if (month >= 6 && month <= 10) {
 				monthlyWeights[month - 6] += trade.weight
 			}
 		})

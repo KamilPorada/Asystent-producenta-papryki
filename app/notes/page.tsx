@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useTopBar } from '../../components/contexts/TopBarContext';
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
 import NoteItem from '@components/Items/NoteItem'
@@ -30,6 +31,7 @@ function Notes() {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { selectedYear } = useTopBar();
 
 	const fetchNotes = async () => {
 		try {
@@ -38,16 +40,15 @@ function Notes() {
 
 			const filteredNotes = data.filter((note: Note) => note.creator._id.toString() === userId.toString())
 
-			// const currentYear = new Date().getFullYear()
-			// const filteredNotesCurrentYear = filteredNotes.filter((note: Note) => {
-			// 	const noteYear = new Date(note.date).getFullYear()
-			// 	return noteYear === currentYear
-			// })
+			const filteredNotesCurrentYear = filteredNotes.filter((note: Note) => {
+				const noteYear = new Date(note.date).getFullYear()
+				return noteYear === selectedYear
+			})
 
-			// const sortedNotes = sortNotesByDate(filteredNotesCurrentYear)
+			const sortedNotes = sortNotesByDate(filteredNotesCurrentYear)
 
-			setAllNotes(filteredNotes)
-			setFilteredNotes(filteredNotes)
+			setAllNotes(sortedNotes)
+			setFilteredNotes(sortedNotes)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -145,7 +146,7 @@ function Notes() {
 
 	useEffect(() => {
 		fetchNotes()
-	}, [loading])
+	}, [loading, selectedYear])
 
 	if (loading) {
 		return (
@@ -177,7 +178,7 @@ function Notes() {
 						/>
 					))
 				) : (
-					<p className='w-full mt-10 text-black text-center'>Brak notatek</p>
+					<p className='w-full mt-10 text-black text-center'>Brak notatek!</p>
 				)}
 			</div>
 		</section>
