@@ -1,6 +1,6 @@
 import Navigation from '@components/Navigation/Navigation'
 import Footer from '@components/HomePage/Footer'
-import { TopBarProvider } from '@components/contexts/TopBarContext' // Import TopBarProvider
+import { TopBarProvider } from '@components/contexts/TopBarContext'
 import Provider from '@components/Provider'
 import { ToastContainer, Zoom } from 'react-toastify'
 
@@ -8,7 +8,7 @@ import '@styles/globals.css'
 
 export const metadata = {
 	title: 'Asystent Producenta Papryki',
-	description: 'In the future...',
+	description: 'Strona internetowa oferująca wsparcie w skutecznym zarządzaniu produkcją papryki od posadzenia pierwszej sadzonki aż do ostatniego zbioru!',
 }
 
 const RootLayout = ({ children }) => (
@@ -18,12 +18,13 @@ const RootLayout = ({ children }) => (
 			<link
 				href='https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap'
 				rel='stylesheet'
+				as='style'
 			/>
 		</head>
 		<body>
-			<Provider> {/* Provider otacza całą aplikację */}
-				<TopBarProvider> {/* TopBarProvider jest renderowany wokół Navigation */}
-					<Navigation /> {/* Navigation, który ma dostęp do TopBarProvider */}
+			<Provider>
+				<TopBarProvider> 
+					<Navigation /> 
 					<main className='app'>{children}</main>
 				</TopBarProvider>
 				<Footer />

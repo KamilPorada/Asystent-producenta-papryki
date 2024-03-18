@@ -8,33 +8,44 @@ import image4 from '../../public/assets/img/pesticides-big.jpg'
 import image5 from '../../public/assets/img/fertigation-big.jpg'
 import image6 from '../../public/assets/img/notes-big.jpg'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faArrowTrendUp,
+	faArrowTrendDown,
+	faScaleBalanced,
+	faSkullCrossbones,
+	faDroplet,
+	faClipboard,
+} from '@fortawesome/free-solid-svg-icons'
+
 const OurTools = () => {
 	return (
 		<div className='container my-10'>
 			<SectionTitle title='Nasze narzędzia' />
 			<div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xl text-white'>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-mainColor rounded my-2 shadow-inner'>
-					<i className='fa-solid fa-arrow-trend-up text-4xl'></i>
+					<FontAwesomeIcon icon={faArrowTrendUp} className='text-4xl' />
 					<p className='ml-3'>Sprzedaż papryki</p>
 				</div>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-secondaryColor rounded my-2 shadow-inner'>
-					<i className='fa-solid fa-arrow-trend-down text-4xl'></i>
+					<FontAwesomeIcon icon={faArrowTrendDown} className='text-4xl' />
 					<p className='ml-3'>Wydatki</p>
 				</div>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-mainColor rounded my-2 shadow-inner sm:order-1 md:order-none'>
-					<i className='fa-solid fa-scale-balanced text-4xl'></i>
+					<FontAwesomeIcon icon={faScaleBalanced} className='text-4xl' />
 					<p className='ml-3'>Bilans zysków i strat</p>
 				</div>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-secondaryColor rounded my-2 shadow-inner sm:order-2 md:order-none'>
-					<i className='fa-solid fa-skull-crossbones text-4xl'></i>
+					{' '}
+					<FontAwesomeIcon icon={faSkullCrossbones} className='text-4xl' />
 					<p className='ml-3'>Zabiegi cheminizacyjne</p>
 				</div>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-mainColor rounded my-2 shadow-inner sm:order-1 md:order-none'>
-					<i className='fa-solid fa-droplet text-4xl'></i>
+					<FontAwesomeIcon icon={faDroplet} className='text-4xl' />
 					<p className='ml-3'>Dziennik fertygacji</p>
 				</div>
 				<div className='flex flex-row justify-center items-center w-full h-32 bg-secondaryColor rounded my-2 shadow-inner'>
-					<i className='fa-regular fa-clipboard text-4xl'></i>
+					<FontAwesomeIcon icon={faClipboard} className='text-4xl' />
 					<p className='ml-3'>Notatki</p>
 				</div>
 			</div>

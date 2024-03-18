@@ -19,8 +19,8 @@ const Home = () => {
 				<Header />
 				<AboutUs />
 				<HeroSeedling />
-				{/* <OurTools /> */}
-				{/* <JoinToUs /> */}
+				<OurTools />
+				<JoinToUs />
 			</>
 		)
 	} else {

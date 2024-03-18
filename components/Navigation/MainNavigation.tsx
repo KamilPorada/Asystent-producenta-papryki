@@ -52,11 +52,7 @@ function MainNavigation() {
 						}}
 						key={provider.id}>
 						<div className='bg-gray-100 p-2 ring-mainColor rounded'>
-							<img
-								alt='Google "G" Logo'
-								src={logoGoogle.src}
-								className='w-7 rounded-sm'
-							/>
+							<img alt='Google "G" Logo' src={logoGoogle.src} className='w-7 rounded-sm' />
 						</div>
 						<button className='mx-5'>Zaloguj się</button>
 					</div>
