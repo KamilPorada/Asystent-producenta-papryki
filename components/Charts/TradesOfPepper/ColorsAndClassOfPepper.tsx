@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import ReactApexChart from 'react-apexcharts'
+import dynamic from 'next/dynamic';
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import ChartArea from '@components/UI/ChartArea'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fa1, fa2, fa3, faWeightHanging } from '@fortawesome/free-solid-svg-icons'
