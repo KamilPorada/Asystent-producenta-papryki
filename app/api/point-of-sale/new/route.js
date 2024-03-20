@@ -1,6 +1,8 @@
 import PointOfSale from '@models/point-of-sale'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const POST = async request => {
 	const { userId, name, address, type, latitude, longitude } = await request.json()
 

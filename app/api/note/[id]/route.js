@@ -1,6 +1,8 @@
 import Note from '@models/note'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const GET = async (request, { params }) => {
 	try {
 		await connectToDB()

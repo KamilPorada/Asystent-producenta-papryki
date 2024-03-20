@@ -1,6 +1,8 @@
 import Fertigation from '@models/fertigation'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const POST = async request => {
 	const { userId, date, fertilizerName, numberOfTunnels, fertilizerDosePerTunnel, waterAmountPerTunnel } =
 		await request.json()

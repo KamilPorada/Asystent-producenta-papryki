@@ -1,6 +1,8 @@
 import NewInvoice from '@models/invoice'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const GET = async request => {
 	try {
 		await connectToDB()

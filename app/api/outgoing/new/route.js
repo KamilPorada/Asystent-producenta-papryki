@@ -1,6 +1,8 @@
 import Outgoing from '@models/outgoing'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const POST = async request => {
 	const { userId, name, category, date, price, amount, totalSum, describe } = await request.json()
 

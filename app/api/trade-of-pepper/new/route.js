@@ -1,6 +1,8 @@
 import TradeOfPepper from '@models/trade-of-pepper'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const POST = async request => {
 	const { pointOfSaleId, userId, date, clas, color, price, weight, vatRate, totalSum } = await request.json()
 

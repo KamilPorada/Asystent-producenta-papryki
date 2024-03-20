@@ -1,6 +1,9 @@
 import NewNote from "@models/note";
 import { connectToDB } from "@utils/database";
 
+
+export const dynamic = 'force-dynamic';
+
 export const GET = async (request) => {
     try {
         await connectToDB()

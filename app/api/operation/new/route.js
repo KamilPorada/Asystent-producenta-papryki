@@ -1,6 +1,8 @@
 import Operation from '@models/operationn'
 import { connectToDB } from '@utils/database'
 
+export const dynamic = 'force-dynamic';
+
 export const POST = async request => {
 	const { userId, date, time, pesticideType, pesticideName, pesticideDose, liquidAmount, waitingTime, waitingTimeDate, status  } = await request.json()
 
