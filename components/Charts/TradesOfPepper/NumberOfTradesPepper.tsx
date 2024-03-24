@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import ChartArea from '@components/UI/ChartArea';
@@ -31,29 +31,7 @@ interface Props {
 }
 
 function NumberOfTradesPepper({ allTrades }: Props) {
-  const calculateMonthlyTransactionCount = (trades: TradeOfPepper[]): number[] => {
-    const monthlyTransactionCounts: number[] = [0, 0, 0, 0, 0];
-
-    trades.forEach((trade) => {
-      const month = new Date(trade.date).getMonth();
-
-      if (month >= 6 && month <= 10) {
-        monthlyTransactionCounts[month - 6] += 1;
-      }
-    });
-
-    return monthlyTransactionCounts;
-  };
-
-  const monthlyTransactionCounts = calculateMonthlyTransactionCount(allTrades);
-
-  const [series] = useState<ChartData[]>([
-    {
-      name: 'Liczba transakcji w poszczególnych miesiącach sezonu',
-      data: monthlyTransactionCounts,
-    },
-  ]);
-
+  const [series, setSeries] = useState<ChartData[]>([]);
   const [options] = useState<any>({
     chart: {
       type: 'radar',
@@ -66,6 +44,31 @@ function NumberOfTradesPepper({ allTrades }: Props) {
     },
     colors: ['#00b000'],
   });
+
+  useEffect(() => {
+    const calculateMonthlyTransactionCount = (trades: TradeOfPepper[]): number[] => {
+      const monthlyTransactionCounts: number[] = [0, 0, 0, 0, 0];
+
+      trades.forEach((trade) => {
+        const month = new Date(trade.date).getMonth();
+
+        if (month >= 6 && month <= 10) {
+          monthlyTransactionCounts[month - 6] += 1;
+        }
+      });
+
+      return monthlyTransactionCounts;
+    };
+
+    const monthlyTransactionCounts = calculateMonthlyTransactionCount(allTrades);
+
+    setSeries([
+      {
+        name: 'Liczba transakcji w poszczególnych miesiącach sezonu',
+        data: monthlyTransactionCounts,
+      },
+    ]);
+  }, [allTrades]);
 
   return (
     <ChartArea className='w-full md:w-[340px] h-[420px]'>

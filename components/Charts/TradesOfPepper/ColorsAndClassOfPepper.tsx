@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import ChartArea from '@components/UI/ChartArea'
@@ -34,69 +34,14 @@ interface Props {
 }
 
 const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
-	const calculateMonthlyWeights = (trades: TradeOfPepper[]): number[] => {
-		const currentYear = new Date().getFullYear()
-		const monthlyWeights: number[] = [0, 0, 0, 0, 0, 0]
-
-		trades.forEach(trade => {
-			const year = new Date(trade.date).getFullYear()
-			const month = new Date(trade.date).getMonth()
-
-			if (month >= 5 && month <= 10) {
-				monthlyWeights[month - 5] += trade.weight
-			}
-		})
-
-		return monthlyWeights.map(weight => parseFloat(weight.toFixed(2)))
-	}
-
-	const calculateColorWeights = (trades: TradeOfPepper[]): number[] => {
-		const colorWeights: { [color: number]: number } = {}
-
-		trades.forEach(trade => {
-			const color = trade.color
-			const weight = trade.weight
-
-			if (colorWeights[color]) {
-				colorWeights[color] += weight
-			} else {
-				colorWeights[color] = weight
-			}
-		})
-
-		const colorWeightValues = Object.values(colorWeights)
-
-		return colorWeightValues
-	}
-
-	const calculateClassWeights = (trades: TradeOfPepper[]): number[] => {
-		const classWeights: { [clas: number]: number } = {}
-
-		trades.forEach(trade => {
-			const clas = trade.clas
-			const weight = trade.weight
-
-			if (classWeights[clas]) {
-				classWeights[clas] += weight
-			} else {
-				classWeights[clas] = weight
-			}
-		})
-
-		const classWeightValues = Object.values(classWeights)
-
-		return classWeightValues
-	}
-
-	const monthlyWeights = calculateMonthlyWeights(allTrades)
-	const annualHarvest = monthlyWeights.reduce((total, weight) => total + weight, 0)
-	const formattedAnnualHarvest = annualHarvest.toLocaleString('pl-PL')
-	const colorWeights = calculateColorWeights(allTrades)
-	const classWeights = calculateClassWeights(allTrades)
-
-	const [colorChartData] = useState<{ series: number[]; options: ApexCharts.ApexOptions }>({
-		series: colorWeights,
-		options: {
+	const [monthlyWeights, setMonthlyWeights] = useState<number[]>([]);
+    const [annualHarvest, setAnnualHarvest] = useState<number>(0);
+    const [formattedAnnualHarvest, setFormattedAnnualHarvest] = useState<string>('');
+    const [colorWeights, setColorWeights] = useState<number[]>([]);
+    const [classWeights, setClassWeights] = useState<number[]>([]);
+	const [colorChartData, setColorChartData] = useState<{ series: number[]; options: ApexCharts.ApexOptions }>({
+        series: [],
+        options: {
 			chart: {
 				type: 'donut',
 			},
@@ -137,11 +82,11 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 				},
 			},
 		},
-	})
+    });
 
-	const [classChartData] = useState<{ series: number[]; options: ApexCharts.ApexOptions }>({
-		series: classWeights,
-		options: {
+    const [classChartData, setClassChartData] = useState<{ series: number[]; options: ApexCharts.ApexOptions }>({
+        series: [],
+        options: {
 			chart: {
 				type: 'donut',
 			},
@@ -182,7 +127,84 @@ const ClassesOfPepper: React.FC<Props> = ({ allTrades }) => {
 				},
 			},
 		},
-	})
+    });
+
+	useEffect(() => {
+        const calculateMonthlyWeights = (trades: TradeOfPepper[]): number[] => {
+            const monthlyWeights: number[] = [0, 0, 0, 0, 0, 0]
+
+            trades.forEach(trade => {
+                const month = new Date(trade.date).getMonth()
+
+                if (month >= 5 && month <= 10) {
+                    monthlyWeights[month - 5] += trade.weight
+                }
+            })
+
+            return monthlyWeights.map(weight => parseFloat(weight.toFixed(2)))
+        }
+
+        const calculateColorWeights = (trades: TradeOfPepper[]): number[] => {
+			const colorWeights: { [color: number]: number } = {}
+	
+			trades.forEach(trade => {
+				const color = trade.color
+				const weight = trade.weight
+	
+				if (colorWeights[color]) {
+					colorWeights[color] += weight
+				} else {
+					colorWeights[color] = weight
+				}
+			})
+	
+			const colorWeightValues = Object.values(colorWeights)
+	
+			return colorWeightValues
+		}
+	
+		const calculateClassWeights = (trades: TradeOfPepper[]): number[] => {
+			const classWeights: { [clas: number]: number } = {}
+	
+			trades.forEach(trade => {
+				const clas = trade.clas
+				const weight = trade.weight
+	
+				if (classWeights[clas]) {
+					classWeights[clas] += weight
+				} else {
+					classWeights[clas] = weight
+				}
+			})
+	
+			const classWeightValues = Object.values(classWeights)
+	
+			return classWeightValues
+		}
+
+        const monthlyWeights = calculateMonthlyWeights(allTrades);
+        const annualHarvest = monthlyWeights.reduce((total, weight) => total + weight, 0);
+        const formattedAnnualHarvest = annualHarvest.toLocaleString('pl-PL');
+        const colorWeights = calculateColorWeights(allTrades);
+        const classWeights = calculateClassWeights(allTrades);
+
+        setMonthlyWeights(monthlyWeights);
+        setAnnualHarvest(annualHarvest);
+        setFormattedAnnualHarvest(formattedAnnualHarvest);
+        setColorWeights(colorWeights);
+        setClassWeights(classWeights);
+
+        setColorChartData(prevData => ({
+            ...prevData,
+            series: colorWeights
+        }));
+
+        setClassChartData(prevData => ({
+            ...prevData,
+            series: classWeights
+        }));
+
+    }, [allTrades]);
 
 	return (
 		<>
