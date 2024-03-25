@@ -17,7 +17,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { area, numberOfTunnels } = await request.json()
+	const { area, numberOfTunnels, cityName } = await request.json()
 
 	try {
 		await connectToDB()
@@ -30,6 +30,7 @@ export const PATCH = async (request, { params }) => {
 
 		existingFarmData.area = area
 		existingFarmData.numberOfTunnels = numberOfTunnels
+		existingFarmData.cityName = cityName
 
 		await existingFarmData.save()
 

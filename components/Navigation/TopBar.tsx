@@ -1,4 +1,3 @@
-// TopBar.js
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { useTopBar } from '../contexts/TopBarContext';

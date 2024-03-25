@@ -24,6 +24,10 @@ const UserSchema = new Schema({
 	numberOfTunnels:{
 		type: Number,
 		required: [true, 'Podanie liczby tuneli jest wymagane!'],
+	},
+	cityName:{
+		type: String,
+		required: [true, 'Podanie lokalizacji gospodarstwa jest wymagane!'],
 	}
 })
 

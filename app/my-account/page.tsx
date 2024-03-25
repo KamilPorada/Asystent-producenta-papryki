@@ -11,6 +11,7 @@ function MyAccount() {
 	const [farmData, setFarmData] = useState({
 		area: 0,
 		numberOfTunnels: 0,
+		cityName: ''
 	})
 	const [showForm, setShowForm] = useState(false)
 	const [submitting, setIsSubmitting] = useState(false)
@@ -28,6 +29,7 @@ function MyAccount() {
 				body: JSON.stringify({
 					area: farmData.area,
 					numberOfTunnels: farmData.numberOfTunnels,
+					cityName: farmData.cityName
 				}),
 			})
 			if (response.ok) {
@@ -58,6 +60,7 @@ function MyAccount() {
 				...farmData,
 				area: data.area,
 				numberOfTunnels: data.numberOfTunnels,
+				cityName: data.cityName
 			})
 		}
 
@@ -98,7 +101,7 @@ function MyAccount() {
 				) : (
 					<div className='data flex flex-row justify-around items-center mt-5'>
 						<div className='flex flex-col justify-center items-center w-1/2 text-center'>
-							<p className='leading-4 mb-1'>
+							<p className='leading-4 mb-1 text-center'>
 								Powierzchnia
 								<br />
 								gospodatstwa:
@@ -106,12 +109,20 @@ function MyAccount() {
 							<p className='text-lg font-semibold'>{farmData.area} ha</p>
 						</div>
 						<div className='flex flex-col justify-center items-center w-1/2'>
-							<p className='leading-4 mb-1'>
+							<p className='leading-4 mb-1 text-center'>
 								Liczba
 								<br />
 								tuneli:
 							</p>
 							<p className='text-lg font-semibold'>{farmData.numberOfTunnels}</p>
+						</div>
+						<div className='flex flex-col justify-center items-center w-1/2'>
+							<p className='leading-4 mb-1 text-center'>
+								Lokalizacja
+								<br />
+								gospodarstwa:
+							</p>
+							<p className='text-lg font-semibold'>{farmData.cityName}</p>
 						</div>
 					</div>
 				)}

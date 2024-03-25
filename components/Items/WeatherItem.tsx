@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 
 import Sun from '../../public/assets/icon/Sun.png'
 import CloudSun from '../../public/assets/icon/CloudSun.png'
@@ -18,12 +19,14 @@ function WeatherItem() {
 
 	const [weatherData, setWeatherData] = useState<any>(null)
 	const [forecastData, setForecastData] = useState<any>(null)
-	const [currentDate, setCurrentDate] = useState('');
-
+	const [currentDate, setCurrentDate] = useState('')
+	const [cityName, setCityName] = useState('Warszawa')
+	const { data: session } = useSession()
+	const userId = (session?.user as { id?: string })?.id ?? ''
 
 	useEffect(() => {
-		const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API;
-		const CITY_NAME = 'Kozieniec'
+		const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API
+		const CITY_NAME = cityName
 
 		const fetchWeatherData = async () => {
 			try {
@@ -33,28 +36,46 @@ function WeatherItem() {
 				const weatherResponse = await fetch(weatherUrl)
 				const weatherData = await weatherResponse.json()
 
+				if (weatherData.cod && weatherData.cod !== 200) {
+					throw new Error((weatherData as any).message)
+				}
+
 				const forecastResponse = await fetch(forecastUrl)
 				const forecastData = await forecastResponse.json()
+
+				if (forecastData.cod && forecastData.cod !== '200') {
+					throw new Error((forecastData as any).message)
+				}
 
 				setWeatherData(weatherData)
 				setForecastData(forecastData)
 				setLoading(false)
-			} catch (error) {
-				console.error('Error fetching weather data:', error)
+			} catch (error: any) {
+				console.error('Error fetching weather data:', error.message)
 				setLoading(false)
 			}
 		}
 
 		fetchWeatherData()
 
-		const currentDate = new Date().toLocaleDateString('pl-PL', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-        }).replace(/^\w/, (c) => c.toUpperCase())
-          .replace(/\b\w{3,}/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1));
-        setCurrentDate(currentDate);
-	}, [])
+		const currentDate = new Date()
+			.toLocaleDateString('pl-PL', {
+				weekday: 'long',
+				day: 'numeric',
+				month: 'long',
+			})
+			.replace(/^\w/, c => c.toUpperCase())
+			.replace(/\b\w{3,}/g, txt => txt.charAt(0).toUpperCase() + txt.slice(1))
+		setCurrentDate(currentDate)
+
+		const getUserDetails = async () => {
+			const response = await fetch(`/api/user/${userId}`)
+			const data = await response.json()
+
+			setCityName(data.cityName)
+		}
+		if (userId) getUserDetails()
+	}, [userId])
 
 	const kelvinToCelsius = (kelvin: number) => {
 		return (Math.round((kelvin - 273.15) * 2) / 2).toFixed(1)
@@ -88,60 +109,71 @@ function WeatherItem() {
 	}
 
 	const renderForecast = () => {
-		if (!forecastData || !forecastData.list) return null;
-	
-		const currentDate = new Date().toISOString().split('T')[0];
-	
+		if (!forecastData || !forecastData.list || !Array.isArray(forecastData.list) || forecastData.list.length === 0)
+			return null
+
+		const currentDate = new Date().toISOString().split('T')[0]
+
 		const forecastItems = forecastData.list
 			.filter((item: { dt_txt: string }) => {
-				const itemDate = item.dt_txt.split(' ')[0];
-				return itemDate !== currentDate;
+				const itemDate = item.dt_txt.split(' ')[0]
+				return itemDate !== currentDate
 			})
 			.filter((item: { dt_txt: string }) => item.dt_txt.includes('12:00:00'))
 			.slice(0, 3)
 			.map((item: { dt_txt: string; weather: { main: string }[]; main: { temp: number } }, index: number) => {
-				const forecastDate = new Date(item.dt_txt);
-				const dayOfWeek = forecastDate.toLocaleDateString('pl-PL', { weekday: 'long' });
-				const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
-				
+				const forecastDate = new Date(item.dt_txt)
+				const dayOfWeek = forecastDate.toLocaleDateString('pl-PL', { weekday: 'long' })
+				const capitalizedDayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)
+
 				return (
 					<div key={index} className='w-full flex flex-row justify-between items-center py-2 '>
 						<p className='w-20 text-left'>{capitalizedDayOfWeek}</p>
 						{renderWeatherIcon(item.weather[0].main, 'w-8 h-7 filter drop-shadow-lg')}
 						<p className='font-semibold'>{kelvinToCelsius(item.main.temp)}°C</p>
 					</div>
-				);
-			});
-	
-		return <div className='w-full flex flex-col justify-between items-center mt-3'>{forecastItems}</div>;
-	};
-	
+				)
+			})
+
+		return <div className='w-full flex flex-col justify-between items-center mt-3'>{forecastItems}</div>
+	}
 
 	return (
 		<section className='container py-2 text-black'>
 			<div className='flex justify-center items-center'>
 				{loading ? (
-					<p>Loading...</p>
+					<p>Ładowanie danych pogodowych...</p>
 				) : weatherData ? (
 					<div className='w-full sm:w-[300px] mt-1 border-t-[1px] border-mainColor text-secondaryColor text-center '>
 						<h2 className='text-center text-lg md:text-xl font-semibold mb-2 mt-1'>Prognoza pogody</h2>
 						<div className='flex flex-col justify-around items-center w-full bg-white bg-opacity-50 ring-2 ring-white rounded-sm p-3'>
-							<p className='text-lg md:text-xl font-semibold mb-5 text-secondaryColor'>Kozieniec</p>
+							<p className='text-lg md:text-xl font-semibold mb-5 text-secondaryColor'>{cityName}</p>
 							{renderWeatherIcon(weatherData.weather[0].main, 'w-28 filter drop-shadow-lg ')}
 							<p className='mt-5 text-3xl font-bold'>{kelvinToCelsius(weatherData.main.temp)}°C</p>
 							<p className='my-3'>{currentDate}</p>
 							<div className='flex flex-row justify-between items-center'>
 								<div className='flex flex-col justify-around items-center w-1/4 h-[120px] bg-white ring-gray-200 ring-1 rounded-md p-2'>
-									<img src={Wind.src} alt="Ikona wiatru" className='w-2/3 my-2'/>
-									<p className='text-sm font-medium'>{weatherData.wind.speed.toFixed(1)}<br/>m/s</p>
+									<img src={Wind.src} alt='Ikona wiatru' className='w-2/3 my-2' />
+									<p className='text-sm font-medium'>
+										{weatherData.wind.speed.toFixed(1)}
+										<br />
+										m/s
+									</p>
 								</div>
 								<div className='flex flex-col justify-around items-center w-1/4 h-[120px] bg-white ring-gray-200 ring-1 rounded-md p-2'>
-									<img src={Humidity.src} alt="Ikona wilgotności powietrza" className='w-2/3 my-2 '/>
-									<p className='text-sm font-medium'>{weatherData.main.humidity}<br/>%</p>
+									<img src={Humidity.src} alt='Ikona wilgotności powietrza' className='w-2/3 my-2 ' />
+									<p className='text-sm font-medium'>
+										{weatherData.main.humidity}
+										<br />%
+									</p>
 								</div>
 								<div className='flex flex-col justify-around items-center w-1/4 h-[120px] bg-white ring-gray-200 ring-1 rounded-md p-2'>
-									<img src={Barometre.src} alt="Ikona Barometru" className='w-2/3 my-2 '/>
-									<p className='text-sm font-medium'>{weatherData.main.pressure}<br/>hPa</p>
+									<img src={Barometre.src} alt='Ikona Barometru' className='w-2/3 my-2 ' />
+									<p className='text-sm font-medium'>
+										{weatherData.main.pressure}
+										<br />
+										hPa
+									</p>
 								</div>
 							</div>
 							{renderForecast()}
@@ -149,7 +181,6 @@ function WeatherItem() {
 					</div>
 				) : (
 					<p className='mt-10 text-black text-center'>Nie udało się pobrać danych pogodowych!</p>
-
 				)}
 			</div>
 		</section>
