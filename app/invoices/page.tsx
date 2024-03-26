@@ -133,7 +133,10 @@ function Invoices() {
 			const response = await fetch('/api/invoice')
 			const data = await response.json()
 
-			const filteredInvoices = data.filter((invoice: Invoice) => invoice.creator._id.toString() === userId.toString())
+			const filteredInvoices = data.filter((invoice: Invoice) => {
+				return invoice.creator && invoice.creator._id && invoice.creator._id.toString() === userId.toString();
+			});
+			
 
 			const filteredInvoicesCurrentYear = filteredInvoices.filter((trade: Invoice) => {
 				const invoiceYear = new Date(trade.date).getFullYear()

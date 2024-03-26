@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useTopBar } from '../../components/contexts/TopBarContext';
+import { useTopBar } from '../../components/contexts/TopBarContext'
 import SectionTitle from '@components/UI/SectionTitle'
 import SearchInput from '@components/UI/SearchInput'
 import NoteItem from '@components/Items/NoteItem'
@@ -31,14 +31,16 @@ function Notes() {
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
-	const { selectedYear } = useTopBar();
+	const { selectedYear } = useTopBar()
 
 	const fetchNotes = async () => {
 		try {
 			const response = await fetch('/api/note')
 			const data = await response.json()
 
-			const filteredNotes = data.filter((note: Note) => note.creator._id.toString() === userId.toString())
+			const filteredNotes = data.filter((note: Note) => {
+				return note.creator && note.creator._id && note.creator._id.toString() === userId.toString()
+			})
 
 			const filteredNotesCurrentYear = filteredNotes.filter((note: Note) => {
 				const noteYear = new Date(note.date).getFullYear()

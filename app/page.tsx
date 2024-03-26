@@ -1,17 +1,16 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import { useEffect } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import Header from '@/components/HomePage/Header'
 import AboutUs from '@/components/HomePage/AboutUs'
 import HeroSeedling from '@/components/HomePage/HeroSeedling'
 import OurTools from '@/components/HomePage/OurTools'
 import JoinToUs from '@/components/HomePage/JoinToUs'
 import DateItem from '@components/Items/DateItem'
-import { useSession } from 'next-auth/react'
 import WeatherItem from '@components/Items/WeatherItem'
 
 const Home = () => {
-	const { data: session } = useSession()
-	const userId = (session?.user as { id?: string })?.id ?? ''
+	const { data: session } = useSession();
 
 	if (!session?.user?.name) {
 		return (

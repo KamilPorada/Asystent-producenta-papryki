@@ -40,9 +40,10 @@ const Fertigations = () => {
 			const response = await fetch('/api/fertigation')
 			const data = await response.json()
 
-			const filteredFertigations = data.filter(
-				(fertigation: Fertigation) => fertigation.creator._id.toString() === userId.toString()
-			)
+			const filteredFertigations = data.filter((fertigation: Fertigation) => {
+				return fertigation.creator && fertigation.creator._id && fertigation.creator._id.toString() === userId.toString();
+			});
+			
 
 			const filteredFerigationsCurrentYear = filteredFertigations.filter((fertigation: Fertigation) => {
 				const fertigationYear = new Date(fertigation.date).getFullYear()

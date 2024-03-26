@@ -165,16 +165,16 @@ function TradesOfPepper() {
 		try {
 			const response = await fetch('/api/trade-of-pepper')
 			const data = await response.json()
-
-			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator._id.toString() === userId.toString())
-
+	
+			const filteredTrades = data.filter((trade: TradeOfPepper) => trade.creator && trade.creator._id && trade.creator._id.toString() === userId.toString())
+	
 			const filteredTradesCurrentYear = filteredTrades.filter((trade: TradeOfPepper) => {
 				const tradeYear = new Date(trade.date).getFullYear()
 				return tradeYear === selectedYear
 			})
-
+	
 			const sortedTrades = sortTradesByDate(filteredTradesCurrentYear)
-
+	
 			setAllTrades(sortedTrades)
 			setFilteredTrades(sortedTrades)
 		} catch (error) {
@@ -183,6 +183,7 @@ function TradesOfPepper() {
 			setLoading(false)
 		}
 	}
+	
 
 	useEffect(() => {
 		fetchTradesOfPepper()

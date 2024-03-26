@@ -101,7 +101,9 @@ function EditPointOfSale() {
 			const response = await fetch('/api/point-of-sale')
 			const data = await response.json()
 
-			const filteredPoints = data.filter((point: PointOfSale) => point.creator._id.toString() === userId.toString())
+			const filteredPoints = data.filter((point: PointOfSale) => {
+				return point.creator && point.creator._id && point.creator._id.toString() === userId.toString()
+			})
 
 			setPointOfSales(filteredPoints)
 			setLoading(false)

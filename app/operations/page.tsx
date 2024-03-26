@@ -54,9 +54,10 @@ const Operations = () => {
 			const response = await fetch('/api/operation')
 			const data = await response.json()
 
-			const filteredOperations = data.filter(
-				(operation: Operation) => operation.creator._id.toString() === userId.toString()
-			)
+			const filteredOperations = data.filter((operation: Operation) => {
+				return operation.creator && operation.creator._id && operation.creator._id.toString() === userId.toString();
+			});
+			
 
 			const filteredOperationsCurrentYear = filteredOperations.filter((operation: Operation) => {
 				const operationYear = new Date(operation.date).getFullYear()

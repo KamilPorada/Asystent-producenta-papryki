@@ -36,7 +36,10 @@ function BalanceOfOutgoings() {
 			const response = await fetch('/api/outgoing')
 			const data = await response.json()
 
-			const filteredOutgoings = data.filter((outgoing: Outgoing) => outgoing.creator._id.toString() === userId.toString())
+			const filteredOutgoings = data.filter((outgoing: Outgoing) => {
+				return outgoing.creator && outgoing.creator._id && outgoing.creator._id.toString() === userId.toString();
+			});
+			
 
 			const filteredOutgoingsCurrentYear = filteredOutgoings.filter((outgoing: Outgoing) => {
 				const outgoingYear = new Date(outgoing.date).getFullYear()

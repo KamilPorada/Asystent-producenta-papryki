@@ -26,27 +26,26 @@ function WeatherItem() {
 
 	useEffect(() => {
 		const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API
-		const CITY_NAME = cityName
-
-		const fetchWeatherData = async () => {
+	
+		const fetchWeatherData = async (city: string) => {
 			try {
-				const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${CITY_NAME}&appid=${API_KEY}&lang=pl`
-				const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${CITY_NAME}&appid=${API_KEY}&lang=pl`
-
+				const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&lang=pl`
+				const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&lang=pl`
+	
 				const weatherResponse = await fetch(weatherUrl)
 				const weatherData = await weatherResponse.json()
-
+	
 				if (weatherData.cod && weatherData.cod !== 200) {
 					throw new Error((weatherData as any).message)
 				}
-
+	
 				const forecastResponse = await fetch(forecastUrl)
 				const forecastData = await forecastResponse.json()
-
+	
 				if (forecastData.cod && forecastData.cod !== '200') {
 					throw new Error((forecastData as any).message)
 				}
-
+	
 				setWeatherData(weatherData)
 				setForecastData(forecastData)
 				setLoading(false)
@@ -55,26 +54,21 @@ function WeatherItem() {
 				setLoading(false)
 			}
 		}
-
-		fetchWeatherData()
-
-		const currentDate = new Date()
-			.toLocaleDateString('pl-PL', {
-				weekday: 'long',
-				day: 'numeric',
-				month: 'long',
-			})
-			.replace(/^\w/, c => c.toUpperCase())
-			.replace(/\b\w{3,}/g, txt => txt.charAt(0).toUpperCase() + txt.slice(1))
-		setCurrentDate(currentDate)
-
-		const getUserDetails = async () => {
-			const response = await fetch(`/api/user/${userId}`)
-			const data = await response.json()
-
-			setCityName(data.cityName)
+	
+		const fetchCityName = async () => {
+			if (userId) {
+				const response = await fetch(`/api/user/${userId}`)
+				const data = await response.json()
+				if (data.cityName) {
+					setCityName(data.cityName)
+					fetchWeatherData(data.cityName)
+				} else {
+					fetchWeatherData('Warszawa')
+				}
+			}
 		}
-		if (userId) getUserDetails()
+	
+		fetchCityName()
 	}, [userId])
 
 	const kelvinToCelsius = (kelvin: number) => {
