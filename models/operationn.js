@@ -18,9 +18,17 @@ const OperationSchema = new Schema({
 		type: Number,
 		required: [true, 'Podanie rodzaju pestycydu jest wymagane!'],
 	},
+	pestName: {
+		type: String,
+		required: [true, 'Podanie nazwy szkodnika jest wymagane!'],
+	},
 	pesticideName: {
 		type: String,
 		required: [true, 'Podanie nazwy pestycydu jest wymagane!'],
+	},
+	isLiquid: {
+		type: Boolean,
+		required: [true, 'Podanie rodzaju środka jest wymagane!'],
 	},
 	pesticideDose: {
 		type: Number,
@@ -41,6 +49,10 @@ const OperationSchema = new Schema({
 	status: {
 		type: Boolean,
 		required: [true, 'Podanie statusu zabiegu cheminizacyjnego jest wymagane!'],
+	},
+	note: {
+		type: String,
+		required: [true, 'Podanie treści notatki jest wymagane!'],
 	},
 })
 

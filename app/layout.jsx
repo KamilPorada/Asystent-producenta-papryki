@@ -8,7 +8,8 @@ import '@styles/globals.css'
 
 export const metadata = {
 	title: 'Asystent Producenta Papryki',
-	description: 'Strona internetowa oferująca wsparcie w skutecznym zarządzaniu produkcją papryki od posadzenia pierwszej sadzonki aż do ostatniego zbioru!',
+	description:
+		'Strona internetowa oferująca wsparcie w skutecznym zarządzaniu produkcją papryki od posadzenia pierwszej sadzonki aż do ostatniego zbioru!',
 }
 
 const RootLayout = ({ children }) => (
@@ -20,11 +21,12 @@ const RootLayout = ({ children }) => (
 				rel='stylesheet'
 				as='style'
 			/>
+			<link rel='shortcut icon' href='../public/assets/icon/pepper-hot-solid.svg' />
 		</head>
 		<body>
 			<Provider>
-				<TopBarProvider> 
-					<Navigation /> 
+				<TopBarProvider>
+					<Navigation />
 					<main className='app'>{children}</main>
 				</TopBarProvider>
 				<Footer />

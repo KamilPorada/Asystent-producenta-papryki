@@ -1,7 +1,7 @@
 import Operation from '@models/operationn'
 import { connectToDB } from '@utils/database'
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
 
 export const GET = async (request, { params }) => {
 	try {
@@ -17,7 +17,20 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { date, time, pesticideType, pesticideName, pesticideDose, liquidAmount, waitingTime, waitingTimeDate, status } = await request.json()
+	const {
+		date,
+		time,
+		pesticideType,
+		pestName,
+		pesticideName,
+		isLiquid,
+		pesticideDose,
+		liquidAmount,
+		waitingTime,
+		waitingTimeDate,
+		status,
+		note,
+	} = await request.json()
 
 	try {
 		await connectToDB()
@@ -31,13 +44,15 @@ export const PATCH = async (request, { params }) => {
 		existingOperation.date = date
 		existingOperation.time = time
 		existingOperation.pesticideType = pesticideType
+		existingOperation.pestName = pestName
 		existingOperation.pesticideName = pesticideName
+		existingOperation.isLiquid = isLiquid
 		existingOperation.pesticideDose = pesticideDose
 		existingOperation.liquidAmount = liquidAmount
 		existingOperation.waitingTime = waitingTime
 		existingOperation.waitingTimeDate = waitingTimeDate
 		existingOperation.status = status
-
+		existingOperation.note = note
 
 		await existingOperation.save()
 
@@ -46,7 +61,6 @@ export const PATCH = async (request, { params }) => {
 		return new Response('Błąd podczas edycji danych zabiegu cheminizacyjnego', { status: 500 })
 	}
 }
-  
 
 export const DELETE = async (request, { params }) => {
 	try {

@@ -11,12 +11,15 @@ function EditOperation() {
 		date: '',
 		time: '',
 		pesticideType: 0,
+		pestName: '',
 		pesticideName: '',
+		isLiquid: false,
 		pesticideDose: 0,
 		liquidAmount: 0,
 		waitingTime: 0,
 		waitingTimeDate: '',
 		status: false,
+		note: ''
 	})
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
@@ -52,12 +55,15 @@ function EditOperation() {
 					date: operation.date,
 					time: operation.time,
 					pesticideType: operation.pesticideType,
+					pestName: operation.pestName,
 					pesticideName: operation.pesticideName,
+					isLiquid: operation.isLiquid,
 					pesticideDose: operation.pesticideDose,
 					liquidAmount: operation.liquidAmount,
 					waitingTime: operation.waitingTime,
 					waitingTimeDate: operation.waitingTimeDate,
 					status: operation.status,
+					note: operation.note
 				}),
 			})
 
@@ -86,12 +92,15 @@ function EditOperation() {
 				date: formattedDate,
 				time: data.time,
 				pesticideType: data.pesticideType,
+				pestName: data.pestName,
 				pesticideName: data.pesticideName,
+				isLiquid: data.isLiquid,
 				pesticideDose: data.pesticideDose,
 				liquidAmount: data.liquidAmount,
 				waitingTime: data.waitingTime,
 				waitingTimeDate: formattedEndDate,
 				status: data.status,
+				note: data.note
 			})
 		}
 

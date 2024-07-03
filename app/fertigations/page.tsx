@@ -173,7 +173,7 @@ const Fertigations = () => {
 					Eksport do XLS
 				</Button>
 			</div>
-			<div className='flex flex-row justify-center items-center flex-wrap gap-x-12 gap-y-2 mt-5'>
+			<div className='flex flex-row justify-center items-center flex-wrap gap-x-12 gap-y-10 mt-5'>
 				{filteredFertigations.length > 0 ? (
 					filteredFertigations.map(fertigation => (
 						<FertigationItem

@@ -57,7 +57,7 @@ const FertigationForm: React.FC<FertigationFormProps> = props => {
 					<Slider
 						value={fertigation?.numberOfTunnels || 0}
 						min={1}
-						max={50}
+						max={57}
 						className='w-ful mt-2'
 						thumbClassName='absolute h-4 w-4 bg-mainColor rounded-full -translate-y-1/2'
 						trackClassName='h-[2px] bg-secondaryColor'

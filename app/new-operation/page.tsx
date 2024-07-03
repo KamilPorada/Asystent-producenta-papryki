@@ -12,10 +12,13 @@ function NewOperation() {
 		date: new Date().toISOString().slice(0, 10),
 		time: '',
 		pesticideType: 0,
+		pestName: '',
 		pesticideName: '',
+		isLiquid: false,
 		pesticideDose: 0,
 		liquidAmount: 0,
 		waitingTime: 0,
+		note: ''
 	})
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
@@ -56,12 +59,15 @@ function NewOperation() {
 					date: operation.date,
 					time: operation.time,
 					pesticideType: operation.pesticideType,
+					pestName: operation.pestName,
 					pesticideName: operation.pesticideName,
+					isLiquid: operation.isLiquid,
 					pesticideDose: operation.pesticideDose,
 					liquidAmount: operation.liquidAmount,
 					waitingTime: operation.waitingTime,
 					waitingTimeDate: waitingTimeDate,
 					status: status,
+					note : operation.note
 				}),
 			})
 			setError('')

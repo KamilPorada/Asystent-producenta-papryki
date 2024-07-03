@@ -22,12 +22,15 @@ interface Operation {
 	date: string
 	time: string
 	pesticideType: number
+	pestName: string
 	pesticideName: string
+	isLiquid: boolean
 	pesticideDose: number
 	liquidAmount: number
 	waitingTime: number
 	waitingTimeDate: string
 	status: boolean
+	note: string
 }
 
 interface OperationFilters {
@@ -110,12 +113,15 @@ const Operations = () => {
 					date: operation.date,
 					time: operation.time,
 					pesticideType: operation.pesticideType,
+					pestName : operation.pestName,
 					pesticideName: operation.pesticideName,
+					isLiquid: operation.isLiquid,
 					pesticideDose: operation.pesticideDose,
 					liquidAmount: operation.liquidAmount,
 					waitingTime: operation.waitingTime,
 					waitingTimeDate: operation.waitingTimeDate,
 					status: true,
+					note: operation.note
 				}),
 			})
 			if (response.ok) {
@@ -194,12 +200,14 @@ const Operations = () => {
 			'Data',
 			'Czas',
 			'Rodzaj pestycydu',
+			'Nazwa zwalczanego szkodnika',
 			'Nazwa pestycydu',
 			'Dawka pestycydu',
 			'Ilość cieczy roboczej',
 			'Karencja',
 			'Data zakończenia karencji',
 			'Status zabiegu',
+			'Notatka'
 		])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
@@ -214,12 +222,14 @@ const Operations = () => {
 				getFormattedDate(operation.date),
 				operation.time,
 				operation.pesticideType.toString(),
+				operation.pestName,
 				operation.pesticideName,
 				operation.pesticideDose.toString(),
 				operation.liquidAmount.toString(),
 				operation.waitingTime.toString(),
 				getFormattedDate(operation.waitingTimeDate),
 				operation.status ? 'Wykonane' : 'Zaplanowane',
+				operation.note
 			]
 			worksheet.addRow(rowData)
 		})
@@ -298,12 +308,15 @@ const Operations = () => {
 							date={operation.date}
 							time={operation.time}
 							pesticideType={operation.pesticideType}
+							pestName={operation.pestName}
 							pesticideName={operation.pesticideName}
+							isLiquid={operation.isLiquid}
 							pesticideDose={operation.pesticideDose}
 							liquidAmount={operation.liquidAmount}
 							waitingTime={operation.waitingTime}
 							waitingTimeDate={operation.waitingTimeDate}
 							status={operation.status}
+							note={operation.note}
 							updatedStatus={statusUpdated}
 							handleUpdateStatus={() => handleUpdateStatus(operation)}
 							handleEdit={() => handleEdit(operation)}

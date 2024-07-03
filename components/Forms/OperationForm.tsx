@@ -8,10 +8,13 @@ interface OperationFormProps {
 		date: string
 		time: string
 		pesticideType: number
+		pestName: string
 		pesticideName: string
+		isLiquid: boolean
 		pesticideDose: number
 		liquidAmount: number
 		waitingTime: number
+		note: string
 	}
 	type: string
 	setOperation: (operation: any) => void
@@ -77,7 +80,19 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 					</select>
 				</label>
 				<label className='flex flex-col'>
-					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>{operation.pesticideType === 4 ? 'Nazwa odżywki' : 'Nazwa pestycydu'}</span>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Zwalczany szkodnik</span>
+					<input
+						type='text'
+						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						placeholder='Wpisz nazwę szkodnika'
+						value={operation?.pestName || ''}
+						onChange={e => setOperation({ ...operation, pestName: e.target.value })}
+					/>
+				</label>
+				<label className='flex flex-col'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>
+						{operation.pesticideType === 4 ? 'Nazwa odżywki' : 'Nazwa pestycydu'}
+					</span>
 					<input
 						onChange={e => setOperation({ ...operation, pesticideName: e.target.value })}
 						type='text'
@@ -86,8 +101,19 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						value={operation?.pesticideName || ''}
 					/>
 				</label>
+				<label className='flex flex-row gap-2'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Preparat w płynie</span>
+					<input
+						type='checkbox'
+						checked={operation?.isLiquid || false}
+						onChange={e => setOperation({ ...operation, isLiquid: e.target.checked })}
+					/>
+				</label>
+
 				<label className='flex flex-col'>
-					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>{operation.pesticideType === 4 ? 'Dawka odżywki' : 'Dawka pestycydu'}</span>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>
+						{operation.pesticideType === 4 ? 'Dawka odżywki' : 'Dawka pestycydu'}
+					</span>
 					<input
 						onChange={e => setOperation({ ...operation, pesticideDose: parseFloat(e.target.value) })}
 						type='number'
@@ -115,6 +141,16 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						placeholder='Wpisz czas karencji [dni]'
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 						value={operation?.waitingTime || ''}
+					/>
+				</label>
+				<label className='flex flex-col'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Notatka</span>
+					<textarea
+						onChange={e => setOperation({ ...operation, note: e.target.value })}
+						placeholder='Wpisz treść notatki'
+						className='max-h-28 px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={operation?.note || ''}
+						maxLength={90}
 					/>
 				</label>
 				<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>

@@ -10,7 +10,7 @@ import {
 	faClover,
 	faCheck,
 	faDroplet,
-	faSunPlantWilt
+	faSunPlantWilt,
 } from '@fortawesome/free-solid-svg-icons'
 import { faPagelines } from '@fortawesome/free-brands-svg-icons'
 import Button from '@components/UI/Button'
@@ -19,12 +19,15 @@ const OperationItem: React.FC<{
 	date: string
 	time: string
 	pesticideType: number
+	pestName: string
 	pesticideName: string
+	isLiquid: boolean
 	pesticideDose: number
 	liquidAmount: number
 	waitingTime: number
 	waitingTimeDate: string
 	status: boolean
+	note: string
 	updatedStatus: boolean
 	handleUpdateStatus: () => Promise<void>
 	handleEdit: () => Promise<void>
@@ -100,7 +103,7 @@ const OperationItem: React.FC<{
 		<>
 			<div className='w-80 p-2 mt-3 ring-1 ring-zinc-300 bg-white text-black rounded shadow-sm'>
 				<div className='flex flex-col items-center w-full h-full'>
-					<div className='flex flex-col items-center w-48 pb-3 border-b-[1px] border-zinc-300'>
+					<div className='flex flex-col items-center w-52 pb-2 border-b-[1px] border-zinc-300'>
 						<p className='text-lg font-semibold leading-7'>{getOperationTypeName(props.pesticideType)}</p>
 						<div className='flex flex-row'>
 							<FontAwesomeIcon
@@ -116,21 +119,25 @@ const OperationItem: React.FC<{
 								</p>
 							</div>
 						</div>
+						<p className='mt-2 font-thin uppercase'>{props.pestName}</p>
 					</div>
-					<div className='w-48 py-2 border-b-[1px] border-zinc-300'>
-						<p className='text-lg font-semibold leading-7'>{props.pesticideType === 4 ? 'Dane odżywki:' : 'Dane pestycydu:'}</p>
+					<div className='w-52 py-2 border-b-[1px] border-zinc-300'>
+						<p className='text-lg font-semibold leading-7'>
+							{props.pesticideType === 4 ? 'Dane odżywki:' : 'Dane pestycydu:'}
+						</p>
 						<p className='leading-4 font-thin'>
 							<span className='font-bold'>{props.pesticideType === 4 ? 'Odżywka:' : 'Pestycyd:'}</span>{' '}
 							{props.pesticideName}
 						</p>
 						<p className='leading-4 font-thin'>
-							<span className='font-bold'>Dawka:</span> {props.pesticideDose}ml/100l wody
+							<span className='font-bold'>Dawka:</span> {props.pesticideDose}{props.isLiquid ? 'ml' : 'g'}/100l wody
 						</p>
+
 						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Ilość cieczy roboczej:</span> {props.liquidAmount}l
 						</p>
 					</div>
-					<div className='w-48 py-2 border-b-[1px] border-zinc-300'>
+					<div className='w-52 py-2 border-b-[1px] border-zinc-300'>
 						<p className='text-lg font-semibold leading-7'>Dane karencji:</p>
 						<p className='leading-4 font-thin'>
 							<span className='font-bold'>Karencja:</span> {props.waitingTime} dni
@@ -142,7 +149,13 @@ const OperationItem: React.FC<{
 							<span className='font-bold'>Status:</span> {props.status ? 'Zabieg wykonany' : 'Zabieg zaplanowany'}
 						</p>
 					</div>
-					<div className='flex flex-col justify-between items-center w-48 py-2  h-5/6 text-white border-b-[1px] border-zinc-300'>
+					<div className='w-52 py-2 border-b-[1px] border-zinc-300'>
+						<p className='text-lg font-semibold leading-7'>Notatka do zabiegu:</p>
+						<div className='flex items-center h-14'>
+							<p className='leading-4 font-thin'>{props.note}</p>
+						</div>
+					</div>
+					<div className='flex flex-col justify-between items-center w-52 py-2  h-5/6 text-white border-b-[1px] border-zinc-300'>
 						<Button
 							className='w-full mb-1 py-[1px] text-sm'
 							disabled={isPastDate || isExecuted}
