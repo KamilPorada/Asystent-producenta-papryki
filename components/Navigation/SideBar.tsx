@@ -13,6 +13,7 @@ import {
 	faSkullCrossbones,
 	faDroplet,
 	faClipboard,
+	faPeopleGroup,
 	faUserPen,
 	faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
@@ -141,6 +142,15 @@ function SideBar() {
 						active={activeMenuButton === 'notes'}
 						submenuItems={['Nowa notatka', 'Lista notatek']}
 						onClick={() => handleMenuButtonClick('notes')}
+					/>
+					<MenuButton
+						links={['/new-employee', '/employees']}
+						title='Pracownicy'
+						icon={faPeopleGroup}
+						submenuIcon={true}
+						active={activeMenuButton === 'employees'}
+						submenuItems={['Dodaj pracownika', 'Lista pracowników']}
+						onClick={() => handleMenuButtonClick('employees')}
 					/>
 					<div className='h-px w-full bg-zinc-600'></div>
 					<MenuButton links={['/']} title='Wyloguj się' icon={faRightFromBracket} onClick={handleSignOut} />
