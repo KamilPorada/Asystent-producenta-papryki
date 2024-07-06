@@ -22,6 +22,7 @@ interface Fertigation {
 	date: string
 	fertilizerName: string
 	numberOfTunnels: number
+	isLiquid: boolean
 	fertilizerDosePerTunnel: number
 	waterAmountPerTunnel: number
 }
@@ -109,7 +110,7 @@ const Fertigations = () => {
 			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
 		}
 
-		worksheet.addRow(['Data', 'Nazwa nawozu', 'Liczba tuneli', 'Dawka nawozu na 1 tunel', 'Ilość wody na 1 tunel'])
+		worksheet.addRow(['Data', 'Nazwa nawozu', 'Liczba tuneli', 'Dawka na 1 tunel'])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
 			cell.fill = headerCellStyle.fill as ExcelJS.FillPattern
@@ -122,8 +123,7 @@ const Fertigations = () => {
 				getFormattedDate(fertigation.date),
 				fertigation.fertilizerName,
 				fertigation.numberOfTunnels.toString(),
-				fertigation.fertilizerDosePerTunnel.toString(),
-				fertigation.waterAmountPerTunnel.toString(),
+				fertigation.fertilizerDosePerTunnel
 			]
 			worksheet.addRow(rowData)
 		})
@@ -181,6 +181,7 @@ const Fertigations = () => {
 							date={fertigation.date}
 							fertilizerName={fertigation.fertilizerName}
 							numberOfTunnels={fertigation.numberOfTunnels}
+							isLiquid={fertigation.isLiquid}
 							fertilizerDosePerTunnel={fertigation.fertilizerDosePerTunnel}
 							waterAmountPerTunnel={fertigation.waterAmountPerTunnel}
 							handleDelete={() => handleDelete(fertigation)}

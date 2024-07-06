@@ -73,6 +73,12 @@ const OperationFilterItem: React.FC<OperationFilterItemProps> = props => {
 							<option value={3} className='text-sm'>
 								Herbicydy
 							</option>
+							<option value={4} className='text-sm'>
+								Odżywka
+							</option>
+							<option value={5} className='text-sm'>
+								Stymulator wzrostu
+							</option>
 						</select>
 					</label>
 				</div>

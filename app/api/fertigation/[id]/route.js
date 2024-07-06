@@ -17,7 +17,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { date, fertilizerName, numberOfTunnels, fertilizerDosePerTunnel, waterAmountPerTunnel } = await request.json()
+	const { date, fertilizerName, numberOfTunnels, isLiquid, fertilizerDosePerTunnel, waterAmountPerTunnel } = await request.json()
 
 	try {
 		await connectToDB()
@@ -31,6 +31,7 @@ export const PATCH = async (request, { params }) => {
 		existingFertigation.date = date
 		existingFertigation.fertilizerName = fertilizerName
 		existingFertigation.numberOfTunnels = numberOfTunnels
+		existingFertigation.isLiquid = isLiquid
 		existingFertigation.fertilizerDosePerTunnel = fertilizerDosePerTunnel
 		existingFertigation.waterAmountPerTunnel = waterAmountPerTunnel
 

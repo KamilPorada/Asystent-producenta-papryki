@@ -28,7 +28,7 @@ const OperationSchema = new Schema({
 	},
 	isLiquid: {
 		type: Boolean,
-		required: [true, 'Podanie rodzaju środka jest wymagane!'],
+		required: [true, 'Podanie formy środka jest wymagane!'],
 	},
 	pesticideDose: {
 		type: Number,

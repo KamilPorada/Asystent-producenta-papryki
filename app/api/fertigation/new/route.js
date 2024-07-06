@@ -4,7 +4,7 @@ import { connectToDB } from '@utils/database'
 export const dynamic = 'force-dynamic';
 
 export const POST = async request => {
-	const { userId, date, fertilizerName, numberOfTunnels, fertilizerDosePerTunnel, waterAmountPerTunnel } =
+	const { userId, date, fertilizerName, numberOfTunnels, isLiquid, fertilizerDosePerTunnel, waterAmountPerTunnel } =
 		await request.json()
 
 	try {
@@ -14,6 +14,7 @@ export const POST = async request => {
 			date,
 			fertilizerName,
 			numberOfTunnels,
+			isLiquid,
 			fertilizerDosePerTunnel,
 			waterAmountPerTunnel,
 		})

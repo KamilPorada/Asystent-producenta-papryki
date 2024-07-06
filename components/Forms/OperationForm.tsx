@@ -109,7 +109,6 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						onChange={e => setOperation({ ...operation, isLiquid: e.target.checked })}
 					/>
 				</label>
-
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>
 						{operation.pesticideType === 4 ? 'Dawka odżywki' : 'Dawka pestycydu'}
@@ -118,7 +117,8 @@ const OperationForm: React.FC<OperationFormProps> = props => {
 						onChange={e => setOperation({ ...operation, pesticideDose: parseFloat(e.target.value) })}
 						type='number'
 						step='any'
-						placeholder='Wpisz dawkę pestycydu [ml/100l wody]'
+						placeholder={`Wpisz dawkę pestycydu [${operation.isLiquid ? 'ml' : 'g'}/100l wody]`}
+
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 						value={operation?.pesticideDose || ''}
 					/>

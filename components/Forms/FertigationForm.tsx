@@ -9,18 +9,20 @@ interface FertigationFormProps {
 		date: string
 		fertilizerName: string
 		numberOfTunnels: number
+		isLiquid: boolean
 		fertilizerDosePerTunnel: number
 		waterAmountPerTunnel: number
 	}
 	type: string
 	setFertigation: (fertigation: any) => void
+	userNumberOfTunnels: number
 	submitting: boolean
 	handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
 	error: string
 }
 
 const FertigationForm: React.FC<FertigationFormProps> = props => {
-	const { type, fertigation, setFertigation, submitting, handleSubmit } = props
+	const { type, fertigation, setFertigation, userNumberOfTunnels, submitting, handleSubmit } = props
 
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
@@ -57,7 +59,7 @@ const FertigationForm: React.FC<FertigationFormProps> = props => {
 					<Slider
 						value={fertigation?.numberOfTunnels || 0}
 						min={1}
-						max={57}
+						max={userNumberOfTunnels}
 						className='w-ful mt-2'
 						thumbClassName='absolute h-4 w-4 bg-mainColor rounded-full -translate-y-1/2'
 						trackClassName='h-[2px] bg-secondaryColor'
@@ -67,6 +69,14 @@ const FertigationForm: React.FC<FertigationFormProps> = props => {
 								numberOfTunnels: value,
 							})
 						}
+					/>
+				</label>
+				<label className='flex flex-row gap-2'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Nawóz w płynie</span>
+					<input
+						type='checkbox'
+						checked={fertigation?.isLiquid || false}
+						onChange={e => setFertigation({ ...fertigation, isLiquid: e.target.checked })}
 					/>
 				</label>
 				<label className='flex flex-col'>
@@ -80,7 +90,7 @@ const FertigationForm: React.FC<FertigationFormProps> = props => {
 						}
 						type='number'
 						step='any'
-						placeholder='Wpisz dawkę nawozu [kg/tunel]'
+						placeholder={`Wpisz dawkę nawozu [${fertigation.isLiquid ? 'l' : 'kg'}/tunel]`}
 						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 						value={fertigation?.fertilizerDosePerTunnel || ''}
 					/>

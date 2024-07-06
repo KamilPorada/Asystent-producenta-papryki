@@ -18,6 +18,10 @@ const FertigationSchema = new Schema({
 		type: Number,
 		required: [true, 'Podanie liczby tuneli jest wymagane!'],
 	},
+	isLiquid: {
+		type: Boolean,
+		required: [true, 'Podanie formy nawozu jest wymagane!'],
+	},
 	fertilizerDosePerTunnel: {
 		type: Number,
 		required: [true, 'Podanie dawki nawozu jest wymagane!'],

@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import FertigationForm from '@components/Forms/FertigationForm'
@@ -11,9 +11,11 @@ function NewFertigation() {
 		date: new Date().toISOString().slice(0, 10),
 		fertilizerName: '',
 		numberOfTunnels: 0,
+		isLiquid: false,
 		fertilizerDosePerTunnel: 0,
 		waterAmountPerTunnel: 0,
 	})
+	const [userNumberOfTunnels, setUserNumberOfTunnels] = useState(0)
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
 	const router = useRouter()
@@ -49,6 +51,7 @@ function NewFertigation() {
 					date: fertigation.date,
 					fertilizerName: fertigation.fertilizerName,
 					numberOfTunnels: fertigation.numberOfTunnels,
+					isLiquid: fertigation.isLiquid,
 					fertilizerDosePerTunnel: fertigation.fertilizerDosePerTunnel,
 					waterAmountPerTunnel: fertigation.waterAmountPerTunnel,
 				}),
@@ -69,12 +72,24 @@ function NewFertigation() {
 		}
 	}
 
+	useEffect(() => {
+		const getUserDetails = async () => {
+			const response = await fetch(`/api/user/${userId}`)
+			const data = await response.json()
+
+			setUserNumberOfTunnels(data.numberOfTunnels)
+		}
+
+		if (userId) getUserDetails()
+	}, [userId])
+
 	return (
 		<section className='container py-20'>
 			<FertigationForm
 				type='ADD'
 				fertigation={fertigation}
 				setFertigation={setFertigation}
+				userNumberOfTunnels={userNumberOfTunnels}
 				submitting={submitting}
 				handleSubmit={addFertigation}
 				error={error}

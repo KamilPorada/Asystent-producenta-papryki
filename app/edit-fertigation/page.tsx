@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { parseISO, format } from 'date-fns'
 import EditFertigationForm from '@components/Forms/FertigationForm'
 import { toast } from 'react-toastify'
@@ -11,14 +12,18 @@ function EditFertigation() {
 		date: '',
 		fertilizerName: '',
 		numberOfTunnels: 0,
+		isLiquid: false,
 		fertilizerDosePerTunnel: 0,
 		waterAmountPerTunnel: 0,
 	})
+	const [userNumberOfTunnels, setUserNumberOfTunnels] = useState(0)
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const fertigationId = searchParams.get('id')
+	const { data: session } = useSession()
+	const userId = (session?.user as { id?: string })?.id ?? ''
 
 	const editFertigation = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -46,6 +51,7 @@ function EditFertigation() {
 					date: fertigation.date,
 					fertilizerName: fertigation.fertilizerName,
 					numberOfTunnels: fertigation.numberOfTunnels,
+					isLiquid: fertigation.isLiquid,
 					fertilizerDosePerTunnel: fertigation.fertilizerDosePerTunnel,
 					waterAmountPerTunnel: fertigation.waterAmountPerTunnel,
 				}),
@@ -75,6 +81,7 @@ function EditFertigation() {
 				date: formattedDate,
 				fertilizerName: data.fertilizerName,
 				numberOfTunnels: data.numberOfTunnels,
+				isLiquid: data.isLiquid,
 				fertilizerDosePerTunnel: data.fertilizerDosePerTunnel,
 				waterAmountPerTunnel: data.waterAmountPerTunnel,
 			})
@@ -83,12 +90,24 @@ function EditFertigation() {
 		if (fertigationId) getFertigationDetails()
 	}, [fertigationId])
 
+	useEffect(() => {
+		const getUserDetails = async () => {
+			const response = await fetch(`/api/user/${userId}`)
+			const data = await response.json()
+
+			setUserNumberOfTunnels(data.numberOfTunnels)
+		}
+
+		if (userId) getUserDetails()
+	}, [userId])
+
 	return (
 		<section className='container py-20'>
 			<EditFertigationForm
 				type='EDIT'
 				fertigation={fertigation}
 				setFertigation={setFertigation}
+				userNumberOfTunnels={userNumberOfTunnels}
 				submitting={submitting}
 				handleSubmit={editFertigation}
 				error={error}

@@ -7,6 +7,7 @@ const FertigationItem: React.FC<{
 	date: string
 	fertilizerName: string
 	numberOfTunnels: number
+	isLiquid: boolean
 	fertilizerDosePerTunnel: number
 	waterAmountPerTunnel: number
 	handleDelete: () => Promise<void>
@@ -49,20 +50,16 @@ const FertigationItem: React.FC<{
 					<p className='leading-4 font-thin'>
 						<span className='font-semibold'>Liczba tuneli:</span> {props.numberOfTunnels}
 					</p>
-					<p className='leading-4 font-thin'>
-						<span className='font-semibold'>Ilość roztworu:</span> {props.numberOfTunnels * props.waterAmountPerTunnel}l
-					</p>
-					<p className='leading-4 font-thin'>
-						<span className='font-semibold'>Ilość nawozu:</span> {props.numberOfTunnels * props.fertilizerDosePerTunnel}
-						kg
-					</p>
 				</div>
 				<div className='flex flex-col items-start w-3/4 pt-3 pb-3 border-b-[1px] border-zinc-300'>
 					<p className='mb-1 font-bold self-center'>Dawkowanie:</p>
 					<div className='flex flex-row justify-between items-center w-full'>
 						<div className='flex flex-row justify-center items-center mt-1'>
 							<FontAwesomeIcon icon={faPrescriptionBottle} className='mr-2 text-2xl' />
-							<p className='font-thin'>{props.fertilizerDosePerTunnel}kg/tunel</p>
+							<p className='font-thin'>
+								{props.fertilizerDosePerTunnel}
+								{`${props.isLiquid ? 'l' : 'kg'}`}/tunel
+							</p>
 						</div>
 						<div className='flex flex-row justify-center items-center mt-1'>
 							<FontAwesomeIcon icon={faDroplet} className='mr-2 text-2xl' />
