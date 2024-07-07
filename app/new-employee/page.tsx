@@ -60,7 +60,7 @@ function NewEmployeePage() {
 
 	return (
 		<section className='container py-20'>
-			<AddEmployeeForm employee={employee} setEmployee={setEmployee} submitting={submitting} handleSubmit={addEmployee} error={error} />
+			<AddEmployeeForm type={'ADD'} employee={employee} setEmployee={setEmployee} submitting={submitting} handleSubmit={addEmployee} error={error} />
 		</section>
 	)
 }

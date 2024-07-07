@@ -4,6 +4,7 @@ import Button from '@components/UI/Button'
 import SectionTitle from '@components/UI/SectionTitle'
 
 interface AddEmployeeFormProps {
+	type: 'ADD' | 'EDIT'
 	employee: {
 		name: string
 		surname: string
@@ -17,13 +18,22 @@ interface AddEmployeeFormProps {
 	error: string
 }
 
-const AddEmployeeForm: React.FC<AddEmployeeFormProps> = props => {
-	const { employee, setEmployee, submitting, handleSubmit } = props
-
+const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
+	type,
+	employee,
+	setEmployee,
+	submitting,
+	handleSubmit,
+	error,
+}) => {
 	return (
 		<section className='w-full mt-3 flex flex-col items-center text-black'>
-			<SectionTitle title='Nowy pracownik' />
-			<p className='mt-3 lg:text-lg text-center'>Dodaj nowego pracownika i wprowadź niezbędne informacje.</p>
+			<SectionTitle title={`${type === 'ADD' ? 'Nowy pracownik' : 'Edycja danych pracownika'}`} />
+			<p className='mt-3 lg:text-lg text-center'>{`${
+				type === 'ADD'
+					? 'Dodaj nowego pracownika i wprowadź niezbędne informacje.'
+					: 'Edytuj dane pracownika i wprowadź niezbędne informacje.'
+			}`}</p>
 			<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
 				<label className='flex flex-col'>
 					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Imię</span>
@@ -103,12 +113,14 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = props => {
 						placeholder='Wpisz narodowość'
 					/>
 				</label>
-				<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>
+				<p className='mt-1 text-center font-semibold text-red-500'>{error}</p>
 				<div className='flex flex-row justify-center text-white'>
 					<Link href='/'>
 						<Button>Anuluj</Button>
 					</Link>
-					<Button disabled={submitting}>{submitting ? 'Dodawanie...' : 'Dodaj'}</Button>
+					<Button disabled={submitting}>
+						{submitting ? (type === 'ADD' ? 'Dodawanie...' : 'Edycja...') : type === 'ADD' ? 'Dodaj' : 'Edytuj'}
+					</Button>
 				</div>
 			</form>
 		</section>
