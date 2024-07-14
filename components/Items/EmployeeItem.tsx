@@ -12,7 +12,7 @@ interface EmployeeCardProps {
 	hoursWorked: number
 	handleDelete: () => Promise<void>
 	handleEdit: () => Promise<void>
-	handleAddHours: () => void
+	handleOpenCalendar: () => void
 }
 
 const EmployeeCard: React.FC<EmployeeCardProps> = props => {
@@ -42,29 +42,36 @@ const EmployeeCard: React.FC<EmployeeCardProps> = props => {
 		}
 	}
 
+	function calculateTimeToHours(timeInMinutes: number) {
+		const hours = Math.floor(timeInMinutes / 60)
+		const minutes = timeInMinutes % 60
+
+		return `${hours}h ${minutes}min`
+	}
+
 	return (
 		<>
-			<div className='flex flex-col justify-between w-full md:w-1/3 lg:w-1/4 h-auto ring-1 ring-zinc-300 rounded-lg shadow-md bg-white text-black relative'>
+			<div className='flex flex-col justify-between w-full sm:w-1/2 lg:w-1/4 h-auto ring-1 ring-zinc-300 rounded-lg shadow-md bg-white text-black relative'>
 				<div className='flex flex-row justify-between items-start p-6'>
 					<div className='flex flex-col'>
-						<p className='text-lg font-bold mb-2'>{props.name} {props.surname}</p>
+						<p className='text-lg font-bold mb-2'>
+							{props.name} {props.surname}
+						</p>
 						<p className='text-md leading-4'>Wiek: {props.age}</p>
 						<p className='text-md leading-4'>Narodowość: {props.nationality}</p>
-						<p className='text-md leading-4'>Godziny przepracowane: {props.hoursWorked}</p>
+						<p className='text-md leading-4'>Czas pracy: {calculateTimeToHours(props.hoursWorked)}</p>
 					</div>
-					<div className='flex items-center'>
-						{genderIcon()}
-					</div>
+					<div className='flex items-center'>{genderIcon()}</div>
 				</div>
-				<div className='flex flex-row justify-around items-center bg-secondaryColor text-white mt-4 p-2 rounded-b-lg py-2 px-4'>
-					<button className='hover:text-blue-500' onClick={props.handleEdit}>
+				<div className='flex flex-row justify-around items-center bg-mainColor text-white mt-4 p-2 rounded-b-lg py-2 px-4'>
+					<button className='hover:text-green-400' onClick={props.handleOpenCalendar}>
+						<FontAwesomeIcon icon={faCalendarAlt} className='text-xl' />
+					</button>
+					<button className='hover:text-blue-700' onClick={props.handleEdit}>
 						<FontAwesomeIcon icon={faEdit} className='text-xl' />
 					</button>
 					<button className='hover:text-red-500' onClick={handleDeleteClick}>
 						<FontAwesomeIcon icon={faTrashAlt} className='text-xl' />
-					</button>
-					<button className='hover:text-green-500' onClick={props.handleAddHours}>
-						<FontAwesomeIcon icon={faCalendarAlt} className='text-xl' />
 					</button>
 				</div>
 			</div>

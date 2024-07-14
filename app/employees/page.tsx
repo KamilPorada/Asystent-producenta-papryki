@@ -26,14 +26,41 @@ interface Employee {
 	nationality: string
 }
 
+interface WorkTime {
+	_id: string
+	creator: {
+		_id: string
+		email: string
+		username: string
+		image: string
+	}
+	employee: string
+	date: string
+	startTime: string
+	endTime: string
+}
+
 function Employees() {
 	const [allEmployees, setAllEmployees] = useState<Employee[]>([])
 	const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([])
+	const [employeeWorkTimes, setEmployeeWorkTimes] = useState<{ [key: string]: number }>({})
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
 	const { selectedYear } = useTopBar()
+
+	function calculateWorkDuration(startTime: string, endTime: string) {
+		const [startHour, startMinute] = startTime.split(':').map(Number)
+		const [endHour, endMinute] = endTime.split(':').map(Number)
+
+		const startTotalMinutes = startHour * 60 + startMinute
+		const endTotalMinutes = endHour * 60 + endMinute
+
+		const durationMinutes = endTotalMinutes - startTotalMinutes
+
+		return durationMinutes
+	}
 
 	const fetchEmployees = async () => {
 		try {
@@ -53,8 +80,40 @@ function Employees() {
 		}
 	}
 
+	const fetchWorkTimes = async () => {
+		try {
+			const response = await fetch('/api/employee-work-time')
+			const data: WorkTime[] = await response.json()
+			const workTimesByEmployee: { [key: string]: number } = {}
+
+			data.forEach(workTime => {
+				if (new Date(workTime.date).getFullYear() === selectedYear) {
+					const duration = calculateWorkDuration(workTime.startTime, workTime.endTime)
+					if (!workTimesByEmployee[workTime.employee]) {
+						workTimesByEmployee[workTime.employee] = 0
+					}
+					workTimesByEmployee[workTime.employee] += duration
+				}
+			})
+
+			setEmployeeWorkTimes(workTimesByEmployee)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	const handleDelete = async (employee: Employee) => {
 		try {
+			const response = await fetch('/api/employee-work-time')
+			const workTimes: WorkTime[] = await response.json()
+			const employeeWorkTimes = workTimes.filter(workTime => workTime.employee === employee._id)
+
+			await Promise.all(employeeWorkTimes.map(async (workTime) => {
+				await fetch(`/api/employee-work-time/${workTime._id}`, {
+					method: 'DELETE',
+				})
+			}))
+
 			await fetch(`/api/employee/${employee._id.toString()}`, {
 				method: 'DELETE',
 			})
@@ -72,6 +131,7 @@ function Employees() {
 		}
 	}
 
+
 	const handleEdit = async (employee: Employee) => {
 		router.push(`/edit-employee?id=${employee._id}`)
 	}
@@ -87,9 +147,9 @@ function Employees() {
 		setFilteredEmployees(filteredEmployees)
 	}
 
-	const handleAddHours = () => {
-		console.log('Add hours')
-	  }
+	const handleOpenCalendar = (employee: Employee) => {
+		router.push(`/employee-calendar?id=${employee._id}`)
+	}
 
 	const exportToXLS = () => {
 		const workbook = new ExcelJS.Workbook()
@@ -132,6 +192,10 @@ function Employees() {
 		fetchEmployees()
 	}, [loading, selectedYear])
 
+	useEffect(() => {
+		fetchWorkTimes()
+	}, [selectedYear])
+
 	if (loading) {
 		return (
 			<section className='container py-20'>
@@ -159,10 +223,10 @@ function Employees() {
 							gender={employee.gender}
 							age={employee.age}
 							nationality={employee.nationality}
-							hoursWorked={0}
+							hoursWorked={employeeWorkTimes[employee._id] || 0}
 							handleDelete={() => handleDelete(employee)}
 							handleEdit={() => handleEdit(employee)}
-							handleAddHours={handleAddHours}
+							handleOpenCalendar={() => handleOpenCalendar(employee)}
 						/>
 					))
 				) : (
