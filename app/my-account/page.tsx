@@ -11,7 +11,8 @@ function MyAccount() {
 	const [farmData, setFarmData] = useState({
 		area: 0,
 		numberOfTunnels: 0,
-		cityName: ''
+		cityName: '',
+		salaryPerHour: 0,
 	})
 	const [showForm, setShowForm] = useState(false)
 	const [submitting, setIsSubmitting] = useState(false)
@@ -22,6 +23,14 @@ function MyAccount() {
 	const editFarmData = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setIsSubmitting(true)
+		setError('')
+
+		const { area, numberOfTunnels, cityName, salaryPerHour } = farmData
+		if (area <= 0 || numberOfTunnels < 0 || salaryPerHour <= 0 || cityName.trim() === '') {
+			setError('Proszę wypełnić wszystkie pola poprawnymi wartościami.')
+			setIsSubmitting(false)
+			return
+		}
 
 		try {
 			const response = await fetch(`/api/user/${userId.toString()}`, {
@@ -29,7 +38,8 @@ function MyAccount() {
 				body: JSON.stringify({
 					area: farmData.area,
 					numberOfTunnels: farmData.numberOfTunnels,
-					cityName: farmData.cityName
+					cityName: farmData.cityName,
+					salaryPerHour: farmData.salaryPerHour,
 				}),
 			})
 			if (response.ok) {
@@ -37,9 +47,14 @@ function MyAccount() {
 					position: toast.POSITION.TOP_CENTER,
 				})
 				handleHideForm()
+			} else {
+				setError('Wystąpił błąd podczas aktualizacji danych.')
 			}
 		} catch (error) {
-			console.log(error)
+			console.error(error)
+			setError('Wystąpił błąd podczas aktualizacji danych.')
+		} finally {
+			setIsSubmitting(false)
 		}
 	}
 
@@ -60,7 +75,8 @@ function MyAccount() {
 				...farmData,
 				area: data.area,
 				numberOfTunnels: data.numberOfTunnels,
-				cityName: data.cityName
+				cityName: data.cityName,
+				salaryPerHour: data.salaryPerHour,
 			})
 		}
 
@@ -123,6 +139,14 @@ function MyAccount() {
 								gospodarstwa:
 							</p>
 							<p className='text-lg font-semibold'>{farmData.cityName}</p>
+						</div>
+						<div className='flex flex-col justify-center items-center w-1/2'>
+							<p className='leading-4 mb-1 text-center'>
+								Wynagrodzenie
+								<br />
+								pracownika:
+							</p>
+							<p className='text-lg font-semibold'>{farmData.salaryPerHour} zł\h</p>
 						</div>
 					</div>
 				)}

@@ -28,6 +28,10 @@ const UserSchema = new Schema({
 	cityName:{
 		type: String,
 		required: [true, 'Podanie lokalizacji gospodarstwa jest wymagane!'],
+	},
+	salaryPerHour:{
+		type: Number,
+		required: [true, 'Podanie wynagrodzenia pracownika jest wymagane!'],
 	}
 })
 

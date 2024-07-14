@@ -10,6 +10,7 @@ interface EmployeeCardProps {
 	gender: string
 	nationality: string
 	hoursWorked: number
+	salaryPerHour: number
 	handleDelete: () => Promise<void>
 	handleEdit: () => Promise<void>
 	handleOpenCalendar: () => void
@@ -49,6 +50,17 @@ const EmployeeCard: React.FC<EmployeeCardProps> = props => {
 		return `${hours}h ${minutes}min`
 	}
 
+	function calculateSalary(timeInMinutes: number) {
+		const hours = Math.floor(timeInMinutes / 60);
+		const minutes = timeInMinutes % 60;
+	
+		const time = hours + minutes / 60;
+		const salary = time * props.salaryPerHour;
+	
+		return salary.toFixed(2);
+	}
+	
+
 	return (
 		<>
 			<div className='flex flex-col justify-between w-full sm:w-1/2 lg:w-1/4 h-auto ring-1 ring-zinc-300 rounded-lg shadow-md bg-white text-black relative'>
@@ -60,10 +72,12 @@ const EmployeeCard: React.FC<EmployeeCardProps> = props => {
 						<p className='text-md leading-4'>Wiek: {props.age}</p>
 						<p className='text-md leading-4'>Narodowość: {props.nationality}</p>
 						<p className='text-md leading-4'>Czas pracy: {calculateTimeToHours(props.hoursWorked)}</p>
+						<p className='text-md leading-4'>Stawka: {props.salaryPerHour}zł/h</p>
+						<p className='text-md leading-4'>Wynagrodzenie: {calculateSalary(props.hoursWorked)}zł</p>
 					</div>
 					<div className='flex items-center'>{genderIcon()}</div>
 				</div>
-				<div className='flex flex-row justify-around items-center bg-mainColor text-white mt-4 p-2 rounded-b-lg py-2 px-4'>
+				<div className='flex flex-row justify-around items-center bg-mainColor text-white rounded-b-lg py-2 px-4'>
 					<button className='hover:text-green-400' onClick={props.handleOpenCalendar}>
 						<FontAwesomeIcon icon={faCalendarAlt} className='text-xl' />
 					</button>

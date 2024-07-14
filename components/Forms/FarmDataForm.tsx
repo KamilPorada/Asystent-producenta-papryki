@@ -7,6 +7,7 @@ interface AddFarmFormProps {
 		area: number
 		numberOfTunnels: number
 		cityName: string
+		salaryPerHour: number
 	}
 	setFarmData: (data: any) => void
 	submitting: boolean
@@ -46,6 +47,15 @@ const AddFarmForm: React.FC<AddFarmFormProps> = props => {
 					className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
 					value={farmData?.cityName || ''}
 					onChange={e => setFarmData({ ...farmData, cityName: e.target.value})}
+				/>
+			</label>
+			<label className='flex flex-col'>
+				<span className='font-semibold text-secondaryColor'>Wynagrodzenie pracownika</span>
+				<input
+					type='text'
+					className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+					value={farmData?.salaryPerHour || ''}
+					onChange={e => setFarmData({ ...farmData, salaryPerHour: e.target.value})}
 				/>
 			</label>
 			<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>

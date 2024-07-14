@@ -45,6 +45,7 @@ function Employees() {
 	const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([])
 	const [employeeWorkTimes, setEmployeeWorkTimes] = useState<{ [key: string]: number }>({})
 	const [loading, setLoading] = useState(true)
+	const [salaryPerHour, setSalaryPerHour] = useState(0)
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
@@ -108,11 +109,13 @@ function Employees() {
 			const workTimes: WorkTime[] = await response.json()
 			const employeeWorkTimes = workTimes.filter(workTime => workTime.employee === employee._id)
 
-			await Promise.all(employeeWorkTimes.map(async (workTime) => {
-				await fetch(`/api/employee-work-time/${workTime._id}`, {
-					method: 'DELETE',
+			await Promise.all(
+				employeeWorkTimes.map(async workTime => {
+					await fetch(`/api/employee-work-time/${workTime._id}`, {
+						method: 'DELETE',
+					})
 				})
-			}))
+			)
 
 			await fetch(`/api/employee/${employee._id.toString()}`, {
 				method: 'DELETE',
@@ -131,6 +134,16 @@ function Employees() {
 		}
 	}
 
+	useEffect(() => {
+		const getUserDetails = async () => {
+			const response = await fetch(`/api/user/${userId}`)
+			const data = await response.json()
+
+			setSalaryPerHour(data.salaryPerHour)
+		}
+
+		if (userId) getUserDetails()
+	}, [userId])
 
 	const handleEdit = async (employee: Employee) => {
 		router.push(`/edit-employee?id=${employee._id}`)
@@ -161,7 +174,7 @@ function Employees() {
 			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
 		}
 
-		worksheet.addRow(['Imię', 'Nazwisko', 'Płeć', 'Wiek', 'Narodowość'])
+		worksheet.addRow(['Imię', 'Nazwisko', 'Płeć', 'Wiek', 'Narodowość', 'Czas pracy [min]', 'Wynagrodzenie [zł/h]'])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
 			cell.fill = headerCellStyle.fill as ExcelJS.FillPattern
@@ -170,7 +183,15 @@ function Employees() {
 		})
 
 		filteredEmployees.forEach(employee => {
-			const rowData = [employee.name, employee.surname, employee.gender, employee.age, employee.nationality]
+			const rowData = [
+				employee.name,
+				employee.surname,
+				employee.gender,
+				employee.age,
+				employee.nationality,
+				employeeWorkTimes[employee._id],
+				salaryPerHour,
+			]
 			worksheet.addRow(rowData)
 		})
 
@@ -224,6 +245,7 @@ function Employees() {
 							age={employee.age}
 							nationality={employee.nationality}
 							hoursWorked={employeeWorkTimes[employee._id] || 0}
+							salaryPerHour={salaryPerHour}
 							handleDelete={() => handleDelete(employee)}
 							handleEdit={() => handleEdit(employee)}
 							handleOpenCalendar={() => handleOpenCalendar(employee)}
