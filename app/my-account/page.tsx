@@ -7,16 +7,23 @@ import FarmDataForm from '../../components/Forms/FarmDataForm'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+interface FarmData {
+	area: number
+	numberOfTunnels: Record<string, number>
+	cityName: string
+	salaryPerHour: number
+}
+
 function MyAccount() {
-	const [farmData, setFarmData] = useState({
+	const [farmData, setFarmData] = useState<FarmData>({
 		area: 0,
-		numberOfTunnels: 0,
+		numberOfTunnels: {},
 		cityName: '',
 		salaryPerHour: 0,
 	})
-	const [showForm, setShowForm] = useState(false)
-	const [submitting, setIsSubmitting] = useState(false)
-	const [error, setError] = useState('')
+	const [showForm, setShowForm] = useState<boolean>(false)
+	const [submitting, setIsSubmitting] = useState<boolean>(false)
+	const [error, setError] = useState<string>('')
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
 
@@ -26,20 +33,23 @@ function MyAccount() {
 		setError('')
 
 		const { area, numberOfTunnels, cityName, salaryPerHour } = farmData
-		if (area <= 0 || numberOfTunnels < 0 || salaryPerHour <= 0 || cityName.trim() === '') {
+		if (area <= 0 || salaryPerHour <= 0 || cityName.trim() === '') {
 			setError('Proszę wypełnić wszystkie pola poprawnymi wartościami.')
 			setIsSubmitting(false)
 			return
 		}
 
 		try {
-			const response = await fetch(`/api/user/${userId.toString()}`, {
+			const response = await fetch(`/api/user/${userId}`, {
 				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify({
-					area: farmData.area,
-					numberOfTunnels: farmData.numberOfTunnels,
-					cityName: farmData.cityName,
-					salaryPerHour: farmData.salaryPerHour,
+					area,
+					numberOfTunnels,
+					cityName,
+					salaryPerHour,
 				}),
 			})
 			if (response.ok) {
@@ -68,20 +78,27 @@ function MyAccount() {
 
 	useEffect(() => {
 		const getUserDetails = async () => {
-			const response = await fetch(`/api/user/${userId}`)
-			const data = await response.json()
+			try {
+				const response = await fetch(`/api/user/${userId}`)
+				if (!response.ok) throw new Error('Nie udało się pobrać danych użytkownika')
+				const data = await response.json()
 
-			setFarmData({
-				...farmData,
-				area: data.area,
-				numberOfTunnels: data.numberOfTunnels,
-				cityName: data.cityName,
-				salaryPerHour: data.salaryPerHour,
-			})
+				setFarmData({
+					area: data.area || 0,
+					numberOfTunnels: data.numberOfTunnels || {},
+					cityName: data.cityName || '',
+					salaryPerHour: data.salaryPerHour || 0,
+				})
+			} catch (error) {
+				console.error('Błąd podczas pobierania danych użytkownika:', error)
+			}
 		}
 
 		if (userId) getUserDetails()
 	}, [userId])
+
+	const currentYear = new Date().getFullYear()
+	const currentYearTunnels = farmData.numberOfTunnels[currentYear] || 0
 
 	return (
 		<section className='flex flex-col items-center container py-20'>
@@ -115,40 +132,63 @@ function MyAccount() {
 						onCancel={handleHideForm}
 					/>
 				) : (
-					<div className='data flex flex-row justify-around items-center mt-5'>
-						<div className='flex flex-col justify-center items-center w-1/2 text-center'>
-							<p className='leading-4 mb-1 text-center'>
-								Powierzchnia
-								<br />
-								gospodatstwa:
-							</p>
-							<p className='text-lg font-semibold'>{farmData.area} ha</p>
+					<>
+						<div className='data grid grid-cols-2 gap-4 mt-5'>
+							<div className='flex flex-col justify-center items-center text-center'>
+								<p className='leading-4 mb-1'>
+									Powierzchnia
+									<br />
+									gospodarstwa:
+								</p>
+								<p className='text-lg font-semibold'>{farmData.area} ha</p>
+							</div>
+							<div className='flex flex-col justify-center items-center text-center'>
+								<p className='leading-4 mb-1'>
+									Liczba
+									<br />
+									tuneli:
+								</p>
+								<p className='text-lg font-semibold'>{currentYearTunnels}</p>
+							</div>
+							<div className='flex flex-col justify-center items-center text-center'>
+								<p className='leading-4 mb-1'>
+									Lokalizacja
+									<br />
+									gospodarstwa:
+								</p>
+								<p className='text-lg font-semibold'>{farmData.cityName}</p>
+							</div>
+							<div className='flex flex-col justify-center items-center text-center'>
+								<p className='leading-4 mb-1'>
+									Wynagrodzenie
+									<br />
+									pracownika:
+								</p>
+								<p className='text-lg font-semibold'>{farmData.salaryPerHour} zł/h</p>
+							</div>
 						</div>
-						<div className='flex flex-col justify-center items-center w-1/2'>
-							<p className='leading-4 mb-1 text-center'>
-								Liczba
-								<br />
-								tuneli:
-							</p>
-							<p className='text-lg font-semibold'>{farmData.numberOfTunnels}</p>
+						<div className='border-b-[1px] border-mainColor mt-4'></div>
+
+						<div className='mt-5'>
+							<h3 className='leading-4 mb-1'>Liczba tuneli w poszczególnych latach:</h3>
+							<table className='min-w-full mt-3 divide-y divide-gray-200'>
+								<thead className='bg-mainColor text-white'>
+									<tr>
+										<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>Rok</th>
+										<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>Liczba tuneli</th>
+									</tr>
+								</thead>
+								<tbody className='bg-white divide-y divide-gray-200'>
+									{Object.entries(farmData.numberOfTunnels).map(([year, count]) => (
+										<tr key={year}>
+											<td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>{year}</td>
+											<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{count} tuneli</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
 						</div>
-						<div className='flex flex-col justify-center items-center w-1/2'>
-							<p className='leading-4 mb-1 text-center'>
-								Lokalizacja
-								<br />
-								gospodarstwa:
-							</p>
-							<p className='text-lg font-semibold'>{farmData.cityName}</p>
-						</div>
-						<div className='flex flex-col justify-center items-center w-1/2'>
-							<p className='leading-4 mb-1 text-center'>
-								Wynagrodzenie
-								<br />
-								pracownika:
-							</p>
-							<p className='text-lg font-semibold'>{farmData.salaryPerHour} zł\h</p>
-						</div>
-					</div>
+					</>
 				)}
 				{!showForm && (
 					<Button className='mt-3 py-[3px] text-sm md:text-base text-white' onClick={handleShowForm}>

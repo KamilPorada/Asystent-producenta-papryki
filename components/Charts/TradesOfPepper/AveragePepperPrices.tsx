@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import ChartArea from '@components/UI/ChartArea'
+import { useTopBar } from '../../contexts/TopBarContext'
 
 interface TradeOfPepper {
 	_id: string
@@ -33,6 +34,7 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 	const [averageProfitPerTunnel, setAverageProfitPerTunnel] = useState<string>('0')
 	const [averageYieldPerTunnel, setAverageYieldPerTunnel] = useState<string>('0')
 	const [numberOfTunnels, setNumberOfTunnels] = useState(0)
+	const { selectedYear } = useTopBar()
 	const [chartData, setChartData] = useState<{
 		series: { data: number[]; name: string }[]
 		options: ApexCharts.ApexOptions
@@ -46,13 +48,13 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 	useEffect(() => {
 		const calculateAveragePrices = (trades: TradeOfPepper[]) => {
 			const monthlyPrices: number[] = [0, 0, 0, 0, 0]
-
 			const monthlyWeights: number[] = [0, 0, 0, 0, 0]
 
 			trades.forEach(trade => {
+				const tradeYear = new Date(trade.date).getFullYear()
 				const month = new Date(trade.date).getMonth()
 
-				if (month >= 6 && month <= 10) {
+				if (tradeYear === selectedYear && month >= 6 && month <= 10) {
 					monthlyPrices[month - 6] += (trade.price + (trade.price * trade.vatRate) / 100) * trade.weight
 					monthlyWeights[month - 6] += trade.weight
 				}
@@ -71,8 +73,11 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 			let totalWeight = 0
 
 			trades.forEach(trade => {
-				totalPrice += (trade.price + (trade.price * trade.vatRate) / 100) * trade.weight
-				totalWeight += trade.weight
+				const tradeYear = new Date(trade.date).getFullYear()
+				if (tradeYear === selectedYear) {
+					totalPrice += (trade.price + (trade.price * trade.vatRate) / 100) * trade.weight
+					totalWeight += trade.weight
+				}
 			})
 
 			return totalWeight > 0 ? totalPrice / totalWeight : 0
@@ -81,21 +86,30 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
 		const calculateAverageProfitPerTunnel = (trades: TradeOfPepper[]): number => {
 			let totalSum = 0
 			trades.forEach(trade => {
-				totalSum += trade.totalSum
+				const tradeYear = new Date(trade.date).getFullYear()
+				if (tradeYear === selectedYear) {
+					totalSum += trade.totalSum
+				}
 			})
-			return totalSum / numberOfTunnels
+			return numberOfTunnels > 0 ? totalSum / numberOfTunnels : 0
 		}
 
 		const calculateAverageYieldPerTunnel = (trades: TradeOfPepper[]): number => {
 			let totalWeight = 0
 			trades.forEach(trade => {
-				totalWeight += trade.weight
+				const tradeYear = new Date(trade.date).getFullYear()
+				if (tradeYear === selectedYear) {
+					totalWeight += trade.weight
+				}
 			})
-			return totalWeight / numberOfTunnels
+			return numberOfTunnels > 0 ? totalWeight / numberOfTunnels : 0
 		}
 
 		const calculateSumOfTotalSumWithVatRate7 = (trades: TradeOfPepper[]): number => {
-			const filteredTrades = trades.filter(trade => trade.vatRate === 7)
+			const filteredTrades = trades.filter(trade => {
+				const tradeYear = new Date(trade.date).getFullYear()
+				return trade.vatRate === 7 && tradeYear === selectedYear
+			})
 
 			const sum = filteredTrades.reduce((total, trade) => {
 				return total + trade.totalSum
@@ -135,7 +149,7 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
         labels: {
           formatter: (value: number) => value.toFixed(2),
         },
-        min: 3,
+        min: 2.5,
         max: 5,
       },
       stroke: {
@@ -150,6 +164,7 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
       },
       colors: ['#00b000', '#0033ff'],
     };
+
     const labels = 'Średnia cena papryki';
     const seriesData = [
       {
@@ -168,18 +183,18 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
       },
     ];
     setChartData({ series: seriesData, options: options });
-	}, [allTrades])
+	}, [allTrades, selectedYear])
 
 	useEffect(() => {
 		const getUserDetails = async () => {
 			const response = await fetch(`/api/user/${userId}`)
 			const data = await response.json()
 
-			setNumberOfTunnels(data.numberOfTunnels)
+			setNumberOfTunnels(data.numberOfTunnels[selectedYear])
 		}
 
 		if (userId) getUserDetails()
-	}, [userId])
+	}, [userId, selectedYear])
 
   const formatCurrency = (value: number): string => {
     return value.toLocaleString('pl-PL', {

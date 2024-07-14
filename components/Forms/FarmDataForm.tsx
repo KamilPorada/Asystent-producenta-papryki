@@ -1,23 +1,32 @@
-import { FormEvent } from 'react'
-import Link from 'next/link'
+import React, { FormEvent } from 'react'
 import Button from '@components/UI/Button'
 
+interface FarmData {
+	area: number
+	numberOfTunnels: Record<number, number>
+	cityName: string
+	salaryPerHour: number
+}
+
 interface AddFarmFormProps {
-	farmData: {
-		area: number
-		numberOfTunnels: number
-		cityName: string
-		salaryPerHour: number
-	}
-	setFarmData: (data: any) => void
+	farmData: FarmData
+	setFarmData: React.Dispatch<React.SetStateAction<FarmData>>
 	submitting: boolean
-	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
+	handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
 	error: string
 	onCancel: () => void
 }
 
-const AddFarmForm: React.FC<AddFarmFormProps> = props => {
-	const { farmData, setFarmData, submitting, handleSubmit, onCancel } = props
+const AddFarmForm: React.FC<AddFarmFormProps> = ({
+	farmData,
+	setFarmData,
+	submitting,
+	handleSubmit,
+	error,
+	onCancel,
+}) => {
+	const currentYear = new Date().getFullYear()
+	const currentYearTunnels = farmData.numberOfTunnels[currentYear] || 0
 
 	return (
 		<form onSubmit={handleSubmit} className='mt-3 w-full max-w-2xl flex flex-col gap-4'>
@@ -27,17 +36,31 @@ const AddFarmForm: React.FC<AddFarmFormProps> = props => {
 					type='number'
 					step='any'
 					className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-					value={farmData?.area || ''}
-					onChange={e => setFarmData({ ...farmData, area: parseFloat(e.target.value) })}
+					value={farmData.area || ''}
+					onChange={e =>
+						setFarmData(prevData => ({
+							...prevData,
+							area: parseFloat(e.target.value),
+						}))
+					}
 				/>
 			</label>
 			<label className='flex flex-col'>
-				<span className='font-semibold text-secondaryColor'>Liczba tuneli</span>
+				<span className='font-semibold text-secondaryColor'>Liczba tuneli (bieżący rok)</span>
 				<input
 					type='number'
 					className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-					value={farmData?.numberOfTunnels || ''}
-					onChange={e => setFarmData({ ...farmData, numberOfTunnels: parseInt(e.target.value) })}
+					value={currentYearTunnels || ''}
+					onChange={e =>
+						setFarmData(prevData => ({
+							...prevData,
+							numberOfTunnels: {
+								...prevData.numberOfTunnels,
+								[currentYear]: parseInt(e.target.value, 10),
+							},
+						}))
+					}
+					disabled={farmData.numberOfTunnels[currentYear] !== currentYearTunnels} // Disable input if not editing current year
 				/>
 			</label>
 			<label className='flex flex-col'>
@@ -45,20 +68,30 @@ const AddFarmForm: React.FC<AddFarmFormProps> = props => {
 				<input
 					type='text'
 					className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-					value={farmData?.cityName || ''}
-					onChange={e => setFarmData({ ...farmData, cityName: e.target.value})}
+					value={farmData.cityName || ''}
+					onChange={e =>
+						setFarmData(prevData => ({
+							...prevData,
+							cityName: e.target.value,
+						}))
+					}
 				/>
 			</label>
 			<label className='flex flex-col'>
 				<span className='font-semibold text-secondaryColor'>Wynagrodzenie pracownika</span>
 				<input
-					type='text'
+					type='number'
 					className='px-1 py-px text-base ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
-					value={farmData?.salaryPerHour || ''}
-					onChange={e => setFarmData({ ...farmData, salaryPerHour: e.target.value})}
+					value={farmData.salaryPerHour || ''}
+					onChange={e =>
+						setFarmData(prevData => ({
+							...prevData,
+							salaryPerHour: parseFloat(e.target.value),
+						}))
+					}
 				/>
 			</label>
-			<p className='mt-1 text-center font-semibold text-red-500'>{props.error}</p>
+			<p className='mt-1 text-center font-semibold text-red-500'>{error}</p>
 			<div className='flex flex-row justify-center text-white'>
 				<Button onClick={onCancel}>Anuluj</Button>
 				<Button disabled={submitting}>{submitting ? 'Edycja...' : 'Edytuj'}</Button>

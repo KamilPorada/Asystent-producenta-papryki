@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import FertigationForm from '@components/Forms/FertigationForm'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useTopBar } from '../../components/contexts/TopBarContext'
 
 function NewFertigation() {
 	const [fertigation, setFertigation] = useState({
@@ -18,6 +19,7 @@ function NewFertigation() {
 	const [userNumberOfTunnels, setUserNumberOfTunnels] = useState(0)
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
+	const { selectedYear } = useTopBar()
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
@@ -77,7 +79,7 @@ function NewFertigation() {
 			const response = await fetch(`/api/user/${userId}`)
 			const data = await response.json()
 
-			setUserNumberOfTunnels(data.numberOfTunnels)
+			setUserNumberOfTunnels(data.numberOfTunnels[selectedYear])
 		}
 
 		if (userId) getUserDetails()
