@@ -162,7 +162,7 @@ const OperationItem: React.FC<{
 							onClick={handleUpdateStatus}>
 							Wykonaj zabieg
 						</Button>
-						<Button className='w-full mb-1 py-[1px] text-sm' disabled={isExecuted} onClick={props.handleEdit}>
+						<Button className='w-full mb-1 py-[1px] text-sm' onClick={props.handleEdit}>
 							Edytuj zabieg
 						</Button>
 						<Button className='w-full py-[1px] text-sm' onClick={handleDeleteClick}>

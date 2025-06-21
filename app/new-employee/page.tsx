@@ -7,12 +7,16 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function NewEmployeePage() {
+	const currentYear = new Date().getFullYear()
+
 	const [employee, setEmployee] = useState({
 		name: '',
 		surname: '',
 		gender: '',
 		age: 0,
 		nationality: '',
+		year: currentYear,
+		salaryPerHour: 0,
 	})
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')
@@ -40,6 +44,8 @@ function NewEmployeePage() {
 					gender: employee.gender,
 					age: employee.age,
 					nationality: employee.nationality,
+					year: employee.year,
+					salaryPerHour: employee.salaryPerHour
 				}),
 			})
 			setError('')
@@ -60,7 +66,14 @@ function NewEmployeePage() {
 
 	return (
 		<section className='container py-20'>
-			<AddEmployeeForm type={'ADD'} employee={employee} setEmployee={setEmployee} submitting={submitting} handleSubmit={addEmployee} error={error} />
+			<AddEmployeeForm
+				type={'ADD'}
+				employee={employee}
+				setEmployee={setEmployee}
+				submitting={submitting}
+				handleSubmit={addEmployee}
+				error={error}
+			/>
 		</section>
 	)
 }

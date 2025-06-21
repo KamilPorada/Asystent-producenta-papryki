@@ -22,13 +22,8 @@ interface PointOfSale {
 }
 
 function NewTradeOfPepper() {
-	const getOneYearAgoDate = (): string => {
-		const date = new Date();
-		date.setFullYear(date.getFullYear() - 3);
-		return date.toISOString().slice(0, 10);
-	}
 	const [tradeOfPepper, setTradeOfPepper] = useState({
-		date: getOneYearAgoDate(),
+		date: new Date().toISOString().slice(0, 10),
 		clas: 0,
 		color: 0,
 		price: 0,
@@ -36,7 +31,7 @@ function NewTradeOfPepper() {
 		vatRate: 0,
 		pointOfSale: 0,
 	})
-	
+
 	const [pointOfSales, setPointOfSales] = useState<PointOfSale[]>([])
 	const [submitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState('')

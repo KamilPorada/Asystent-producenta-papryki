@@ -17,7 +17,7 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-	const { name, surname, gender, age, nationality } = await request.json()
+	const { name, surname, gender, age, nationality, year, salaryPerHour } = await request.json()
 
 	try {
 		await connectToDB()
@@ -33,6 +33,8 @@ export const PATCH = async (request, { params }) => {
 		existingEmployee.gender = gender
 		existingEmployee.age = age
 		existingEmployee.nationality = nationality
+		existingEmployee.year = year
+		existingEmployee.salaryPerHour = salaryPerHour
 
 		await existingEmployee.save()
 

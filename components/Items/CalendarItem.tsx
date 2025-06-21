@@ -10,6 +10,8 @@ import {
 	endOfWeek,
 	isSunday,
 	getMonth,
+	setMonth,
+	setYear,
 	getYear,
 } from 'date-fns'
 import Button from '@components/UI/Button'
@@ -24,6 +26,8 @@ interface Employee {
 	gender: string
 	age: number
 	nationality: string
+	year: number
+	salaryPerHour: number
 }
 
 interface WorkTime {
@@ -47,10 +51,12 @@ interface CalendarItemProps {
 }
 
 const CalendarItem: React.FC<CalendarItemProps> = ({ employee, workTimes, onDelete }) => {
-	const [currentDate, setCurrentDate] = useState(new Date())
+	const currentMonthIndex = getMonth(new Date())
+	const initialDate = setYear(setMonth(new Date(), currentMonthIndex), employee.year)
+	const [currentDate, setCurrentDate] = useState(initialDate)
 	const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 	const [workTimeToDelete, setWorkTimeToDelete] = useState<string | null>(null)
-	const currentYear = getYear(new Date())
+
 	const isStartOfYear = getMonth(currentDate) === 0
 	const isEndOfYear = getMonth(currentDate) === 11
 	const router = useRouter()
@@ -112,7 +118,7 @@ const CalendarItem: React.FC<CalendarItemProps> = ({ employee, workTimes, onDele
 								<div className='text-sm'>{polishWeekDays[(day.getDay() + 6) % 7]}</div>
 							</div>
 							{workTimesForDay.length > 0 && (
-								<div className='h-2/3 w-full flex flex-col items-start justify-baseline text-xs px-2'>
+								<div className='h-2/3 w-full flex flex-col items-start justify-baseline text-xs px-1'>
 									<p className='font-bold text-black'>Godziny pracy:</p>
 									{workTimesForDay.map(workTime => {
 										const durationHours = calculateWorkDuration(workTime.startTime, workTime.endTime)
@@ -154,6 +160,7 @@ const CalendarItem: React.FC<CalendarItemProps> = ({ employee, workTimes, onDele
 	]
 
 	const currentMonth = monthNamesInNominative[getMonth(currentDate)]
+	const currentYear = getYear(currentDate)
 
 	const navigateToAddWorkHour = () => {
 		router.push(`/add-work-hour?id=${employee._id}`)
@@ -203,12 +210,8 @@ const CalendarItem: React.FC<CalendarItemProps> = ({ employee, workTimes, onDele
 					<div className='bg-white p-4 rounded w-3/4 sm:w-auto'>
 						<p className='text-black font-semibold'>Czy na pewno chcesz usunąć ten czas pracy?</p>
 						<div className='flex justify-end mt-4 text-white'>
-							<Button className='' onClick={confirmDelete}>
-								Tak
-							</Button>
-							<Button className='' onClick={cancelDelete}>
-								Nie
-							</Button>
+							<Button onClick={confirmDelete}>Tak</Button>
+							<Button onClick={cancelDelete}>Nie</Button>
 						</div>
 					</div>
 				</div>

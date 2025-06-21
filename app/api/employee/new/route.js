@@ -4,11 +4,11 @@ import { connectToDB } from '@utils/database'
 export const dynamic = 'force-dynamic';
 
 export const POST = async request => {
-	const { userId, name, surname, gender, age, nationality} = await request.json()
+	const { userId, name, surname, gender, age, nationality, year, salaryPerHour} = await request.json()
 
 	try {
 		await connectToDB()
-		const newEmployee = new Employee({ creator: userId, name, surname, gender, age, nationality })
+		const newEmployee = new Employee({ creator: userId, name, surname, gender, age, nationality, year, salaryPerHour })
 
 		await newEmployee.save()
 		return new Response(JSON.stringify(newEmployee), { status: 201 })

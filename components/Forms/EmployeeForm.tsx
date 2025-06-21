@@ -11,6 +11,8 @@ interface AddEmployeeFormProps {
 		gender: string
 		age: number
 		nationality: string
+		year: number
+		salaryPerHour: number
 	}
 	setEmployee: (employee: any) => void
 	submitting: boolean
@@ -111,6 +113,16 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
 						value={employee?.nationality || ''}
 						onChange={e => setEmployee({ ...employee, nationality: e.target.value })}
 						placeholder='Wpisz narodowość'
+					/>
+				</label>
+				<label className='flex flex-col'>
+					<span className='font-semibold text-base lg:text-lg text-secondaryColor'>Wysokość wynagrodzenia [zł/h]</span>
+					<input
+						type='number'
+						className='px-1 py-px ring-1 ring-zinc-400 rounded focus:outline-none focus:ring-2 focus:ring-mainColor'
+						value={employee?.salaryPerHour || ''}
+						onChange={e => setEmployee({ ...employee, salaryPerHour: e.target.value })}
+						placeholder='Wpisz wiek'
 					/>
 				</label>
 				<p className='mt-1 text-center font-semibold text-red-500'>{error}</p>

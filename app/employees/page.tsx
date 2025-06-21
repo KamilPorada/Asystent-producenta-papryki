@@ -24,6 +24,8 @@ interface Employee {
 	gender: string
 	age: number
 	nationality: string
+	year: number
+	salaryPerHour: number
 }
 
 interface WorkTime {
@@ -45,7 +47,6 @@ function Employees() {
 	const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([])
 	const [employeeWorkTimes, setEmployeeWorkTimes] = useState<{ [key: string]: number }>({})
 	const [loading, setLoading] = useState(true)
-	const [salaryPerHour, setSalaryPerHour] = useState(0)
 	const router = useRouter()
 	const { data: session } = useSession()
 	const userId = (session?.user as { id?: string })?.id ?? ''
@@ -68,8 +69,14 @@ function Employees() {
 			const response = await fetch('/api/employee')
 			const data = await response.json()
 
+
 			const filteredEmployees = data.filter((employee: Employee) => {
-				return employee.creator && employee.creator._id && employee.creator._id.toString() === userId.toString()
+				return (
+					employee.creator &&
+					employee.creator._id &&
+					employee.creator._id.toString() === userId.toString() &&
+					employee.year === selectedYear
+				)
 			})
 
 			setAllEmployees(filteredEmployees)
@@ -134,17 +141,6 @@ function Employees() {
 		}
 	}
 
-	useEffect(() => {
-		const getUserDetails = async () => {
-			const response = await fetch(`/api/user/${userId}`)
-			const data = await response.json()
-
-			setSalaryPerHour(data.salaryPerHour)
-		}
-
-		if (userId) getUserDetails()
-	}, [userId])
-
 	const handleEdit = async (employee: Employee) => {
 		router.push(`/edit-employee?id=${employee._id}`)
 	}
@@ -174,7 +170,16 @@ function Employees() {
 			alignment: { horizontal: 'center' as ExcelJS.Alignment['horizontal'] },
 		}
 
-		worksheet.addRow(['Imię', 'Nazwisko', 'Płeć', 'Wiek', 'Narodowość', 'Czas pracy [min]', 'Wynagrodzenie [zł/h]'])
+		worksheet.addRow([
+			'Imię',
+			'Nazwisko',
+			'Płeć',
+			'Wiek',
+			'Narodowość',
+			'Rok pracy',
+			'Wynagrodzenie [zł/h]',
+			'Czas pracy [min]',
+		])
 		const headerRow = worksheet.getRow(1)
 		headerRow.eachCell(cell => {
 			cell.fill = headerCellStyle.fill as ExcelJS.FillPattern
@@ -189,8 +194,9 @@ function Employees() {
 				employee.gender,
 				employee.age,
 				employee.nationality,
+				employee.year,
+				employee.salaryPerHour,
 				employeeWorkTimes[employee._id],
-				salaryPerHour,
 			]
 			worksheet.addRow(rowData)
 		})
@@ -245,7 +251,7 @@ function Employees() {
 							age={employee.age}
 							nationality={employee.nationality}
 							hoursWorked={employeeWorkTimes[employee._id] || 0}
-							salaryPerHour={salaryPerHour}
+							salaryPerHour={employee.salaryPerHour}
 							handleDelete={() => handleDelete(employee)}
 							handleEdit={() => handleEdit(employee)}
 							handleOpenCalendar={() => handleOpenCalendar(employee)}

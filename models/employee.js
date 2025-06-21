@@ -26,6 +26,14 @@ const EmployeeSchema = new Schema({
 		type: String,
 		required: [true, 'Podanie narodowości jest wymagane!'],
 	},
+	year: {
+		type: Number,
+		required: [true, 'Podanie roku zatrudnienia jest wymagane!'],
+	},
+	salaryPerHour: {
+		type: Number,
+		required: [true, 'Podanie stawki wynagrodzenia jest wymagane!'],
+	},
 	
 })
 

@@ -149,8 +149,8 @@ const PepperPrices: React.FC<Props> = ({ allTrades }) => {
         labels: {
           formatter: (value: number) => value.toFixed(2),
         },
-        min: 2.5,
-        max: 5,
+        min: 1,
+        max: 6,
       },
       stroke: {
         width: [3, 2],

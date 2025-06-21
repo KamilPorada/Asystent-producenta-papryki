@@ -15,6 +15,8 @@ interface Employee {
 	gender: string
 	age: number
 	nationality: string
+	year: number,
+	salaryPerHour: number
 }
 
 interface WorkTime {

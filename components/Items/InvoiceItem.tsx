@@ -17,12 +17,17 @@ const InvoiceItem: React.FC<{
 }> = props => {
 	const [showModal, setShowModal] = useState(false)
 
-	const formatNumber = (number: number) => {
+	const formatNumber = (number: number | undefined) => {
+		if (number === undefined || number === null) {
+			console.error('totalSum is undefined or null');
+			return '0,00 PLN'; // lub inna wartość domyślna
+		}
+
 		return number.toLocaleString('pl-PL', {
 			style: 'currency',
 			currency: 'PLN',
 			minimumFractionDigits: 2,
-		})
+		});
 	}
 
 	const handleDeleteClick = async () => {
